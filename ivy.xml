@@ -1,0 +1,22 @@
+<ivy-module version="2.0">
+    <info organisation="ca.mun.cs" module="spark-ivy"/>
+    <configurations>
+        <conf name="default" description="the defaults"/>
+    </configurations>
+    <dependencies>
+        <dependency
+            org="com.sparkjava"
+            name="spark-core"
+            rev="2.1" conf="default" />
+        <dependency
+            org="org.slf4j"
+            name="slf4j-simple"
+            rev="1.7.7" conf="default"/>
+        <dependency org="com.sparkjava"
+            name="spark-template-mustache"
+            rev="1.0.0" conf="default"/>
+        <dependency org="com.google.code.gson"
+            name="gson"
+            rev="2.3.1" conf="default"/>
+    </dependencies>
+</ivy-module>
