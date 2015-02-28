@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>My Account</title>
+    <link rel="stylesheet" type="text/css" href="user-account.css">
+</head>
+<script type="text/javascript" src="user-account.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL90qn-14WtwXPxuJrtPHipF23OrxfodQ"></script>
+<body onload="initializeGeolocation()">
+<h1>My Account</h1>
+<div id="userInfo">
+    <p>Handle: {handle}</p>
+    <p>Username: {username}</p>
+    <p>Description: {description}</p>
+    <button name="btnEditUserInfo" onclick="editUserInfo()">Edit Info</button>
+</div>
+<div id="editUserInfo">
+    <p>Handle: <input type="text" name="handle"></p>
+    <p>Username: <input type="text" name="username"></p>
+    <p>Description: <input type="text" name="description"></p>
+    <button name="btnSave" onclick="saveUserInfo()">Save</button>
+    <button name="btnCancel" onclick="cancelUserInfo()">Cancel</button>
+    <button name="btnChangePassword" onclick="changePassword()">Cancel</button>
+</div>
+<h2>Your Current Location</h2>
+<div>
+    <div id="map-canvas"></div>
+</div>
+
+
+</body>
+</html>

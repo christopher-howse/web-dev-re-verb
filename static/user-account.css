@@ -1,0 +1,20 @@
+div#editUserInfo
+{
+    display : none;
+    position : fixed;
+    padding : 5px;
+    left : 50%;
+    top : 10%;
+    width : 400px;
+    height : 200px;
+    margin-left: -200px;
+    background : rgb(230,220,220);
+    border : solid blue thick;
+}
+
+#map-canvas
+{
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
