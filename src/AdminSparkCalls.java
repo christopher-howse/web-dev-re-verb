@@ -1,3 +1,5 @@
+import com.google.gson.Gson;
+import posts.PostManager;
 import users.User;
 import users.UserManager;
 
@@ -29,6 +31,16 @@ public class AdminSparkCalls
             UserManager userManager = new UserManager();
             return userManager.getUsers();
         }, new JsonTransformer());
+
+        /*
+        post("admin/getUserPosts", "application/json", (request, response) ->
+        {
+            Gson gson = new Gson();
+            String username = gson.fromJson(request.body(), User.class);
+            response.type("application/json");
+            PostManager.getPostsByUser(username)
+            return userManager.getUsers();
+        }, new JsonTransformer());*/
     }
 
 }
