@@ -1,4 +1,5 @@
 import users.User;
+import login.Login;
 
 import static spark.Spark.*;
 
@@ -54,5 +55,7 @@ public class Reverb
             response.redirect("/login.html");
             return null;
         });
+
+        Login.login();
     }
 }
