@@ -5,6 +5,8 @@ import static spark.Spark.*;
 
 public class Reverb
 {
+    public static final User testAdmin = new User("Chris", "password", "admin");
+
     public static void main(String[] args)
     {
         port(8008);
@@ -36,19 +38,6 @@ public class Reverb
             //redirect to access forbidden page
         });
 
-        before("/admin/*", (request, response) ->
-        {
-            User user = request.session().attribute("user");
-            if ( user == null ) {
-                response.redirect("/not-signed-in.html");
-                return;
-            }
-            if ( !user.role.equals( "admin" ) ) {
-                response.redirect("/not-admin.html");
-                return;
-            }
-        });
-
         // redirect / to /login.html
         get("/", (request, response) ->
         {
@@ -57,5 +46,6 @@ public class Reverb
         });
 
         Login.login();
+        AdminSparkCalls.adminCall();
     }
 }
