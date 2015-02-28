@@ -21,8 +21,9 @@ public class Reverb
         before("/auth/*", (request, response) ->
         {
             User user = request.session().attribute("user");
-            if(user == null) {
-                response.redirect("not-signed-in.html");
+            if(user == null)
+            {
+                response.redirect("/not-signed-in.html");
                 return;
             }
         });
@@ -30,8 +31,9 @@ public class Reverb
         before("/auth/user/*", (request, response) ->
         {
             User user = request.session().attribute("user");
-            if(user == null) {
-                response.redirect("not-signed-in.html");
+            if(user == null)
+            {
+                response.redirect("/not-signed-in.html");
                 return;
             }
             //else if user page isn't for the user in question
