@@ -1,28 +1,61 @@
 <html>
 <head>
 <link rel='stylesheet' type='text/css' href='css/login.css'>
+<script type="text/javascript" src="login.js">
+</script>
 </head>
-<body>
-<div class="Login-front">
+<body onload="initPortal()">
+<div class="portal">
+<div class="login-front" id="login-front">
 	<div class="login-title">
-		<h1>Log in</h1>
+		<h1>Log In</h1>
+	</div>
+	<div class="login-error">
+		<span id="login-error"></span>
 	</div>
 	<div class="login-form">
 		<form id="login" METHOD="post" action="/login">
 		<div class="login-fields">
-			<label for="user">User</label>
-			<input type="text" id="user" required>
+			<label for="u">User</label>
+			<input type="text" id="u" name="user" required>
 			<br>
 			<br>
-			<label for="password">Password</label>
-			<input type="password" id="password" required>
+			<label for="pass">Password</label>
+			<input type="password" id="pass" name="password" required>
 		</div>
 		<div class="login-buttons">
 		<br>
 			<button type="submit">Log in</button>
+			<button type="button" onclick="toggleSignUp()">Sign up</button>
 		</div>
 		</form>
 	</div>
+</div>
+<div class="signup-front" id="signup-front">
+	<div class="signup-title">
+		<h1>Sign Up</h1>
+	</div>
+	<div class="login-error">
+		<span id="signup-error"></span>
+	</div>
+	<div class="signup-form">
+		<form id="signup" METHOD="post" action="/signup">
+			<div class="signup-fields">
+				<label for="signup-u">User</label>
+				<input type="text" id="signup-u" name="user" required>
+				<br>
+				<br>
+				<label for="signup-pass">Password</label>
+				<input type="password" id="signup-pass" name="password" required>
+			</div>
+			<div class="signup-buttons">
+				<br>
+				<button type="submit">Create New Account</button>
+				<button type="button" onclick="toggleSignUp()">Log In</button>
+			</div>
+		</form>
+	</div>
+</div>
 </div>
 </body>
 </html>

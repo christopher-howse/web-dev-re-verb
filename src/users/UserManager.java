@@ -17,4 +17,14 @@ public class UserManager
         result.add(new User("test_name", "test_password", "test_role"));
         return result;
     }
+    static public User getUser(String userName)
+    {
+        return new User("test_name", "test_password", "test_role");
+    }
+    static public User createUser(String userName, String password)
+    {
+        User newUser = new User(userName, password, "user");
+        //TODO: add new user to database;
+        return newUser;
+    }
 }
