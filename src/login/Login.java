@@ -17,14 +17,20 @@ public class Login
             String u = request.queryParams("user");
             String pw = request.queryParams("password");
             //TODO: display errors on login screen not new page
-            if ( u == null || pw == null )
+            if ( u == "" || pw == "" )
             {
-                return Error.errorPage("Password or username not given");
+                response.redirect("/login.html?error=Username or password not given");
+                return null;
             }
             User user = UserManager.getUser(u);
-            if ( user == null )
+            if ( user != null )
             {
-                response.redirect("/login.html");
+                response.redirect("/login.html?error=Username or password incorrect");
+                return null;
+            }
+            if ( user.password != pw )
+            {
+                response.redirect("/login.html?error=Username or password incorrect");
                 return null;
             }
             Session sess = request.session(true);
@@ -41,14 +47,15 @@ public class Login
             String u = request.queryParams("user");
             String pw = request.queryParams("password");
             //TODO: display errors on signup screen not new page
-            if ( u == null || pw == null )
+            if ( u == "" || pw == "" )
             {
-                return Error.errorPage("Password or username not given");
+                response.redirect("/login.html?init=signup&error=Username or password not given");
+                return null;
             }
             User user = UserManager.getUser(u);
             if ( user != null )
             {
-                response.redirect("/login.html?init=signup");
+                response.redirect("/login.html?init=signup&error=Username already exists");
                 return null;
             }
             //TODO: password strength test
