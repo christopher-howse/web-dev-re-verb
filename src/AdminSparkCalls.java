@@ -2,16 +2,17 @@ import com.google.gson.Gson;
 import posts.PostManager;
 import users.User;
 import users.UserManager;
+import utilityDtos.IdDto;
 
 import static spark.Spark.*;
 
-/**
- * Created by christopherhowse on 15-02-28.
- */
 public class AdminSparkCalls
 {
     public static void adminCall()
     {
+        //temp
+        UserManager userManager = new UserManager();
+
         before("/admin/*", (request, response) ->
         {
             User user = Reverb.testAdmin;//request.session().attribute("user");
@@ -28,19 +29,43 @@ public class AdminSparkCalls
         get("/admin/getUsers", "application/json", (request, response) ->
         {
             response.type("application/json");
-            UserManager userManager = new UserManager();
             return userManager.getUsers();
         }, new JsonTransformer());
 
-        /*
+
         post("admin/getUserPosts", "application/json", (request, response) ->
         {
             Gson gson = new Gson();
-            String username = gson.fromJson(request.body(), User.class);
+            UsernameDto usernameDto = gson.fromJson(request.body(), UsernameDto.class);
             response.type("application/json");
-            PostManager.getPostsByUser(username)
-            return userManager.getUsers();
-        }, new JsonTransformer());*/
+            return PostManager.getPostsByUser(usernameDto.username);
+        }, new JsonTransformer());
+
+        post("admin/toggleUserRole", "application/json", (request, response) ->
+        {
+            Gson gson = new Gson();
+            UsernameDto usernameDto = gson.fromJson(request.body(), UsernameDto.class);
+            response.type("application/json");
+            return UserManager.toggleUserRole(usernameDto.username);
+        }, new JsonTransformer());
+
+        post("admin/deletePost", "application/json", (request, response) ->
+        {
+            Gson gson = new Gson();
+            IdDto idDto = gson.fromJson(request.body(), IdDto.class);
+            response.type("application/json");
+            return PostManager.deletePost(idDto.id);
+        }, new JsonTransformer());
+    }
+
+    public class UsernameDto
+    {
+        public final String username;
+
+        public UsernameDto(String username)
+        {
+            this.username = username;
+        }
     }
 
 }
