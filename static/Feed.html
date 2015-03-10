@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <link rel='stylesheet' type='text/css' href='css/feed.css'>
+    <script type="text/javascript" src="feed.js">
+    </script>
+</head>
+<body onload="populateFeed()">
+
+<div class="posting">
+	<div class="posting-title">
+		<h1>Say What You Want!</h1>
+	</div>
+	<div class="posting-error">
+		<p id="posting-error">&nbsp;</p>
+	</div>
+	<div class="posting-form">
+		<form id="posting" METHOD="post" action="/posting">
+		<div class="posting-fields">
+			<label for="p"></label>
+			<input type="text" id="p" name="post">
+		</div>
+		<div class="posting-buttons">
+		<br>
+			<button type="submit">Post!</button>
+		</div>
+		</form>
+	</div>
+    
+</div>    
+    
+    
+<div class="main-feed" id="main-feed">
+    <div class="feed-post">
+        <div class="feed-post-top">
+            <div class="feed-post-user">
+                Jacob
+            </div>
+            <div class="feed-post-time">
+                time
+            </div>
+        </div>
+        <div class="feed-post-text">
+            I AM THE GREEATEST PERSIONSDfgsdfjlkhghsdfgjhsjdlfhgkjshdfkljgh
+        </div>
+    </div>
+    <div class="feed-post">ha</div>
+    <div class="feed-post">ha</div>
+    <div class="feed-post">ha</div>
+    <div class="feed-post">ha</div>
+
+</div>
+
+</body>
+</html>

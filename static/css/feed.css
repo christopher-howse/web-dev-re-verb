@@ -1,0 +1,61 @@
+div.main-feed
+{
+    
+}
+
+h1 
+{
+    font-size: 2em; 
+    margin-bottom: 0px
+}         
+
+div.posting-title
+{
+    text-align: center;
+}
+
+div.posting-fields
+{
+    text-align: center;
+}
+
+div.posting-buttons
+{
+    text-align: center;
+}
+
+div.feed-post
+{
+    width: 200px;
+    height: 60px;
+    float: left;
+    margin: 10px;
+    padding: 5px;
+    border: solid;
+    border-color: orange;   
+}
+
+div.feed-post-top
+{
+    display: block;
+    padding-bottom: 10px;
+    overflow: hidden;
+}
+
+div.feed-post-user
+{
+    display: inline;
+}
+
+div.feed-post-time
+{
+    display: inline;
+    float: right;
+    
+}
+
+div.feed-post-text
+{
+    overflow: hidden;
+}
+
