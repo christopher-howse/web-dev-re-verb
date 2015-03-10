@@ -1,0 +1,42 @@
+table {
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 0.2em;
+	font-size : 1.5em;
+	margin: 1em auto;
+	width: 60%
+}
+
+table th {
+	font-style: bold;
+	border: 1px solid black;
+	padding: 0.2em;
+}
+
+table td {
+	border: 1px solid black;
+	color: navy;
+	padding: 0.2em;
+}
+
+h1 {
+	margin: 1em;
+	text-align: center;
+}
+
+h2 {
+	margin: 1em;
+	text-align: center;
+}
+
+.buttonHolder {
+	margin: 1em;
+    text-align:center;
+}
+
+.table-wrapper
+{
+	background-color: lightgrey;
+    overflow: auto;
+}
+
