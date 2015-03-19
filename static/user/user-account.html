@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>My Account</title>
+    <link rel="stylesheet" type="text/css" href="user-account.css">
+</head>
+<script type="text/javascript" src="user-account.js"></script>
+<script type="text/javascript" src="../mustache.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL90qn-14WtwXPxuJrtPHipF23OrxfodQ"></script>
+<body onload="getUserInfo()">
+<div id="userInfo"></div>
+<div id="mapTitle">
+    <h2>Your Current Location</h2>
+</div>
+<div id="map-canvas"></div>
+</div>
+<div id="editUserInfo" class="overlay"></div>
+<div id="changePassword" class="overlay">
+    <label>Old Password: <input type="text" name="oldPassword"></label><br>
+    <label>New Password: <input type="text" name="newPassword"></label><br>
+    <label>Verify Password: <input type="text" name="verifyPassword"></label><br>
+    <button name="btnSave" onclick="saveChangePassword()">Save</button>
+    <button name="btnCancel" onclick="cancelChangePassword()">Cancel</button>
+</div>
+
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-div#editUserInfo
+.overlay
 {
     display : none;
     position : fixed;
@@ -12,8 +12,21 @@ div#editUserInfo
     border : solid blue thick;
 }
 
+#userInfo
+{
+    float: left;
+    width: 50%;
+}
+#mapTitle
+{
+    float: left;
+    width 50%;
+}
+
 #map-canvas
 {
+    float: right;
+    width: 50%;
     height: 100%;
     margin: 0px;
     padding: 0px;

@@ -47,5 +47,6 @@ public class Reverb
 
         Login.login();
         AdminSparkCalls.adminCall();
+        UserInfo.userCall();
     }
 }
