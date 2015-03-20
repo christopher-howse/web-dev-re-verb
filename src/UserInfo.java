@@ -1,7 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import users.User;
-import users.UserManager;
 
 import static spark.Spark.*;
 
