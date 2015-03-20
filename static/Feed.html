@@ -2,54 +2,75 @@
 <html>
 <head lang="en">
     <link rel='stylesheet' type='text/css' href='css/feed.css'>
+    <link rel='import' href="navigation.html">
     <script type="text/javascript" src="feed.js">
     </script>
+    <script type="text/javascript" src="navigation.js">
+    </script>
 </head>
-<body onload="populateFeed()">
+<body onload="populateFeed();init()">
 
+<header class="reverb-header-bar promote-layer">
+    <button class="reverb-hamburger">
+        <img class="menu-icon" src="imgs/hamburger.png">
+        <img class="close-icon" src="imgs/close-icon-light.png">
+    </button>
+    <h1 class="reverb-logo">
+        <a herf="#">Logo</a>
+    </h1>
+</header>
+    
+    
+<nav class="reverb-navigation-bar">
+    <ul class="reveb-navigation-list">
+        <li class="nav-item"><a href="#">Home</a></li>
+        <li class="nav-item"><a href="#">Portfolio</a></li>
+        <li class="nav-item"><a href="#">About</a></li>
+        <li class="nav-item"><a href="#">Blog</a></li>
+        <li class="nav-item"><a href="#">Contact</a></li>
+    </ul>
+</nav>
+
+<div class="reverb-navigation-bg promote-layer">
+    
+</div>
+    
+<div class="seperator">
+<br>
+<br>
+<br>
+<br>
+</div>
+    
+<div class="main-content">
 <div class="posting">
-	<div class="posting-title">
-		<h1>Say What You Want!</h1>
-	</div>
-	<div class="posting-error">
-		<p id="posting-error">&nbsp;</p>
-	</div>
-	<div class="posting-form">
-		<form id="posting" METHOD="post" action="/posting">
-		<div class="posting-fields">
-			<label for="p"></label>
-			<input type="text" id="p" name="post">
-		</div>
-		<div class="posting-buttons">
-		<br>
-			<button type="submit">Post!</button>
-		</div>
-		</form>
-	</div>
-    
-</div>    
-    
-    
-<div class="main-feed" id="main-feed">
-    <div class="feed-post">
-        <div class="feed-post-top">
-            <div class="feed-post-user">
-                Jacob
-            </div>
-            <div class="feed-post-time">
-                time
-            </div>
-        </div>
-        <div class="feed-post-text">
-            I AM THE GREEATEST PERSIONSDfgsdfjlkhghsdfgjhsjdlfhgkjshdfkljgh
-        </div>
+    <div class="posting-title">
+        <h1>Say What You Want!</h1>
     </div>
-    <div class="feed-post">ha</div>
-    <div class="feed-post">ha</div>
-    <div class="feed-post">ha</div>
-    <div class="feed-post">ha</div>
+    <div class="posting-error">
+        <p id="posting-error">&nbsp;</p>
+    </div>
+    <div class="posting-form">
+        <form id="posting" METHOD="post" action="/posting">
+        <div class="posting-fields">
+            <label for="p"></label>
+            <input type="text" id="p" name="post">
+        </div>
+        <div class="posting-buttons">
+        <br>
+            <button type="submit">Post!</button>
+        </div>
+        </form>
+    </div>
+
+</div>    
+
+
+<div class="main-feed" id="main-feed">
 
 </div>
+    </div>
+
 
 </body>
 </html>

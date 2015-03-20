@@ -38,6 +38,7 @@ public class Login
             {
                 return Error.errorPage("Get a session, bitch!");
             }
+            User currentUser = request.session().attribute("user");
             response.redirect("/auth/index.html");
             return null;
         });
@@ -65,6 +66,8 @@ public class Login
                 return Error.errorPage("Get a session, bitch!");
             }
             UserManager.createUser(u,pw);
+            User currentUser = request.session().attribute("user");
+            currentUser = user;
             response.redirect("/auth/index.html");
             return null;
         });

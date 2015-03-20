@@ -9,6 +9,18 @@ function addPost(text,user,time)
     feed.appendChild(post);
 }
 
+function addUpdatePost(text,user,time)
+{
+    var feed = document.getElementById('main-feed');
+    var post = document.createElement("div");
+    post.setAttribute("class","feed-post");
+    
+    post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+text+'</div>';
+    
+    feed.insertBefore(post,feed.childNodes[0])
+    
+}
+
 function populateFeed()
 {
     var posts = [];
