@@ -1,0 +1,395 @@
+body 
+{
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    background-color: #696969;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+html, body, div, ul, li, header, nav 
+{
+  margin: 0;
+  padding: 0;
+}
+
+.main-content
+{
+    display:block;
+}
+
+header, nav,
+{
+    display: block;
+}
+
+.reverb-header-bar 
+{
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    width: 100%;
+    height: 60px;
+
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    z-index:2;
+}
+
+.reverb-header-bar.open 
+{
+    -webkit-transform: translate(250px,0);
+    transform: translate(250px,0);
+}
+
+.reverb-header-bar .reverb-logo 
+{
+    -ms-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+
+    font-size: 20px;
+    line-height: 60px;
+
+    margin: 0 16px;
+
+    color: #fefefe;
+
+    float: none;
+    max-width: none;
+}
+
+.reverb-header-bar .reverb-logo a 
+{
+    text-decoration: none;
+    color: inherit;
+    font-weight: normal;
+}
+
+.reverb-header-bar button 
+{
+    width: 44px;
+    height: 44px;
+
+    background-image: none;
+    background-color: transparent;
+
+    border-style: solid;
+    border-radius: 100%;
+    border-color: rgb(0, 105, 93);
+
+    padding: 8px;
+    margin: 8px;
+
+    -webkit-transition: border 300ms ease-in,background 300ms ease-in;
+    transition: border 300ms ease-in,background 300ms ease-in;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+.reverb-header-bar button img 
+{
+    width: 28px;
+    height: 28px;
+}
+
+.reverb-header-bar button.reverb-hamburger 
+{
+    position: relative;
+}
+
+.reverb-header-bar button.reverb-hamburger img 
+{
+    position: absolute;
+
+    top: 6px;
+    left: 6px;
+}
+
+.reverb-header-bar button.reverb-hamburger .menu-icon 
+{
+    opacity: 1.0;
+}
+
+.reverb-header-bar button.reverb-hamburger .close-icon 
+{
+    opacity: 0.0;
+}
+
+.reverb-header-bar.open button.reverb-hamburger .menu-icon 
+{
+    opacity: 0.0;
+}
+
+.reverb-header-bar.open button.reverb-hamburger .close-icon 
+{
+    opacity: 1.0;
+}
+
+.reverb-header-bar button:hover
+{
+    border-color: transparent;
+    background-color: rgba(0, 105, 93, 0.4);
+}
+
+.reverb-header-bar button:focus
+{
+    border-color: transparent;
+    outline: 0;
+    background-color: rgba(0, 105, 93, 0.4);
+}
+
+.reverb-header-bar button:active
+{
+    border-color: transparent;
+    background-color: rgba(0, 105, 93, 0.6);
+}
+
+.seperator
+{
+    display:block;
+    width: auto;
+    hieght: 60px;
+    max-height: 60px:
+}
+
+
+@media all and (min-width: 800px) 
+{
+
+    body 
+    {
+        padding: 16px;
+    }
+    
+    .seperator
+    {
+        display:none;
+    }
+
+    .reverb-header-bar 
+    {
+        display: block;
+
+        position: initial;
+
+        height: 130px;
+
+        padding: 0 16px;
+        margin-bottom: 16px;
+
+        box-sizing: border-box;
+
+        background-color: transparent;
+
+        -webkit-transform: translate(0,0);
+        transform: translate(0,0);
+
+        -webkit-transition: none;
+        transition: none;
+    }
+
+    .reverb-header-bar.open 
+    {
+        -webkit-transform: translate(0,0);
+        transform: translate(0,0);
+    }
+
+    .reverb-header-bar .reverb-logo 
+    {
+        float: left;
+
+        margin: 0;
+
+        font-size: 100px;  
+        line-height: 130px;
+    }
+
+    button.reverb-hamburger 
+    {
+      display: none;
+    }
+    
+    .reverb-header-bar:after 
+    {
+        content: ' ';
+
+        display:block;
+        height: 0;
+        overflow: hidden;
+
+        clear: both;
+    }
+
+
+}
+
+.reverb-navigation-bar 
+{
+    position: fixed;
+
+    width: 250px;
+    height: 100%;
+
+    background-color: #00695D;
+
+    color: #fefefe;
+
+    -webkit-transform: translate(-250px,0);
+    transform: translate(-250px,0);
+
+    z-index: 2;
+}
+
+.reverb-navigation-bar.open 
+{
+    -webkit-transform: translate(0,0);
+    transform: translate(0,0);
+}
+
+.reverb-navigation-bar ul 
+{
+    list-style-type: none;
+}
+
+.reverb-navigation-bg 
+{
+    position: fixed;
+
+    width: 100%;
+    height: 100%;
+
+    left: 0;
+    top: 0;
+
+    background-color: black;
+
+    /** Unfortunately this is the best way
+    to get no paints in Chrome **/
+    opacity: 0.0000001;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+.reverb-navigation-bg.open 
+{
+    opacity: 0.5;
+}
+
+.reverb-header-bar, .reverb-navigation-bar 
+{
+    -webkit-transition: -webkit-transform 0.3s ease-out;
+    transition: transform 0.3s ease-out;
+}
+
+.reverb-navigation-bg 
+{
+    -webkit-transition: opacity 0.3s ease-out;
+    transition: opacity 0.3s ease-out;
+}
+
+.reverb-navigation-bar ul li a 
+{
+    display: block;
+
+    height: 60px;
+
+    padding: 0 20px;
+
+    line-height: 60px;
+
+    text-decoration: none;
+    color: white;
+}
+
+.reverb-navigation-bar ul li a:hover 
+{
+    background-color: rgba(0, 105, 93, 0.2);
+}
+
+.reverb-navigation-bar ul li a:focus 
+{
+    background-color: rgba(0, 105, 93, 0.3);
+    outline: 0;
+}
+
+.reverb-navigation-bar ul li a:active 
+{
+    background-color: rgba(0, 105, 93, 0.4);
+}
+
+@media all and (min-width: 800px) 
+{
+    .reverb-navigation-bar 
+    {
+        position: initial;
+
+        width: 100%;
+        height: auto;
+
+        -webkit-transform: translate(0,0);
+        transform: translate(0,0);
+
+        -webkit-transition: none;
+        transition: none;
+
+        pointer-events: auto;
+    }
+
+    .reverb-navigation-bar ul 
+    {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+
+        -ms-flex-direction: row;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+    }
+
+    .reverb-navigation-bar ul li 
+    {
+        border: none;
+    }
+    
+    .reverb-logout
+    {
+        margin-left:auto;
+    }
+
+    .reverb-navigation-bg, .reverb-navigation-bg.open 
+    {
+        opacity: 0;
+
+        pointer-events: none;
+    }
+}
+
+.promote-layer 
+{
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
