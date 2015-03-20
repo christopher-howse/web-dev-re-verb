@@ -31,7 +31,7 @@ public class User implements Comparable
     {
         if(this.role.equals("admin"))
         {
-            this.role = "pleb";
+            this.role = "default";
         }
         else
         {

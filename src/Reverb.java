@@ -1,5 +1,6 @@
 import users.User;
-import login.Login;
+
+import java.sql.SQLException;
 
 import static spark.Spark.*;
 
@@ -11,44 +12,54 @@ public class Reverb
     {
         port(8008);
 
-        externalStaticFileLocation("static");
-
-        before("/", (request, response) ->
+        try
         {
-            response.type("text/html; charset=utf-8");
-        });
+            DatabaseManager db = new DatabaseManager();
 
-        before("/auth/*", (request, response) ->
-        {
-            User user = request.session().attribute("user");
-            if(user == null)
+            externalStaticFileLocation("static");
+
+            before("/", (request, response) ->
             {
-                response.redirect("/not-signed-in.html");
-                return;
-            }
-        });
+                response.type("text/html; charset=utf-8");
+            });
 
-        before("/auth/user/*", (request, response) ->
-        {
-            User user = request.session().attribute("user");
-            if(user == null)
+            before("/auth/*", (request, response) ->
             {
-                response.redirect("/not-signed-in.html");
-                return;
-            }
-            //else if user page isn't for the user in question
-            //redirect to access forbidden page
-        });
+                User user = request.session().attribute("user");
+                if(user == null)
+                {
+                    response.redirect("/not-signed-in.html");
+                    return;
+                }
+            });
 
-        // redirect / to /login.html
-        get("/", (request, response) ->
+            before("/auth/user/*", (request, response) ->
+            {
+                User user = request.session().attribute("user");
+                if(user == null)
+                {
+                    response.redirect("/not-signed-in.html");
+                    return;
+                }
+                //else if user page isn't for the user in question
+                //redirect to access forbidden page
+            });
+
+            // redirect / to /login.html
+            get("/", (request, response) ->
+            {
+                response.redirect("/login.html");
+                return null;
+            });
+
+            Login login = new Login(db);
+            AdminSparkCalls adminSparkCalls = new AdminSparkCalls(db);
+            UserInfo.userCall();
+        } catch (SQLException e)
         {
-            response.redirect("/login.html");
-            return null;
-        });
+            System.out.println("Could not establish the reverb database");
+            e.printStackTrace();
+        }
 
-        Login.login();
-        AdminSparkCalls.adminCall();
-        UserInfo.userCall();
     }
 }
