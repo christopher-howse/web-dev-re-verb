@@ -18,5 +18,8 @@
         <dependency org="com.google.code.gson"
             name="gson"
             rev="2.3.1" conf="default"/>
+        <dependency org="org.xerial"
+                    name="sqlite-jdbc"
+                    rev="3.8.7" conf="default"/>
     </dependencies>
 </ivy-module>
