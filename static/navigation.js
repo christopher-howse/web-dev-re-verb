@@ -22,3 +22,26 @@ function init()
         }
     }, true);
 }
+
+
+function getAdmin(ref,day,month,year)
+{
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if ( xhr.readyState == 4) {
+            adminSelect( xhr );
+        }
+    }
+    xhr.open( "GET", "/admin/getAdmin", true );
+    xhr.send( null );
+}
+
+function adminSelect(xhr)
+{
+    var navAdmin = document.querySelector('.reverb-administrator');
+    admin = xhr.responseText;
+    if (admin == "true")
+    {
+        navAdmin.style.display = "none";
+    }
+}

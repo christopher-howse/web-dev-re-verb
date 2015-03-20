@@ -19,11 +19,10 @@
     
 <nav class="reverb-navigation-bar">
     <ul class="reveb-navigation-list">
-        <li class="nav-item"><a href="#">Home</a></li>
-        <li class="nav-item"><a href="#">Portfolio</a></li>
-        <li class="nav-item"><a href="#">About</a></li>
-        <li class="nav-item"><a href="#">Blog</a></li>
-        <li class="nav-item"><a href="#">Contact</a></li>
+        <li class="reverb-home"><a href="#">Home</a></li>
+        <li class="reverb-profile"><a href="#">Profile</a></li>
+        <li class="reverb-administrator"><a href="#">Admin</a> </li>
+        <li class="reverb-logout"><a href="#">Logout</a></li>
     </ul>
 </nav>
 
@@ -59,7 +58,28 @@ var navBar = document.querySelector('.reverb-navigation-bar');
           navBg.classList.add('open');
         }
       }, true);    
-</script>    
+</script>   
+<script>
+function adminSelect(xhr)
+{
+    var navAdmin = document.querySelector('.reverb-administrator');
+    admin = xhr.responseText;
+    if (admin == "false")
+    {
+        navAdmin.style.display = "none";
+    }
+}    
+      
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if ( xhr.readyState == 4) {
+            adminSelect( xhr );
+        }
+    }
+    xhr.open( "GET", "/admin/getAdmin", true );
+    xhr.send( null );
+    
+</script>
     
     
     

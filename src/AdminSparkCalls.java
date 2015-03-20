@@ -32,6 +32,13 @@ public class AdminSparkCalls
             return userManager.getUsers();
         }, new JsonTransformer());
 
+        //TODO: actually check if user is admin
+        get("/admin/getAdmin", (request, response) ->
+        {
+            String adminType = "true";
+            return adminType;
+        });
+
 
         post("admin/getUserPosts", "application/json", (request, response) ->
         {
