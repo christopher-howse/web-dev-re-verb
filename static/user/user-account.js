@@ -1,7 +1,20 @@
+function showOverlay(overlay)
+{
+    document.getElementById('overlay-back').style.display = "block";
+    var over = document.getElementById(overlay);
+    over.style.display = "block";
+}
+
+function hideOverlay(overlay)
+{
+    document.getElementById('overlay-back').style.display = "none";
+    var over = document.getElementById(overlay);
+    over.style.display = "none";
+}
+
 function editUserInfo()
 {
-    var over = document.getElementById('editUserInfo');
-    over.style.display = "block";
+    showOverlay('editUserInfo');
 }
 
 function saveUserInfo()
@@ -20,12 +33,12 @@ function saveUserInfo()
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function() {
         if ( xhr.readyState != 4) return;
-        var over = document.getElementById('editUserInfo');
         if ( xhr.status == 200 || xhr.status == 400) {
-            over.style.display = "none";
+            hideOverlay('editUserInfo');
             getUserInfo();
         }
         else {
+            var over = document.getElementById('editUserInfo');
             over.innerHTML += "<p>Unknown Error</p>";
             result.value = "Unknown ERROR";
         }
@@ -37,14 +50,12 @@ function saveUserInfo()
 
 function cancelUserInfo()
 {
-    var over = document.getElementById('editUserInfo');
-    over.style.display = "none";
+    hideOverlay('editUserInfo');
 }
 
 function showChangePassword()
 {
-    var over = document.getElementById('changePassword');
-    over.style.display = "block";
+    showOverlay("changePassword");
 }
 
 function saveChangePassword()
@@ -69,7 +80,8 @@ function saveChangePassword()
         if ( xhr.readyState != 4) return;
         if ( xhr.status == 200 || xhr.status == 400) {
             //over.innerHTML += xhr.responseText;
-            over.style.display = "none";
+            hideOverlay('changePassword');
+            hideOverlay('editUserInfo');
         }
         else {
             over.innerHTML += "Unknown ERROR";
@@ -82,8 +94,8 @@ function saveChangePassword()
 
 function cancelChangePassword()
 {
-    var over = document.getElementById('changePassword');
-    over.style.display = "none";
+    hideOverlay('changePassword');
+    hideOverlay('editUserInfo');
 }
 
 function initializeMap(position) {
