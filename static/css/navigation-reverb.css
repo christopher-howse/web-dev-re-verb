@@ -97,7 +97,7 @@ header, nav,
 
     border-style: solid;
     border-radius: 100%;
-    border-color: rgb(254, 254, 254);
+    border-color: rgb(0, 105, 93);
 
     padding: 8px;
     margin: 8px;
@@ -123,8 +123,8 @@ header, nav,
 {
     position: absolute;
 
-    top: 7px;
-    left: 7px;
+    top: 6px;
+    left: 6px;
 }
 
 .reverb-header-bar button.reverb-hamburger .menu-icon 
@@ -150,20 +150,20 @@ header, nav,
 .reverb-header-bar button:hover
 {
     border-color: transparent;
-    background-color: rgba(254, 254, 254, 0.4);
+    background-color: rgba(0, 105, 93, 0.4);
 }
 
 .reverb-header-bar button:focus
 {
     border-color: transparent;
     outline: 0;
-    background-color: rgba(254, 254, 254, 0.4);
+    background-color: rgba(0, 105, 93, 0.4);
 }
 
 .reverb-header-bar button:active
 {
     border-color: transparent;
-    background-color: rgba(254, 254, 254, 0.6);
+    background-color: rgba(0, 105, 93, 0.6);
 }
 
 .seperator
@@ -252,7 +252,7 @@ header, nav,
     width: 250px;
     height: 100%;
 
-    background-color: #0095b7;
+    background-color: #00695D;
 
     color: #fefefe;
 
@@ -327,18 +327,18 @@ header, nav,
 
 .reverb-navigation-bar ul li a:hover 
 {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 105, 93, 0.2);
 }
 
 .reverb-navigation-bar ul li a:focus 
 {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(0, 105, 93, 0.3);
     outline: 0;
 }
 
 .reverb-navigation-bar ul li a:active 
 {
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(0, 105, 93, 0.4);
 }
 
 @media all and (min-width: 800px) 
@@ -373,6 +373,11 @@ header, nav,
     .reverb-navigation-bar ul li 
     {
         border: none;
+    }
+    
+    .reverb-logout
+    {
+        margin-left:auto;
     }
 
     .reverb-navigation-bg, .reverb-navigation-bg.open 
