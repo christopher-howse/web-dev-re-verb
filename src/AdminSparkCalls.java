@@ -1,18 +1,21 @@
 import com.google.gson.Gson;
-import posts.PostManager;
 import users.User;
-import users.UserManager;
 import utilityDtos.IdDto;
 
 import static spark.Spark.*;
 
 public class AdminSparkCalls
 {
-    public static void adminCall()
-    {
-        //temp
-        UserManager userManager = new UserManager();
+    private DatabaseManager databaseManager;
 
+    public AdminSparkCalls(DatabaseManager databaseManager)
+    {
+        this.databaseManager = databaseManager;
+        adminCall();
+    }
+
+    public void adminCall()
+    {
         before("/admin/*", (request, response) ->
         {
             User user = Reverb.testAdmin;//request.session().attribute("user");
@@ -29,8 +32,15 @@ public class AdminSparkCalls
         get("/admin/getUsers", "application/json", (request, response) ->
         {
             response.type("application/json");
-            return userManager.getUsers();
+            return databaseManager.getUsrMan().getUsers();
         }, new JsonTransformer());
+
+        //TODO: actually check if user is admin
+        get("/admin/getAdmin", (request, response) ->
+        {
+            String adminType = "true";
+            return adminType;
+        });
 
 
         post("admin/getUserPosts", "application/json", (request, response) ->
@@ -38,7 +48,7 @@ public class AdminSparkCalls
             Gson gson = new Gson();
             UsernameDto usernameDto = gson.fromJson(request.body(), UsernameDto.class);
             response.type("application/json");
-            return PostManager.getPostsByUser(usernameDto.username);
+            return databaseManager.getPostMan().getPostsByUser(usernameDto.username);
         }, new JsonTransformer());
 
         post("admin/toggleUserRole", "application/json", (request, response) ->
@@ -46,7 +56,7 @@ public class AdminSparkCalls
             Gson gson = new Gson();
             UsernameDto usernameDto = gson.fromJson(request.body(), UsernameDto.class);
             response.type("application/json");
-            return UserManager.toggleUserRole(usernameDto.username);
+            return databaseManager.getUsrMan().toggleUserRole(usernameDto.username);
         }, new JsonTransformer());
 
         post("admin/deletePost", "application/json", (request, response) ->
@@ -54,7 +64,7 @@ public class AdminSparkCalls
             Gson gson = new Gson();
             IdDto idDto = gson.fromJson(request.body(), IdDto.class);
             response.type("application/json");
-            return PostManager.deletePost(idDto.id);
+            return PostManager.deleteMessage(idDto.id);
         }, new JsonTransformer());
     }
 

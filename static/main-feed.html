@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <link rel='stylesheet' type='text/css' href='css/feed.css'>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+    $(function(){
+      $("#nav").load("navigation.html"); 
+    });
+    </script>     
+    <script type="text/javascript" src="feed.js">
+    </script>
+</head>
+<body onload="populateFeed()">
+    
+<div id="nav">
+    
+</div>    
+    
+<div class="main-content">
+<div class="posting">
+    <div class="posting-title">
+        <h1>Say What You Want!</h1>
+    </div>
+    <div class="posting-error">
+        <p id="posting-error">&nbsp;</p>
+    </div>
+    <div class="posting-form">
+        <form id="posting" METHOD="post" action="/posting">
+        <div class="posting-fields">
+            <label for="p"></label>
+            <input type="text" id="p" name="post">
+        </div>
+        <div class="posting-buttons">
+        <br>
+            <button type="submit">Post!</button>
+        </div>
+        </form>
+    </div>
+
+</div>    
+
+
+<div class="main-feed" id="main-feed">
+
+</div>
+    </div>
+
+
+</body>
+</html>

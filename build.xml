@@ -6,7 +6,7 @@
         <echo message="ant help -- print this message"/>
         <echo message="ant compile -- compiles the source"/>
         <echo message="ant resolve -- fetches dependencies"/>
-        <echo message="ant e6 -- run exercise 6 solution"/>
+        <echo message="ant reverb -- run reverb instance"/>
         <echo message="ant clean -- removes classes"/>
     </target>
 
@@ -46,8 +46,8 @@
         </javac>
     </target>
 
-    <target name="e6" depends="compile">
-        <java classname="Exercise6" fork="true">
+    <target name="reverb" depends="compile">
+        <java classname="Reverb" fork="true">
             <classpath>
                 <pathelement path="${dest.dir}"/>
                 <path refid="lib-jars"/>

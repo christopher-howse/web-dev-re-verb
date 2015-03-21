@@ -1,5 +1,3 @@
-package login;
-
 import error.Error;
 import users.*;
 import static spark.Spark.*;
@@ -10,25 +8,33 @@ import spark.Session;
  */
 public class Login
 {
-    public static void login()
+    private DatabaseManager databaseManager;
+
+    public Login(DatabaseManager databaseManager)
+    {
+        this.databaseManager = databaseManager;
+        login();
+    }
+
+    public void login()
     {
         post("/login", (request, response) ->
         {
             String u = request.queryParams("user");
             String pw = request.queryParams("password");
             //TODO: display errors on login screen not new page
-            if ( u == "" || pw == "" )
+            if ( u.isEmpty() || pw.isEmpty() )
             {
                 response.redirect("/login.html?error=Username or password not given");
                 return null;
             }
-            User user = UserManager.getUser(u);
-            if ( user != null )
+            User user = databaseManager.getUsrMan().loginUser(u, pw);
+            if ( user == null )
             {
                 response.redirect("/login.html?error=Username or password incorrect");
                 return null;
             }
-            if ( user.password != pw )
+            if ( !user.password.equals(pw) )
             {
                 response.redirect("/login.html?error=Username or password incorrect");
                 return null;
@@ -36,7 +42,7 @@ public class Login
             Session sess = request.session(true);
             if ( sess == null )
             {
-                return Error.errorPage("Get a session, bitch!");
+                return Error.errorPage("Get a session, please!");
             }
             response.redirect("/auth/index.html");
             return null;
@@ -52,7 +58,7 @@ public class Login
                 response.redirect("/login.html?init=signup&error=Username or password not given");
                 return null;
             }
-            User user = UserManager.getUser(u);
+            User user = databaseManager.getUsrMan().checkIfUserExists(u);
             if ( user != null )
             {
                 response.redirect("/login.html?init=signup&error=Username already exists");
@@ -62,9 +68,9 @@ public class Login
             Session sess = request.session(true);
             if ( sess == null )
             {
-                return Error.errorPage("Get a session, bitch!");
+                return Error.errorPage("Get a session, please!");
             }
-            UserManager.createUser(u,pw);
+            databaseManager.getUsrMan().createUser(u,pw);
             response.redirect("/auth/index.html");
             return null;
         });
