@@ -42,8 +42,8 @@ public class UserInfo {
                 String b = request.body();
                 // attempt to convert JSON to SumObject
                 User obj = gson.fromJson(b, User.class);
-                System.out.println(String.format("/saveUserInfo: name:%s, handle:%s, description:%s", obj.name, obj.handle, obj.description));
-                return String.valueOf( obj.handle ); //TODO: Fix this
+                System.out.println(String.format("/saveUserInfo: name:%s, description:%s", obj.name, obj.description));
+                return String.valueOf( obj.name ); //TODO: Fix this
             }
             catch ( JsonParseException ex ) {
                 System.out.println("/saveUserInfo: malformed values");
