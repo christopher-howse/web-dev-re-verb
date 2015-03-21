@@ -21,7 +21,7 @@
 <nav class="reverb-navigation-bar">
     <ul class="reveb-navigation-list">
         <li class="reverb-home"><a href="#" onclick="goHome(); return false;">Home</a></li>
-        <li class="reverb-profile"><a href="#" onclick="profile(); return false;">Profile</a></li>
+        <li class="reverb-profile"><a href="#" onclick="goProfile(); return false;">Profile</a></li>
         <li class="reverb-administrator"><a href="#" onclick="goAdmin(); return false;">Admin</a> </li>
         <li class="reverb-logout"><a href="#" onclick="logout(); return false;">Logout</a></li>
     </ul>
@@ -37,6 +37,7 @@
 <br>
 <br>
 </div>
+    
 <script type="text/javascript">
 var navBar = document.querySelector('.reverb-navigation-bar');
       var headerBar = document.querySelector('.reverb-header-bar');
@@ -109,12 +110,12 @@ function goAdmin()
     document.body.appendChild(form);
     form.submit();
 }
-function profile()
+function goProfile()
 {
-    method = "post";
+    method = "get";
     var form = document.createElement("form");
     form.setAttribute("method", method);
-    form.setAttribute("action", "/goHome");
+    form.setAttribute("action", "/user/info");
     document.body.appendChild(form);
     form.submit();
 }    
