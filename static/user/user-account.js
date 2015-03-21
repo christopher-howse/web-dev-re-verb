@@ -156,13 +156,15 @@ function getUserInfo(evt)
                          + "<p>Handle: {{handle}}</p>"
                          + "<p>Username: {{name}}</p>"
                          + "<p>Description: {{description}}</p>"
-                         + "<button name='btnEditUserInfo' onclick='editUserInfo()''>Edit Info</button>";
+                         + "<button class='raisedButton' name='btnEditUserInfo' onclick='editUserInfo()''>Edit Info</button>";
 
-    var userInfoEditTemplate = '<label>Handle: <input type="text" name="handle" value={{handle}}></label><br>'
-                             + '<label>Username: <input type="text" name="username" value={{name}}></label><br>'
-                             + '<label>Description: <input type="text" name="description" value={{description}}></label><br>'
-                             + '<button name="btnSave" onclick="saveUserInfo()">Save</button>'
-                             + '<button name="btnCancel" onclick="cancelUserInfo()">Cancel</button>'
-                             + '<button name="btnChangePassword" onclick="showChangePassword()">Change Password</button>';
+    var userInfoEditTemplate = '<div class="insideOverlay">'
+                             + '<label>Handle: <input type="text" name="handle" value={{handle}}></label>'
+                             + '<label>Username: <input type="text" name="username" value={{name}}></label>'
+                             + '<label>Description: <input type="text" name="description" value={{description}}></label>'
+                             + '<div class="buttons">'
+                             + '<button class="flatButton" name="btnSave" onclick="saveUserInfo()">Save</button>'
+                             + '<button class="flatButton" name="btnCancel" onclick="cancelUserInfo()">Cancel</button>'
+                             + '<button class="flatButton" name="btnChangePassword" onclick="showChangePassword()">Change Password</button></div></div>';
 }
 
