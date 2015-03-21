@@ -1,6 +1,8 @@
 <html>
 <head>
+<base href="/">
 <link rel='stylesheet' type='text/css' href='css/login.css'>
+<link rel='stylesheet' type="text/css" href="css/common.css">
 <script type="text/javascript" src="login.js">
 </script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -36,8 +38,8 @@ $(function(){
 		</div>
 		<div class="login-buttons">
 		<br>
-			<button type="submit">Log in</button>
-			<button type="button" onclick="toggleSignUp()">Sign up</button>
+			<button class="common" type="submit">Log in</button>
+			<button class="common" type="button" onclick="toggleSignUp()">Sign up</button>
 		</div>
 		</form>
 	</div>
@@ -61,8 +63,8 @@ $(function(){
 			</div>
 			<div class="signup-buttons">
 				<br>
-				<button type="submit">Create New Account</button>
-				<button type="button" onclick="toggleSignUp()">Log In</button>
+				<button class="common" type="submit">Create New Account</button>
+				<button class="common" type="button" onclick="toggleSignUp()">Log In</button>
 			</div>
 		</form>
 	</div>
