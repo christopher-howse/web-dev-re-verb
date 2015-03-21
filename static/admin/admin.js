@@ -103,11 +103,29 @@ function deleteUser()
 
 function confirmDeleteUser()
 {
+
     //TODO
 }
 
-function suspendUser()
+function toggleSuspendUser(username)
 {
+    var usernameDto = {username : username};
+    var toggleSuspendUserUrl = window.location.origin + '/admin/toggleSuspendUser';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', toggleSuspendUserUrl, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function() {
+        if ( xhr.readyState != 4) return;
+        if ( xhr.status == 200 || xhr.status == 400) {
+            //If it worked, just call getUsers to update the users table
+            getUsers();
+        }
+        else {
+            console.log("toggleUserSuspension Failed");
+        }
+    };
+    var doc = JSON.stringify(usernameDto);
+    xhr.send(doc);
     console.log("hit suspend user");
 }
 
@@ -118,11 +136,13 @@ function Confirmation(message, action)
 }
 
 var userTableTemplate = '<table>'
-    + '<tr><th>Username</th><th>Password</th><th>Role</th><th>Edit</th></tr>'
+    + '<tr><th>Username</th><th>Password</th><th>Role</th><th>Number of Reports</th><th>Account Status</th><th>Edit</th></tr>'
     + '{{#.}}<tr>'
         + '<td onclick=\"getUserPosts(\'{{name}}\')\">{{name}}</td>'
         + '<td>{{password}}</td>'
         + '<td onclick=\"toggleUserRole(\'{{name}}\')\">{{role}}</td>'
+        + '<td>{{num_reports}}</td>'
+        + '<td>{{accountStatus}}</td>'
         + '<td onclick=\"editUserInfo(\'{{name}}\')\">put img here</td>'
     + '</tr>{{/.}}'
     + '</table>';
@@ -139,7 +159,7 @@ var userPostsTemplate = '<table>'
 
 var userBannerTemplate = '<h2>{{username}}</h2>';
 var userActionsTemplate = '<div class=\"buttonHolder\">'
-    + '<button onclick=\"suspendUser(\'{{username}}\')\">Suspend User</button>'
+    + '<button onclick=\"toggleSuspendUser(\'{{username}}\')\">Toggle User Suspension</button>'
     + '<button onclick=\"deleteUser(\'{{username}}\')\">Delete User</button>'
     + '</div>';
 
