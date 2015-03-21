@@ -1,6 +1,17 @@
+body
+{
+    font-family : 'Roboto', sans-serif;
+}
+
+*:focus
+{
+    outline: 0;
+}
+
 .overlay
 {
     display : none;
+    z-index : 20;
     position : fixed;
     padding : 5px;
     left : 50%;
@@ -8,8 +19,21 @@
     width : 400px;
     height : 200px;
     margin-left: -200px;
-    background : rgb(230,220,220);
-    border : solid blue thick;
+    background : white;
+    box-shadow: 0px 6px 12px 2px #888888;
+}
+
+#overlay-back {
+    position   : absolute;
+    top        : 0;
+    left       : 0;
+    width      : 100%;
+    height     : 100%;
+    background : #000;
+    opacity    : 0.2;
+    filter     : alpha(opacity=60);
+    z-index    : 10;
+    display    : none;
 }
 
 #userInfo
@@ -23,6 +47,22 @@
     width 50%;
 }
 
+/*
+#map-canvas
+{
+    top        : 0;
+    left       : 0;
+    position   : absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    z-index: -2;
+    -webkit-filter : blur(5px);
+}
+*/
+
+
 #map-canvas
 {
     float: right;
@@ -30,4 +70,102 @@
     height: 100%;
     margin: 0px;
     padding: 0px;
+}
+
+
+.flatButton
+{
+    background-color : #00695d;
+    color: #fff;
+    border : 0;
+    margin : 0.3em;
+    padding : 0.6em;
+}
+
+.flatButton:hover
+{
+    box-shadow: 0px 2px 6px 1px #888888;
+}
+
+.flatButton:click
+{
+    box-shadow: 0px;
+}
+
+.raisedButton
+{
+    background-color : #00695d;
+    color: #fff;
+    border : 0;
+    box-shadow: 0px 2px 6px 1px #888888;
+    margin : 0.3em;
+    padding : 0.6em;
+}
+
+.raisedButton:hover
+{
+    box-shadow: 0px 2px 6px 1px #3C3C3C;
+}
+
+.raisedButton:click
+{
+    box-shadow: 0px;
+}
+
+label
+{
+    overflow: auto;
+}
+
+#editUserInfo label
+{
+    display: inline-block;
+    float: left;
+    clear: left;
+    width: 90%;
+    text-align: left;
+}
+
+#changePassword label
+{
+    display: inline-block;
+    clear: left;
+    float: left;
+    width: 100%;
+    text-align: left;
+}
+
+input[type=text]
+{
+    display: inline-block;
+    float: right;
+    margin: 0.7em;
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 1px;
+    border-bottom-color: #00695d;
+    padding-bottom: 1px;
+}
+
+input[type=text]:focus
+{
+    border-bottom-width: 2px;
+    padding-bottom: 0px;
+}
+
+.buttons
+{
+    clear: left;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.insideOverlay
+{
+    width: 70%;
+    margin: auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }

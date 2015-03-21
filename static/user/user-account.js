@@ -1,31 +1,43 @@
+function showOverlay(overlay)
+{
+    document.getElementById('overlay-back').style.display = "block";
+    var over = document.getElementById(overlay);
+    over.style.display = "block";
+}
+
+function hideOverlay(overlay)
+{
+    document.getElementById('overlay-back').style.display = "none";
+    var over = document.getElementById(overlay);
+    over.style.display = "none";
+}
+
 function editUserInfo()
 {
-    var over = document.getElementById('editUserInfo');
-    over.style.display = "block";
+    showOverlay('editUserInfo');
 }
 
 function saveUserInfo()
 {
-    var handle = document.querySelector("input[name='handle']").value;
     var name = document.querySelector("input[name='username']").value;
     var description = document.querySelector("input[name='description']").value;
     var saveUserInfoURL = 'saveUserInfo';
 
     //TODO: Some error checking
     // create a Javascript object to send
-    var userObject = {handle: handle, name: name, description: description};
+    var userObject = {name: name, description: description};
     // get an AJAX object
     var xhr = new XMLHttpRequest();
     xhr.open('POST', saveUserInfoURL, true );
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function() {
         if ( xhr.readyState != 4) return;
-        var over = document.getElementById('editUserInfo');
         if ( xhr.status == 200 || xhr.status == 400) {
-            over.style.display = "none";
+            hideOverlay('editUserInfo');
             getUserInfo();
         }
         else {
+            var over = document.getElementById('editUserInfo');
             over.innerHTML += "<p>Unknown Error</p>";
             result.value = "Unknown ERROR";
         }
@@ -37,14 +49,12 @@ function saveUserInfo()
 
 function cancelUserInfo()
 {
-    var over = document.getElementById('editUserInfo');
-    over.style.display = "none";
+    hideOverlay('editUserInfo');
 }
 
 function showChangePassword()
 {
-    var over = document.getElementById('changePassword');
-    over.style.display = "block";
+    showOverlay("changePassword");
 }
 
 function saveChangePassword()
@@ -69,7 +79,8 @@ function saveChangePassword()
         if ( xhr.readyState != 4) return;
         if ( xhr.status == 200 || xhr.status == 400) {
             //over.innerHTML += xhr.responseText;
-            over.style.display = "none";
+            hideOverlay('changePassword');
+            hideOverlay('editUserInfo');
         }
         else {
             over.innerHTML += "Unknown ERROR";
@@ -82,8 +93,8 @@ function saveChangePassword()
 
 function cancelChangePassword()
 {
-    var over = document.getElementById('changePassword');
-    over.style.display = "none";
+    hideOverlay('changePassword');
+    hideOverlay('editUserInfo');
 }
 
 function initializeMap(position) {
@@ -141,16 +152,16 @@ function getUserInfo(evt)
     xhr.send();
 
     var userInfoTemplate = "<h2>My Account</h1>"
-                         + "<p>Handle: {{handle}}</p>"
                          + "<p>Username: {{name}}</p>"
                          + "<p>Description: {{description}}</p>"
-                         + "<button name='btnEditUserInfo' onclick='editUserInfo()''>Edit Info</button>";
+                         + "<button class='raisedButton' name='btnEditUserInfo' onclick='editUserInfo()''>Edit Info</button>";
 
-    var userInfoEditTemplate = '<label>Handle: <input type="text" name="handle" value={{handle}}></label><br>'
-                             + '<label>Username: <input type="text" name="username" value={{name}}></label><br>'
-                             + '<label>Description: <input type="text" name="description" value={{description}}></label><br>'
-                             + '<button name="btnSave" onclick="saveUserInfo()">Save</button>'
-                             + '<button name="btnCancel" onclick="cancelUserInfo()">Cancel</button>'
-                             + '<button name="btnChangePassword" onclick="showChangePassword()">Change Password</button>';
+    var userInfoEditTemplate = '<div class="insideOverlay">'
+                             + '<label>Username: <input type="text" name="username" value={{name}}></label>'
+                             + '<label>Description: <input type="text" name="description" value={{description}}></label>'
+                             + '<div class="buttons">'
+                             + '<button class="flatButton" name="btnSave" onclick="saveUserInfo()">Save</button>'
+                             + '<button class="flatButton" name="btnCancel" onclick="cancelUserInfo()">Cancel</button>'
+                             + '<button class="flatButton" name="btnChangePassword" onclick="showChangePassword()">Change Password</button></div></div>';
 }
 
