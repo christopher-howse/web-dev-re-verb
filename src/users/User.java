@@ -2,29 +2,29 @@ package users;
 
 public class User implements Comparable
 {
-    public final String handle;
     public String name;
     public String password;
     public String role;
     public String description;
-    public final String picture;
+    public final Integer num_reports;
+    public final String accountStatus;
 
     public User( String n, String p, String r ) {
         name = n;
         password = p;
         role = r;
-        handle = "defaultHandle";
         description = "defaultDescription";
-        picture = "defaultPic";
+        num_reports = 0;
+        accountStatus = "Active";
     }
 
-    public User( String n, String p, String r, String h, String d ) {
+    public User( String n, String p, String r, String d, Integer num_reports, String accountStatus ) {
         name = n;
         password = p;
         role = r;
-        handle = h;
         description = d;
-        picture = "defaultPic";
+        this.num_reports = num_reports;
+        this.accountStatus = accountStatus;
     }
 
     public void toggleRole()

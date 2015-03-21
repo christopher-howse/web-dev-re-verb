@@ -2,9 +2,9 @@ table {
 	border: 1px solid black;
 	border-collapse: collapse;
 	padding: 0.2em;
-	font-size : 1.5em;
+	font-size : 1em;
 	margin: 1em auto;
-	width: 60%
+	width: 80%
 }
 
 table th {
@@ -15,8 +15,9 @@ table th {
 
 table td {
 	border: 1px solid black;
-	color: navy;
+	color: white;
 	padding: 0.2em;
+	text-align: center;
 }
 
 h1 {
@@ -36,7 +37,7 @@ h2 {
 
 .table-wrapper
 {
-	background-color: lightgrey;
+	background-color: darkgrey;
     overflow: auto;
 }
 
