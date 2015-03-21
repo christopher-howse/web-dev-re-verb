@@ -42,14 +42,19 @@ public class AdminSparkCalls
             return adminType;
         });
 
-
-        post("admin/getUserPosts", "application/json", (request, response) ->
+        post("/goAdmin", (request, response) ->
         {
-            Gson gson = new Gson();
-            UsernameDto usernameDto = gson.fromJson(request.body(), UsernameDto.class);
-            response.type("application/json");
-            return databaseManager.getPostMan().getPostsByUser(usernameDto.username);
-        }, new JsonTransformer());
+            response.redirect("/admin/index.html");
+            return null;
+        });
+
+                post("admin/getUserPosts", "application/json", (request, response) ->
+                {
+                    Gson gson = new Gson();
+                    UsernameDto usernameDto = gson.fromJson(request.body(), UsernameDto.class);
+                    response.type("application/json");
+                    return databaseManager.getPostMan().getPostsByUser(usernameDto.username);
+                }, new JsonTransformer());
 
         post("admin/toggleUserRole", "application/json", (request, response) ->
         {

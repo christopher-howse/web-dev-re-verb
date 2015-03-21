@@ -1,5 +1,6 @@
 <html>
 <head lang="en">
+    <base href="/">
     <link rel='stylesheet' type='text/css' href='css/navigation-reverb.css'>
     <script type="text/javascript" src="navigation.js">
     </script>
@@ -19,10 +20,10 @@
     
 <nav class="reverb-navigation-bar">
     <ul class="reveb-navigation-list">
-        <li class="reverb-home"><a href="main-feed.html" onclick="goHome()">Home</a></li>
-        <li class="reverb-profile"><a href="#">Profile</a></li>
-        <li class="reverb-administrator"><a href="admin/index.html">Admin</a> </li>
-        <li class="reverb-logout"><a href="#" onclick="Logout()">Logout</a></li>
+        <li class="reverb-home"><a href="#" onclick="goHome(); return false;">Home</a></li>
+        <li class="reverb-profile"><a href="#" onclick="profile(); return false;">Profile</a></li>
+        <li class="reverb-administrator"><a href="#" onclick="goAdmin(); return false;">Admin</a> </li>
+        <li class="reverb-logout"><a href="#" onclick="logout(); return false;">Logout</a></li>
     </ul>
 </nav>
 
@@ -80,13 +81,8 @@ function adminSelect(xhr)
     xhr.send( null );
     
 </script>
-<script>
-function goHome()
-{
-
-}
- 
-function Logout()
+<script> 
+function logout()
 {
     method = "post";
     var form = document.createElement("form");
@@ -95,7 +91,33 @@ function Logout()
     document.body.appendChild(form);
     form.submit();
 }    
-    
+function goHome()
+{
+    method = "post";
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", "/goHome");
+    document.body.appendChild(form);
+    form.submit();    
+}
+function goAdmin()
+{
+    method = "post";
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", "/goAdmin");
+    document.body.appendChild(form);
+    form.submit();
+}
+function profile()
+{
+    method = "post";
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", "/goHome");
+    document.body.appendChild(form);
+    form.submit();
+}    
     
 </script>
     

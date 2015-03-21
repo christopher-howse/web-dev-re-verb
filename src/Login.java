@@ -44,7 +44,8 @@ public class Login
             {
                 return Error.errorPage("Get a session, please!");
             }
-            response.redirect("/auth/index.html");
+            request.session().attribute("user", user);
+            response.redirect("/auth/main-feed.html");
             return null;
         });
 
@@ -71,13 +72,20 @@ public class Login
                 return Error.errorPage("Get a session, please!");
             }
             databaseManager.getUsrMan().createUser(u,pw);
-            response.redirect("/auth/index.html");
+            request.session().attribute("user");
+            response.redirect("/auth/main-feed.html");
             return null;
         });
 
         post("/logout", (request, response) ->
         {
-
+            Session sess = request.session(true);
+            if ( sess == null )
+            {
+                return Error.errorPage("Get a session, please!");
+            }
+            request.session().attribute("user", null);
+            response.redirect("login.html");
             return Error.errorPage("Get a session, please!");
         });
     }
