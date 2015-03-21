@@ -48,13 +48,22 @@ public class Reverb
             // redirect / to /login.html
             get("/", (request, response) ->
             {
-                response.redirect("/login.html");
+                User user = request.session().attribute("user");
+                if (user == null)
+                {
+                    response.redirect("/login.html");
+                }
+                else
+                {
+                    response.redirect("/auth/main-feed.html");
+                }
                 return null;
             });
 
             Login login = new Login(db);
             AdminSparkCalls adminSparkCalls = new AdminSparkCalls(db);
-            UserInfo.userCall();
+            MainFeedSparkCalls mainFeed = new MainFeedSparkCalls(db);
+            UserInfo userInfo = new UserInfo(db);
         } catch (SQLException e)
         {
             System.out.println("Could not establish the reverb database");

@@ -9,11 +9,19 @@ import static spark.Spark.*;
  */
 public class UserInfo {
 
+    private static DatabaseManager databaseManager;
+
+    public UserInfo(DatabaseManager databaseManager)
+    {
+        this.databaseManager = databaseManager;
+        userCall();
+    }
+
     public static void userCall()
     {
         before("/user/*", (request, response) ->
         {
-            User user = Reverb.testAdmin;//request.session().attribute("user");
+            User user = request.session().attribute("user");
             if ( user == null ) {
                 response.redirect("/not-signed-in.html");
                 return;
@@ -30,8 +38,8 @@ public class UserInfo {
         get("/user/getUserInfo", "application/json", (request, response) ->
         {
             response.type("application/json");
-            UserManager userManager = new UserManager();
-            return userManager.getUsers().get(0);
+            User curUser = request.session().attribute("user");
+            return curUser;
         }, new JsonTransformer());
 
         post("/user/saveUserInfo", (request, response) -> {
@@ -43,6 +51,17 @@ public class UserInfo {
                 // attempt to convert JSON to SumObject
                 User obj = gson.fromJson(b, User.class);
                 System.out.println(String.format("/saveUserInfo: name:%s, description:%s", obj.name, obj.description));
+
+                User curUser = request.session().attribute("user");
+
+                UserManager usrMgr = databaseManager.getUsrMan();
+                if(usrMgr.updateUserInfo(obj.name, obj.description, curUser.name))
+                {
+                    curUser.name = obj.name;
+                    curUser.description = obj.description;
+                    //TODO: update user in usermanager
+                }
+
                 return String.valueOf( obj.name ); //TODO: Fix this
             }
             catch ( JsonParseException ex ) {
@@ -56,9 +75,19 @@ public class UserInfo {
             response.type("text/plain");
             String oldPassword = request.queryParams("oldPassword");
             String newPassword = request.queryParams("newPassword");
-            //TODO:Check if old password matches
-            //TODO:Set new password
-            System.out.println("Changing Password");
+            User curUser = request.session().attribute("user");
+            if(!oldPassword.equals(curUser.password))
+            {
+                System.out.println("Old password is wrong"); //TODO: proper error
+            }
+            else
+            {
+                if(databaseManager.getUsrMan().updateUserPassword(newPassword, curUser.name))
+                {
+                    curUser.password = newPassword;
+                    System.out.println("Changing Password");
+                }
+            }
             return newPassword; //TODO:Don't send back the password
         });
     }

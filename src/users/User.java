@@ -2,10 +2,10 @@ package users;
 
 public class User implements Comparable
 {
-    public final String name;
-    public final String password;
+    public String name;
+    public String password;
     public String role;
-    public final String description;
+    public String description;
     public final Integer num_reports;
     public final String accountStatus;
 

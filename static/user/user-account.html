@@ -2,8 +2,10 @@
 <head>
     <title>My Account</title>
     <link rel="stylesheet" type="text/css" href="user-account.css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 </head>
 <script type="text/javascript" src="user-account.js"></script>
+<script type="text/javascript" src="feed.js"></script>
 <script type="text/javascript" src="../mustache.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL90qn-14WtwXPxuJrtPHipF23OrxfodQ"></script>
 <body onload="getUserInfo()">
@@ -12,15 +14,21 @@
     <h2>Your Current Location</h2>
 </div>
 <div id="map-canvas"></div>
+<div id="map-overlay"></div>
 </div>
 <div id="editUserInfo" class="overlay"></div>
 <div id="changePassword" class="overlay">
-    <label>Old Password: <input type="text" name="oldPassword"></label><br>
-    <label>New Password: <input type="text" name="newPassword"></label><br>
-    <label>Verify Password: <input type="text" name="verifyPassword"></label><br>
-    <button name="btnSave" onclick="saveChangePassword()">Save</button>
-    <button name="btnCancel" onclick="cancelChangePassword()">Cancel</button>
+    <div class="insideOverlay">
+        <label>Old Password: <input type="text" name="oldPassword"></label>
+        <label>New Password: <input type="text" name="newPassword"></label>
+        <label>Verify Password: <input type="text" name="verifyPassword"></label>
+        <div class="buttons">
+            <button class="flatButton" name="btnSave" onclick="saveChangePassword()">Save</button>
+            <button class="flatButton" name="btnCancel" onclick="cancelChangePassword()">Cancel</button>
+        </div>
+    </div>
 </div>
+<div id="overlay-back"></div>
 
 
 </body>

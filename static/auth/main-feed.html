@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
+    <base href="/">
     <link rel='stylesheet' type='text/css' href='css/feed.css'>
+        <link rel='stylesheet' type='text/css' href='css/navigation-reverb.css'>  
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>
-    $(function(){
-      $("#nav").load("navigation.html"); 
-    });
-    </script>     
-    <script type="text/javascript" src="feed.js">
-    </script>
+<script>
+$(function(){
+  $("#nav").load("navigation.html"); 
+});    
+</script>     
+<script type="text/javascript" src="feed.js">
+</script>
 </head>
 <body onload="populateFeed()">
     
