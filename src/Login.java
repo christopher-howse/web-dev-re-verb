@@ -44,6 +44,7 @@ public class Login
             {
                 return Error.errorPage("Get a session, please!");
             }
+            sess.attribute("user", user);
             response.redirect("/auth/index.html");
             return null;
         });

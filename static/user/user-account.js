@@ -19,14 +19,13 @@ function editUserInfo()
 
 function saveUserInfo()
 {
-    var handle = document.querySelector("input[name='handle']").value;
     var name = document.querySelector("input[name='username']").value;
     var description = document.querySelector("input[name='description']").value;
     var saveUserInfoURL = 'saveUserInfo';
 
     //TODO: Some error checking
     // create a Javascript object to send
-    var userObject = {handle: handle, name: name, description: description};
+    var userObject = {name: name, description: description};
     // get an AJAX object
     var xhr = new XMLHttpRequest();
     xhr.open('POST', saveUserInfoURL, true );
@@ -153,13 +152,11 @@ function getUserInfo(evt)
     xhr.send();
 
     var userInfoTemplate = "<h2>My Account</h1>"
-                         + "<p>Handle: {{handle}}</p>"
                          + "<p>Username: {{name}}</p>"
                          + "<p>Description: {{description}}</p>"
                          + "<button class='raisedButton' name='btnEditUserInfo' onclick='editUserInfo()''>Edit Info</button>";
 
     var userInfoEditTemplate = '<div class="insideOverlay">'
-                             + '<label>Handle: <input type="text" name="handle" value={{handle}}></label>'
                              + '<label>Username: <input type="text" name="username" value={{name}}></label>'
                              + '<label>Description: <input type="text" name="description" value={{description}}></label>'
                              + '<div class="buttons">'

@@ -54,7 +54,7 @@ public class Reverb
 
             Login login = new Login(db);
             AdminSparkCalls adminSparkCalls = new AdminSparkCalls(db);
-            UserInfo.userCall();
+            UserInfo userInfo = new UserInfo(db);
         } catch (SQLException e)
         {
             System.out.println("Could not establish the reverb database");

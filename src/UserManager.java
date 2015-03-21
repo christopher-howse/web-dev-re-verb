@@ -45,6 +45,12 @@ public class UserManager
     private static String checkIfUserExists =
             "SELECT * FROM Users WHERE username = ?";
 
+    private static String updateUserInfo =
+            "UPDATE Users SET username = ?, about_me = ? WHERE username = ?";
+
+    private static String updateUserPassword =
+            "UPDATE Users SET password = ? WHERE username = ?";
+
 
     public UserManager() throws SQLException
     {
@@ -227,6 +233,55 @@ public class UserManager
         {
             System.out.println("User already exists");
             e.printStackTrace();
+        }
+    }
+
+    public boolean updateUserInfo(String username, String description, String curUser)
+    {
+        try
+        (
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement(updateUserInfo);
+        )
+        {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setString(1, username);
+            stmt.setString(2, description);
+            stmt.setString(3, curUser);
+
+            stmt.executeUpdate();
+            System.out.println("Updated user");
+
+            return true;
+        } catch (SQLException e)
+        {
+            System.out.println("Error updating user in db");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateUserPassword(String password, String curUser)
+    {
+        try
+        (
+            Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+            PreparedStatement stmt = conn.prepareStatement(updateUserPassword);
+        )
+        {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setString(1, password);
+            stmt.setString(2, curUser);
+
+            stmt.executeUpdate();
+            System.out.println("Updated user password");
+
+            return true;
+        } catch (SQLException e)
+        {
+            System.out.println("Error updating user in db");
+            e.printStackTrace();
+            return false;
         }
     }
 }

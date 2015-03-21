@@ -47,6 +47,7 @@ body
     width 50%;
 }
 
+/*
 #map-canvas
 {
     top        : 0;
@@ -59,8 +60,9 @@ body
     z-index: -2;
     -webkit-filter : blur(5px);
 }
+*/
 
-/*
+
 #map-canvas
 {
     float: right;
@@ -69,7 +71,7 @@ body
     margin: 0px;
     padding: 0px;
 }
-*/
+
 
 .flatButton
 {
