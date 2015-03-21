@@ -42,13 +42,12 @@ public class AdminSparkCalls
             return adminType;
         });
 
-        post("/admin/toggleSuspendUser", (request, response) ->
+        post("/goAdmin", (request, response) ->
         {
-            Gson gson = new Gson();
-            UsernameDto usernameDto = gson.fromJson(request.body(), UsernameDto.class);
-            response.type("application/json");
-            return databaseManager.getUsrMan().toggleUserSuspension(usernameDto.username);
-        }, new JsonTransformer());
+            response.redirect("/admin/index.html");
+            return null;
+        });
+        
 
         post("admin/getUserPosts", "application/json", (request, response) ->
         {
