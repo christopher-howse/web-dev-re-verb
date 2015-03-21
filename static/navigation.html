@@ -19,10 +19,10 @@
     
 <nav class="reverb-navigation-bar">
     <ul class="reveb-navigation-list">
-        <li class="reverb-home"><a href="#">Home</a></li>
+        <li class="reverb-home"><a href="main-feed.html" onclick="goHome()">Home</a></li>
         <li class="reverb-profile"><a href="#">Profile</a></li>
-        <li class="reverb-administrator"><a href="#">Admin</a> </li>
-        <li class="reverb-logout"><a href="#">Logout</a></li>
+        <li class="reverb-administrator"><a href="admin/index.html">Admin</a> </li>
+        <li class="reverb-logout"><a href="#" onclick="Logout()">Logout</a></li>
     </ul>
 </nav>
 
@@ -78,6 +78,24 @@ function adminSelect(xhr)
     }
     xhr.open( "GET", "/admin/getAdmin", true );
     xhr.send( null );
+    
+</script>
+<script>
+function goHome()
+{
+
+}
+ 
+function Logout()
+{
+    method = "post";
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", "/logout");
+    document.body.appendChild(form);
+    form.submit();
+}    
+    
     
 </script>
     

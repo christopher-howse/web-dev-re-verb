@@ -74,5 +74,11 @@ public class Login
             response.redirect("/auth/index.html");
             return null;
         });
+
+        post("/logout", (request, response) ->
+        {
+
+            return Error.errorPage("Get a session, please!");
+        });
     }
 }
