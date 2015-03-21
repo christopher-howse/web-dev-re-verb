@@ -41,3 +41,12 @@ h2 {
     overflow: auto;
 }
 
+.close-button
+{
+	float:right;
+	width: 32px;
+	height : 32px;
+	padding: 0 0 0 0;
+	border: none;
+	background: #00695D;
+}

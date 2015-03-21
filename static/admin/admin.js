@@ -135,6 +135,11 @@ function Confirmation(message, action)
     this.action = action;
 }
 
+function closePostDiv()
+{
+    document.getElementById('userPostsDiv').innerHTML = "";
+}
+
 var userTableTemplate = '<table>'
     + '<tr><th>Username</th><th>Password</th><th>Role</th><th>Number of Reports</th><th>Account Status</th><th>Edit</th></tr>'
     + '{{#.}}<tr>'
@@ -157,7 +162,10 @@ var userPostsTemplate = '<table>'
     + '</tr>{{/.}}'
     + '</table>';
 
-var userBannerTemplate = '<h2>{{username}}</h2>';
+var userBannerTemplate = '<button class=\"close-button\" onclick=\"closePostDiv()\">'
+    + '<img class=\"close-button\" src=\"imgs/close-icon-light.png\">'
+    + '</button>'
+    + '<h2>{{username}}</h2>';
 var userActionsTemplate = '<div class=\"buttonHolder\">'
     + '<button onclick=\"toggleSuspendUser(\'{{username}}\')\">Toggle User Suspension</button>'
     + '<button onclick=\"deleteUser(\'{{username}}\')\">Delete User</button>'
