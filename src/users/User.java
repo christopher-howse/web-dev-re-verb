@@ -13,7 +13,7 @@ public class User implements Comparable
         name = n;
         password = p;
         role = r;
-        description = "defaultDescription";
+        description = "";
         num_reports = 0;
         accountStatus = "Active";
     }

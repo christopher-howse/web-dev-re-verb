@@ -1,17 +1,27 @@
-package posts;
-
 import error.Error;
 import posts.*;
 import static spark.Spark.*;
 import spark.Session;
 import users.User;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Jake on 19/03/2015.
  */
 public class PostSparkCalls
 {
-    public static void posting()
+
+    private DatabaseManager databaseManager;
+
+    public PostSparkCalls(DatabaseManager databaseManager)
+    {
+        this.databaseManager = databaseManager;
+        posting();
+    }
+    public void posting()
     {
         post("/posting", (request, response) ->
         {
@@ -25,7 +35,11 @@ public class PostSparkCalls
 
             //TODO: Add the post using post manager
 
-            response.redirect("/feed.html");
+            float latitude = request.session().attribute("latitude");
+            float longitude = request.session().attribute("longitude");
+            databaseManager.getPostMan().sendPost(user.name, postBody, 0 /*TODO: fix anon*/, latitude, longitude, "now");
+
+            response.redirect("/auth/main-feed.html");
 
             return null;
         });
