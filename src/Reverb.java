@@ -64,6 +64,7 @@ public class Reverb
             AdminSparkCalls adminSparkCalls = new AdminSparkCalls(db);
             MainFeedSparkCalls mainFeed = new MainFeedSparkCalls(db);
             UserInfo userInfo = new UserInfo(db);
+            PostSparkCalls postSparkCalls = new PostSparkCalls(db);
         } catch (SQLException e)
         {
             System.out.println("Could not establish the reverb database");

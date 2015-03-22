@@ -3,6 +3,7 @@
 <head lang="en">
     <base href="/">
     <link rel='stylesheet' type='text/css' href='css/feed.css'>
+<link rel='stylesheet' type="text/css" href="css/common.css">
         <link rel='stylesheet' type='text/css' href='css/navigation-reverb.css'>  
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
@@ -13,7 +14,7 @@ $(function(){
 <script type="text/javascript" src="feed.js">
 </script>
 </head>
-<body onload="populateFeed()">
+<body onload="initializeGeolocation()">
     
 <div id="nav">
     
@@ -35,7 +36,7 @@ $(function(){
         </div>
         <div class="posting-buttons">
         <br>
-            <button type="submit">Post!</button>
+            <button class="common" type="submit">Post!</button>
         </div>
         </form>
     </div>
