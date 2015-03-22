@@ -34,11 +34,13 @@ public class PostSparkCalls
             String postBody = request.queryParams("post");
             User user = request.session().attribute("user");
 
-            //TODO: Add the post using post manager
-
             float latitude = request.session().attribute("latitude");
             float longitude = request.session().attribute("longitude");
-            databaseManager.getPostMan().sendPost(user.name, postBody, 0 /*TODO: fix anon*/, latitude, longitude, "now");
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+            String curTime = (dateFormat.format(date));
+            databaseManager.getPostMan().sendPost(user.name, postBody, 0 /*TODO: fix anon*/, latitude, longitude, curTime);
 
             response.redirect("/auth/main-feed.html");
 
@@ -51,12 +53,39 @@ public class PostSparkCalls
             response.type("application/json");
             float latitude = request.session().attribute("latitude");
             float longitude = request.session().attribute("longitude");
+            User user = request.session().attribute("user");
             String lat = String.valueOf(latitude);
             String lon = String.valueOf(longitude);
             Date now = new Date();
             long unix = now.getTime() / 1000;
             String time = String.valueOf(unix);
-            return databaseManager.getPostMan().getPostsByLocation(lat,lon,time);
+            return databaseManager.getPostMan().getPostsByLocation(lat, lon, time, user.name);
         }, new JsonTransformer());
+
+        post("/favoritePost", (request, response) ->
+        {
+            Session sess = request.session(true);
+            if ( sess == null )
+            {
+                return Error.errorPage("failed to get the session");
+            }
+            String id = request.queryParams("post_id");
+            int post_id = Integer.parseInt(id);
+            boolean favorite = Boolean.parseBoolean(request.queryParams("favorite"));
+            User user = request.session().attribute("user");
+
+            if(!favorite)
+            {
+                databaseManager.getPostMan().favoritePost(user.name, post_id);
+            }
+            else
+            {
+                databaseManager.getPostMan().unFavoritePost(user.name, post_id);
+            }
+
+            response.redirect("/auth/main-feed.html"); //TODO: only update favorite count
+
+            return null;
+        });
     }
 }

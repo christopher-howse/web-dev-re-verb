@@ -43,6 +43,15 @@ public class PostManager
     private static String deleteMessage =
             "DELETE FROM Messages WHERE message_id = ?";
 
+    private static String favoritePost =
+            "INSERT INTO Favorites VALUES(?, ?)";
+
+    private static String unFavoritePost =
+            "DELETE FROM Favorites WHERE message_id = ? AND username = ?";
+
+    private static String getFavoritesByUserAndMessage =
+            "SELECT * FROM Favorites WHERE message_id = ? AND username = ?";
+
     public PostManager() throws SQLException
     {
         try (
@@ -68,7 +77,8 @@ public class PostManager
             ResultSet rs = stmt.executeQuery();
             while (rs.next())
             {
-                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time")));
+                boolean isFavorited = isMessageFavoritedByUser(username, rs.getInt("message_id"));
+                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"), isFavorited));
             }
         } catch (SQLException e)
         {
@@ -78,7 +88,7 @@ public class PostManager
         return result;
     }
 
-    public ArrayList<Post> getPostsByLocation(String lat,String lon,String time)
+    public ArrayList<Post> getPostsByLocation(String lat,String lon,String time, String username)
     {
         ArrayList<Post> result = new ArrayList<Post>();
         try(
@@ -93,7 +103,8 @@ public class PostManager
             ResultSet rs = stmt.executeQuery();
             while (rs.next())
             {
-                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time")));
+                boolean isFavorited = isMessageFavoritedByUser(username, rs.getInt("message_id"));
+                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"), isFavorited));
             }
         } catch (SQLException e)
         {
@@ -149,4 +160,66 @@ public class PostManager
             return false;
         }
     }
+
+    public boolean favoritePost(String username, int post_id)
+    {
+        try (
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement( favoritePost );
+        )
+        {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setInt(1, post_id);
+            stmt.setString(2, username);
+
+
+            stmt.executeUpdate();
+            return true;
+
+        } catch (SQLException e)
+        {
+            System.out.println("Could not fav post in db");
+            return false;
+        }
+    }
+
+    public boolean unFavoritePost(String username, int post_id)
+    {
+        try (
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement( unFavoritePost );
+        ) {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setInt(1, post_id);
+            stmt.setString(2, username);
+
+            stmt.executeUpdate();
+            System.out.println("Un-favoriting post");
+            return true;
+        } catch (SQLException e)
+        {
+            System.out.println("Could not un-favorite post");
+            return false;
+        }
+    }
+
+    public boolean  isMessageFavoritedByUser(String username, int post_id)
+    {
+        try(
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement( getFavoritesByUserAndMessage );
+        ) {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setInt(1, post_id);
+            stmt.setString(2, username);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+        } catch (SQLException e)
+        {
+            System.out.println("Could not get favorited post");
+            return false;
+        }
+
+    }
+
 }
