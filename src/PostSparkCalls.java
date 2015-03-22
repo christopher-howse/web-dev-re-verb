@@ -5,6 +5,8 @@ import static spark.Spark.*;
 import spark.Session;
 import users.User;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -34,7 +36,11 @@ public class PostSparkCalls
 
             //TODO: Add the post using post manager
 
-            response.redirect("/feed.html");
+            float latitude = request.session().attribute("latitude");
+            float longitude = request.session().attribute("longitude");
+            databaseManager.getPostMan().sendPost(user.name, postBody, 0 /*TODO: fix anon*/, latitude, longitude, "now");
+
+            response.redirect("/auth/main-feed.html");
 
             return null;
         });

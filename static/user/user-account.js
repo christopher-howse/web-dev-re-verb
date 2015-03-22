@@ -153,7 +153,7 @@ function getUserInfo(evt)
 
     var userInfoTemplate = "<h2>My Account</h1>"
                          + "<p>Username: {{name}}</p>"
-                         + "<p>Description: {{description}}</p>"
+                         + "<p>About me: {{description}}</p>"
                          + "<button class='raisedButton' name='btnEditUserInfo' onclick='editUserInfo()''>Edit Info</button>";
 
     var userInfoEditTemplate = '<div class="insideOverlay">'
