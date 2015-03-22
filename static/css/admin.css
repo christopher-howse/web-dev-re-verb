@@ -38,6 +38,16 @@ h2 {
 .table-wrapper
 {
 	background-color: darkgrey;
+	margin: 0.5em;
     overflow: auto;
 }
 
+.close-button
+{
+	float:right;
+	width: 32px;
+	height : 32px;
+	padding: 0 0 0 0;
+	border: none;
+	background: #00695D;
+}

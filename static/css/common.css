@@ -84,3 +84,32 @@ button.common:click
 {
     box-shadow: 0px;
 }
+
+.clickable {
+	color: white;
+	text-decoration: underline;
+}
+
+.clickable:hover {
+	color: #58C2B7;
+	text-decoration: underline;
+}
+
+.flatButton
+{
+    background-color : #00695d;
+    color: #fff;
+    border : 0;
+    margin : 0.3em;
+    padding : 0.6em;
+}
+
+.flatButton:hover
+{
+    box-shadow: 0px 2px 6px 1px #888888;
+}
+
+.flatButton:click
+{
+    box-shadow: 0px;
+}

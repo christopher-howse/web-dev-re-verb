@@ -51,8 +51,6 @@ public class UserManager
 
     private static String updateUserInfo =
             "UPDATE Users SET username = ?, about_me = ? WHERE username = ?";
-    private static String toggleUserSuspended =
-            "UPDATE Users SET account_status = ? WHERE username = ?";
 
     private static String updateUserPassword =
             "UPDATE Users SET password = ? WHERE username = ?";
@@ -103,10 +101,11 @@ public class UserManager
         try
                 (
                         Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
-                        PreparedStatement stmt = conn.prepareStatement(getUsers);
+                        PreparedStatement stmt = conn.prepareStatement(getUser);
                 )
         {
             stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             if(rs.next())
             {
@@ -315,7 +314,7 @@ public class UserManager
     {
         try
         (
-                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                Connection conn = DatabaseManager.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(updateUserInfo);
         )
         {
@@ -325,12 +324,12 @@ public class UserManager
             stmt.setString(3, curUser);
 
             stmt.executeUpdate();
-            System.out.println("Updated user");
+            System.out.println("Updated user info");
 
             return true;
         } catch (SQLException e)
         {
-            System.out.println("Error updating user in db");
+            System.out.println("Error updating user info in db");
             e.printStackTrace();
             return false;
         }
@@ -354,9 +353,34 @@ public class UserManager
             return true;
         } catch (SQLException e)
         {
-            System.out.println("Error updating user in db");
+            System.out.println("Error updating user password in db");
             e.printStackTrace();
             return false;
         }
+    }
+
+    public BooleanDto deleteUser(String username)
+    {
+        BooleanDto result = new BooleanDto(false);
+
+        try
+        (
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement(deleteUser);
+        )
+        {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setString(1, username);
+
+            stmt.executeUpdate();
+            System.out.println("Deleted user: " + username);
+            result.success = true;
+        } catch (SQLException e)
+        {
+            System.out.println("Error updating user in db");
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }
