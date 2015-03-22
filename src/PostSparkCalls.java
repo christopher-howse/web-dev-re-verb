@@ -45,14 +45,16 @@ public class PostSparkCalls
             return null;
         });
 
-        get("/getMessagesByLocation", "application/json", (request,response) ->
+        get("/getMessagesByLocation", "application/json", (request, response) ->
         {
 //            Gson gson = new Gson();
             response.type("application/json");
-            String lat = "0";
-            String lon = "0";
+            float latitude = request.session().attribute("latitude");
+            float longitude = request.session().attribute("longitude");
+            String lat = String.valueOf(latitude);
+            String lon = String.valueOf(longitude);
             Date now = new Date();
-            long unix = now.getTime()/1000;
+            long unix = now.getTime() / 1000;
             String time = String.valueOf(unix);
             return databaseManager.getPostMan().getPostsByLocation(lat,lon,time);
         }, new JsonTransformer());
