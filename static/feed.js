@@ -4,8 +4,25 @@ function addPost(text,user,time)
     var post = document.createElement("div");
     post.setAttribute("class","feed-post");
     post.setAttribute("onclick","toggleOverlay()");
-
-    post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+text+'</div><div class=post-buttons><button onclick="toggleOverlay()" class="common">reply</button><button class="common">favorite</button><button class="common">re:post</button></div>';
+    
+    var textbody;
+    if(typeof text == 'string' || text instanceof String)
+    {
+        if (text.length > 60)
+        {
+            textbody = text.substr(1,60);
+            textbody = textbody.concat("...");
+        }
+        else
+        {
+            textbody = text
+        }
+    }
+    else
+    {
+        textbody = text
+    }
+    post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+textbody+'</div><div class=post-buttons><button onmousedown="toggleOverlay()" class="common">reply</button><button class="common">favorite</button><button class="common">re:post</button></div>';
             
     feed.appendChild(post);
 }
@@ -16,7 +33,25 @@ function addUpdatePost(text,user,time)
     var post = document.createElement("div");
     post.setAttribute("class","feed-post");
     
-    post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+text+'</div><div class=post-buttons><button class="common">reply</button><button class="common">favorite</button><button class="common">re:post</button></div>';
+    
+    var textbody;
+    if(typeof text == 'string' || text instanceof String)
+    {
+        if (text.length > 60)
+        {
+            textbody = text.substr(1,60);
+            textbody = textbody.concat("...");
+        }
+        else
+        {
+            textbody = text
+        }
+    }
+    else
+    {
+        textbody = text
+    }
+    post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+textbody+'</div><div class=post-buttons><button onclick="toggleOverlay()" class="common">reply</button><button class="common">favorite</button><button class="common">re:post</button></div>';
     
     feed.insertBefore(post,feed.childNodes[0])
     

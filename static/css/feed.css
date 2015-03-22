@@ -68,6 +68,94 @@ div.feed-post-time
 
 div.feed-post-text
 {
+    width: 100%;
+    height: 35px;
+    position: relative;
+    word-wrap:break-word;
+    overflow:hidden;
+    text-overflow: ellipsis;
+}
+
+/*replies*/
+
+.overlay
+{
+    display : none;
+    z-index : 20;
+    position : fixed;
+    padding : 5px;
+    left : 50%;
+    top : 10%;
+    width : 400px;
+    height : 300px;
+    margin-left: -200px;
+    background-color : white;
+    box-shadow: 0px 6px 12px 2px #888888;
+}
+
+
+div.reply-post
+{
+    position: relative;
+    width: 360px;
+    height: 100px;
+    float: left;
+    margin: 10px;
+    padding: 5px;
+    border: solid;
+    border-color: #00695D;
+}
+
+div.reply-buttons button
+{
+    width: 60px;
+}
+
+div.post-buttons
+{
+    position:absolute;
+    bottom:0;
+}
+
+div.reply-post-top
+{
+    display: block;
+    padding-bottom: 10px;
     overflow: hidden;
 }
 
+div.reply-post-user
+{
+    display: inline;
+}
+
+div.reply-post-time
+{
+    display: inline;
+    float: right;
+    
+}
+
+div.reply-post-text
+{
+    overflow: hidden;
+}
+
+div.reply
+{
+    position:absolute;
+    bottom:0;
+    width: 360px;
+    height: 100px;
+    float: left;
+    margin: 10px;
+    padding: 5px;
+    border: solid;
+    border-color: #00695D;
+}
+
+div.reply-buttons
+{
+    position:absolute;
+    bottom:0;
+}
