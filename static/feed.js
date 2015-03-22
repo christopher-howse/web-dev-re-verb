@@ -82,6 +82,7 @@ function getUserPosition(position)
         if ( xhr.readyState != 4) return;
         if ( xhr.status == 200 || xhr.status == 400) {
             console.log("Sent geolocation");
+            getMessages();
         }
         else {
             console.log("Unknown ERROR saving geolocation");

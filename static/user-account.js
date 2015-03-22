@@ -21,7 +21,7 @@ function saveUserInfo()
 {
     var name = document.querySelector("input[name='username']").value;
     var description = document.querySelector("input[name='description']").value;
-    var saveUserInfoURL = 'saveUserInfo';
+    var saveUserInfoURL = '/auth/saveUserInfo';
 
     //TODO: Some error checking
     // create a Javascript object to send
@@ -62,7 +62,7 @@ function saveChangePassword()
     var oldPassword = document.querySelector("input[name='oldPassword']").value;
     var newPassword = document.querySelector("input[name='newPassword']").value;
     var verifyPassword = document.querySelector("input[name='verifyPassword']").value;
-    var saveChangePasswordURL = 'saveChangePassword';
+    var saveChangePasswordURL = '/auth/saveChangePassword';
 
     var over = document.getElementById('changePassword');
     if(newPassword != verifyPassword)
@@ -130,7 +130,7 @@ var userInfo;
 
 function getUserInfo(evt)
 {
-    var getUserInfoUrl = window.location.origin + '/user/getUserInfo';
+    var getUserInfoUrl = '/auth/getUserInfo';
     var xhr = new XMLHttpRequest();
     xhr.open('GET', getUserInfoUrl, true);
     xhr.setRequestHeader("Content-Type", "application/json");
