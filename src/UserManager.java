@@ -103,10 +103,11 @@ public class UserManager
         try
                 (
                         Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
-                        PreparedStatement stmt = conn.prepareStatement(getUsers);
+                        PreparedStatement stmt = conn.prepareStatement(getUser);
                 )
         {
             stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             if(rs.next())
             {
@@ -358,5 +359,30 @@ public class UserManager
             e.printStackTrace();
             return false;
         }
+    }
+
+    public BooleanDto deleteUser(String username)
+    {
+        BooleanDto result = new BooleanDto(false);
+
+        try
+        (
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement(deleteUser);
+        )
+        {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setString(1, username);
+
+            stmt.executeUpdate();
+            System.out.println("Deleted user: " + username);
+            result.success = true;
+        } catch (SQLException e)
+        {
+            System.out.println("Error updating user in db");
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

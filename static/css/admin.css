@@ -38,6 +38,7 @@ h2 {
 .table-wrapper
 {
 	background-color: darkgrey;
+	margin: 0.5em;
     overflow: auto;
 }
 

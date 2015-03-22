@@ -47,7 +47,14 @@ public class AdminSparkCalls
             response.redirect("/admin/index.html");
             return null;
         });
-        
+
+        post("admin/toggleSuspendUser", "application/json", (request, response) ->
+        {
+            Gson gson = new Gson();
+            UsernameDto usernameDto = gson.fromJson(request.body(), UsernameDto.class);
+            response.type("application/json");
+            return databaseManager.getUsrMan().toggleUserSuspension(usernameDto.username);
+        }, new JsonTransformer());
 
         post("admin/getUserPosts", "application/json", (request, response) ->
         {
@@ -71,6 +78,14 @@ public class AdminSparkCalls
             IdDto idDto = gson.fromJson(request.body(), IdDto.class);
             response.type("application/json");
             return PostManager.deleteMessage(idDto.id);
+        }, new JsonTransformer());
+
+        post("admin/deleteUser", "application/json", (request, response) ->
+        {
+            Gson gson = new Gson();
+            UsernameDto usernameDto = gson.fromJson(request.body(), UsernameDto.class);
+            response.type("application/json");
+            return databaseManager.getUsrMan().deleteUser(usernameDto.username);
         }, new JsonTransformer());
     }
 

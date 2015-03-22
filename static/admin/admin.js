@@ -25,6 +25,7 @@ function getUsers(evt)
 
 function getUserPosts(username)
 {
+    closeUsersDiv();
     var usernameDto = {username : username};
     var getUserPostsUrl = window.location.origin + '/admin/getUserPosts';
     var xhr = new XMLHttpRequest();
@@ -59,7 +60,7 @@ function toggleUserRole(username)
         if ( xhr.readyState != 4) return;
         if ( xhr.status == 200 || xhr.status == 400) {
             //If it worked, just call getUsers to update the users table
-            getUsers();
+            closePostDiv();
         }
         else {
             console.log("toggleUserRole Failed");
@@ -90,21 +91,46 @@ function deletePost(postId, username)
     xhr.send(doc);
 }
 
-function closeConfirmationDialog()
+function deleteUser(username)
 {
-    console.log("hit close confirmation dialog");
-}
-
-function deleteUser()
-{
-
+    console.log("hit delete user");
+    var usernameDto = {username : username};
+    var deleteUserUrl = window.location.origin + '/admin/deleteUser';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', deleteUserUrl, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function() {
+        if ( xhr.readyState != 4) return;
+        if ( xhr.status == 200 || xhr.status == 400) {
+            //If it worked, just call getUsers to update the users table
+            var success = JSON.parse(xhr.responseText);
+            if(success)
+            {
+                closePostDiv();
+            }
+            else
+            {
+                console.log("deleteUser Failed: database error")
+            }
+        }
+        else
+        {
+            console.log("deleteUser Failed: communication error");
+        }
+    };
+    var doc = JSON.stringify(usernameDto);
+    xhr.send(doc);
     console.log("hit delete user");
 }
 
-function confirmDeleteUser()
+function confirmDeleteUser(username)
 {
-
-    //TODO
+    var action = "deleteUser(\"" + username + "\")";
+    var message = "delete the user: " + username;
+    var confirmation = new Confirmation(message, action);
+    //for username, create a confirmation dialog with mustache
+    var rendered = Mustache.render(confirmationTemplate, confirmation);
+    document.getElementById('confirmationDiv').innerHTML = rendered;
 }
 
 function toggleSuspendUser(username)
@@ -118,10 +144,10 @@ function toggleSuspendUser(username)
         if ( xhr.readyState != 4) return;
         if ( xhr.status == 200 || xhr.status == 400) {
             //If it worked, just call getUsers to update the users table
-            getUsers();
+            closePostDiv();
         }
         else {
-            console.log("toggleUserSuspension Failed");
+            console.log("toggleSuspendUser Failed");
         }
     };
     var doc = JSON.stringify(usernameDto);
@@ -135,9 +161,21 @@ function Confirmation(message, action)
     this.action = action;
 }
 
+function closeUsersDiv()
+{
+    document.getElementById('usersDiv').innerHTML = "";
+}
+
 function closePostDiv()
 {
     document.getElementById('userPostsDiv').innerHTML = "";
+    closeConfirmationDialog();
+    getUsers();
+}
+
+function closeConfirmationDialog()
+{
+    document.getElementById('confirmationDiv').innerHTML = "";
 }
 
 var userTableTemplate = '<table>'
@@ -147,7 +185,7 @@ var userTableTemplate = '<table>'
         + '<td>{{password}}</td>'
         + '<td onclick=\"toggleUserRole(\'{{name}}\')\">{{role}}</td>'
         + '<td>{{num_reports}}</td>'
-        + '<td>{{accountStatus}}</td>'
+        + '<td onclick=\"toggleSuspendUser(\'{{name}}\')\">{{accountStatus}}</td>'
         + '<td onclick=\"editUserInfo(\'{{name}}\')\">put img here</td>'
     + '</tr>{{/.}}'
     + '</table>';
@@ -167,10 +205,13 @@ var userBannerTemplate = '<button class=\"close-button\" onclick=\"closePostDiv(
     + '</button>'
     + '<h2>{{username}}</h2>';
 var userActionsTemplate = '<div class=\"buttonHolder\">'
+    + '<button onclick=\"toggleUserRole(\'{{username}}\')\">Toggle User Role</button>'
     + '<button onclick=\"toggleSuspendUser(\'{{username}}\')\">Toggle User Suspension</button>'
-    + '<button onclick=\"deleteUser(\'{{username}}\')\">Delete User</button>'
+    + '<button onclick=\"confirmDeleteUser(\'{{username}}\')\">Delete User</button>'
     + '</div>';
 
-var confirmationTemplate = '<p>Are you sure you want to {{message}}?</p>'
+var confirmationTemplate = '<div class=\"buttonHolder\">'
+    + '<p>Are you sure you want to {{message}}?</p>'
     + '<button onclick={{action}}>Yes</button>'
-    + '<button onclick=\"closeConfirmationDialog()\"';
+    + '<button onclick=\"closeConfirmationDialog()\">No</button>'
+    + '</div>';
