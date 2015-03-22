@@ -20,5 +20,14 @@ public class MainFeedSparkCalls
             response.redirect("/auth/main-feed.html");
             return null;
         });
+
+        post("/getUserPosition", (request, response) ->
+        {
+            float latitude = Float.parseFloat(request.queryParams("latitude"));
+            float longitude = Float.parseFloat(request.queryParams("longitude"));
+            request.session().attribute("latitude", latitude);
+            request.session().attribute("longitude", longitude);
+            return " ";
+        });
     }
 }
