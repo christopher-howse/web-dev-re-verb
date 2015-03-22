@@ -114,6 +114,7 @@ public class PostManager
             stmt.setQueryTimeout(DatabaseManager.timeout);
             stmt.setInt(1, messageId);
             stmt.executeUpdate();
+            System.out.println("Deleted message with post id: " + messageId);
             result.success = true;
         } catch (SQLException e)
         {

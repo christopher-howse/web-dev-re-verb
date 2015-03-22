@@ -205,13 +205,13 @@ var userBannerTemplate = '<button class=\"close-button\" onclick=\"closePostDiv(
     + '</button>'
     + '<h2>{{username}}</h2>';
 var userActionsTemplate = '<div class=\"buttonHolder\">'
-    + '<button onclick=\"toggleUserRole(\'{{username}}\')\">Toggle User Role</button>'
-    + '<button onclick=\"toggleSuspendUser(\'{{username}}\')\">Toggle User Suspension</button>'
-    + '<button onclick=\"confirmDeleteUser(\'{{username}}\')\">Delete User</button>'
+    + '<button class=common onclick=\"toggleUserRole(\'{{username}}\')\">Toggle User Role</button>'
+    + '<button class=common onclick=\"toggleSuspendUser(\'{{username}}\')\">Toggle User Suspension</button>'
+    + '<button class=common onclick=\"confirmDeleteUser(\'{{username}}\')\">Delete User</button>'
     + '</div>';
 
 var confirmationTemplate = '<div class=\"buttonHolder\">'
     + '<p>Are you sure you want to {{message}}?</p>'
-    + '<button onclick={{action}}>Yes</button>'
-    + '<button onclick=\"closeConfirmationDialog()\">No</button>'
+    + '<button class=common onclick={{action}}>Yes</button>'
+    + '<button class=common onclick=\"closeConfirmationDialog()\">No</button>'
     + '</div>';
