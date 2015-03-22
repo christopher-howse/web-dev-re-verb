@@ -21,13 +21,13 @@ public class PostManager
 
     private static String selectByLocation =
             "SELECT " +
-            "message_id, user_id, message_body, anon_flag, location, report_count, vote_count, reply_link, create_time,  (" +
+            "message_id, user_id, message_body, anon_flag, latitude, longitude, report_count, vote_count, reply_link, create_time,  (" +
         "6371 * acos (" +
         "cos ( radians(?) )" + //lat
-        "* cos( radians( X(location) ) )" +
-        "* cos( radians( Y(location) ) - radians(?) )" + //long
+        "* cos( radians( latitude ) )" +
+        "* cos( radians( longitude ) - radians(?) )" + //long
         "+ sin ( radians(?) )" + //lat
-        "* sin( radians( X(location) ) )" +
+        "* sin( radians( latitude ) )" +
         ")" +
         ") AS distance" +
     "FROM Messages" +
@@ -67,7 +67,7 @@ public class PostManager
             ResultSet rs = stmt.executeQuery();
             while (rs.next())
             {
-                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body")));
+                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time")));
             }
         } catch (SQLException e)
         {
@@ -92,7 +92,7 @@ public class PostManager
             ResultSet rs = stmt.executeQuery();
             while (rs.next())
             {
-                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body")));
+                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time")));
             }
         } catch (SQLException e)
         {

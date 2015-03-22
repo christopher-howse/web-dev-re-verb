@@ -20,7 +20,7 @@ public class AdminSparkCalls
         {
             User user = Reverb.testAdmin;//request.session().attribute("user");
             if ( user == null ) {
-                response.redirect("/not-signed-in.html");
+                response.redirect("/login.html?error=Not Yet Logged In");
                 return;
             }
             if ( !user.role.equals( "admin" ) ) {

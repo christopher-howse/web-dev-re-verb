@@ -23,7 +23,7 @@ public class UserInfo {
         {
             User user = request.session().attribute("user");
             if ( user == null ) {
-                response.redirect("/not-signed-in.html");
+                response.redirect("/login.html?error=Not Yet Logged In");
                 return;
             }
 
