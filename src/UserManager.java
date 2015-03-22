@@ -314,7 +314,7 @@ public class UserManager
     {
         try
         (
-                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                Connection conn = DatabaseManager.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(updateUserInfo);
         )
         {
@@ -324,12 +324,12 @@ public class UserManager
             stmt.setString(3, curUser);
 
             stmt.executeUpdate();
-            System.out.println("Updated user");
+            System.out.println("Updated user info");
 
             return true;
         } catch (SQLException e)
         {
-            System.out.println("Error updating user in db");
+            System.out.println("Error updating user info in db");
             e.printStackTrace();
             return false;
         }
@@ -353,7 +353,7 @@ public class UserManager
             return true;
         } catch (SQLException e)
         {
-            System.out.println("Error updating user in db");
+            System.out.println("Error updating user password in db");
             e.printStackTrace();
             return false;
         }

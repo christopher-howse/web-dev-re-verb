@@ -104,7 +104,7 @@ public class AdminSparkCalls
             response.type("application/json");
             if(databaseManager.getUsrMan().updateUserInfo(userInfoDto.newUsername, userInfoDto.about_me, userInfoDto.oldUsername))
             {
-               return databaseManager.getUsrMan().updateUserPassword(userInfoDto.password, userInfoDto.newUsername);
+                return databaseManager.getUsrMan().updateUserPassword(userInfoDto.password, userInfoDto.newUsername);
             }
             else
             {

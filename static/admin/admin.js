@@ -238,10 +238,12 @@ function getUserInfo(username)
 {
     var userInfoEditTemplate = '<div class="insideOverlay">'
                              + '<label>Username: <input type="text" name="username" value={{name}}></label>'
+                             + '<br>'
                              + '<label>Description: <input type="text" name="description" value={{description}}></label>'
+                             + '<br>'
                              + '<label>Password: <input type="text" name="password" value={{password}}></label>'
                              + '<div class="buttons">'
-                             + '<button class="flatButton" name="btnSave" onclick="saveUserInfo(\"{{name}}\")">Save</button>'
+                             + '<button class="flatButton" name="btnSave" onclick=\"saveUserInfo(\'{{name}}\')\">Save</button>'
                              + '<button class="flatButton" name="btnCancel" onclick="cancelUserInfo()">Cancel</button>';
 
     var usernameDto = {username : username};
@@ -271,7 +273,7 @@ function saveUserInfo(oldName)
     var newName = document.querySelector("input[name='username']").value;
     var description = document.querySelector("input[name='description']").value;
     var password = document.querySelector("input[name='password']").value;
-    var saveUserInfoUrl = window.location.origin + '/admin/deleteUser';
+    var saveUserInfoUrl = window.location.origin + '/admin/saveUserInfo';
 
     var userInfoDto = new UserInfo(newName, oldName, password, description);
 
@@ -290,9 +292,13 @@ function saveUserInfo(oldName)
             result.value = "Unknown ERROR";
         }
     };
-    // convert to the offical JSON syntax
     var doc = JSON.stringify( userInfoDto );
     xhr.send( doc );
+}
+
+function cancelUserInfo()
+{
+    hideOverlay('userInfoDiv');
 }
 
 function showOverlay(overlay)

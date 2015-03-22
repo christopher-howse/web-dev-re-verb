@@ -11,7 +11,8 @@ public class PostManager
             "CREATE TABLE IF NOT EXISTS Messages " +
                     "( message_id integer, message_body text, anon_flag integer," +
                     "latitude real, longitude real, report_count integer, vote_count integer, reply_link integer, create_time datetime, username text," +
-                    "primary key (message_id))";
+                    "primary key (message_id)," +
+                    "foreign key(username) references Users(username) ON UPDATE CASCADE)";
 
     private static String selectByUsername =
             "SELECT * FROM Messages WHERE username = ?";
@@ -45,7 +46,7 @@ public class PostManager
     public PostManager() throws SQLException
     {
         try (
-                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                Connection conn = DatabaseManager.getConnection();
                 PreparedStatement stmt = conn.prepareStatement( createMessageTable );
         ) {
             stmt.setQueryTimeout(DatabaseManager.timeout);
