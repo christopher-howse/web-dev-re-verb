@@ -3,6 +3,7 @@ function addPost(text,user,time,post_id,favorited)
     var feed = document.getElementById('main-feed');
     var post = document.createElement("div");
     post.setAttribute("class","feed-post");
+    post.setAttribute("onclick","toggleOverlay()");
     post.setAttribute("id","feed-post-"+post_id);
 
     post.innerHTML =    '<div class="feed-post-top">'
@@ -11,8 +12,9 @@ function addPost(text,user,time,post_id,favorited)
                     +   '</div>'
                     +   '<div class="feed-post-text">'+text+'</div>'
                     +   '<div class=post-buttons>'
-                    +   '<button class="favorite-button" onclick="favorite('+post_id+','+favorited+')">favorite</button>'
-                    +   '<button class="repost-button" onclick="repost('+post_id+')">re:post</button>'
+                    +   '<button class="favorite-button common" onclick="favorite('+post_id+','+favorited+')">favorite</button>'
+                    +   '<button onclick="toggleOverlay()" class="common">reply</button>'
+                    +   '<button class="repost-button common" onclick="repost('+post_id+')">re:post</button>'
                     +   '</div>';
             
     feed.appendChild(post);
@@ -29,7 +31,7 @@ function addUpdatePost(text,user,time)
     var post = document.createElement("div");
     post.setAttribute("class","feed-post");
     
-    post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+text+'</div>';
+    post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+text+'</div><div class=post-buttons><button class="common">reply</button><button class="common">favorite</button><button class="common">re:post</button></div>';
     
     feed.insertBefore(post,feed.childNodes[0])
     
@@ -64,6 +66,24 @@ function populateFeed(allPosts)
         addPost(allPosts[i].postBody,allPosts[i].username,allPosts[i].timeStamp, allPosts[i].postId, allPosts[i].favorite);
     }
 }
+
+
+function toggleOverlay(){
+	var overlay = document.getElementById('overlay');
+	var specialBox = document.getElementById('overlay-back');
+	if(overlay.style.display == "block"){
+		overlay.style.display = "none";
+		specialBox.style.display = "none";
+	} else {
+		overlay.style.display = "block";
+		specialBox.style.display = "block";
+	}
+}
+
+
+
+
+
 
 function initializeGeolocation()
 {

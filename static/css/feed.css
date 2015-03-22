@@ -26,13 +26,25 @@ div.posting-buttons
 
 div.feed-post
 {
-    width: 200px;
-    height: 60px;
+    position: relative;
+    width: 205px;
+    height: 100px;
     float: left;
     margin: 10px;
     padding: 5px;
     border: solid;
-    border-color: #00695D;   
+    border-color: #00695D;
+}
+
+div.post-buttons button
+{
+    width: 60px;
+}
+
+div.post-buttons
+{
+    position:absolute;
+    bottom:0;
 }
 
 div.feed-post-top
