@@ -47,8 +47,43 @@ $(function(){
 <div class="main-feed" id="main-feed">
 
 </div>
-    </div>
+</div>
 
+<div id="overlay-back" onclick="toggleOverlay()"></div>    
+    
+<div id="overlay" class="overlay">
+    <div class="feed-post">
+        <div class="feed-post-top">
+            <div class="feed-post-user"></div>
+            <div class="feed-post-time"></div>
+        </div>
+        <div class="feed-post-text"></div>
+        <div class=post-buttons>
+            <button class="common">favorite</button>
+            <button class="common">re:post</button>
+        </div>    
+    </div>
+    <div class="post-replies">
+    </div>
+    <div class="reply">
+        <form id="posting" METHOD="post" action="/posting"
+        
+        </form>
+    </div>
+    
+<!--
+<form action='javascript:void 1' name='editform' id='editform'>
+<br>
+<input type='text' name='note' id="note" size="100">
+<br>
+<br>
+<button name="add">Add</button>
+<button name="delete">Delete</button>
+<br>
+<br>
+-->
+<button onmousedown="toggleOverlay()">Cancel</button>  
+</div>
 
 </body>
 </html>
