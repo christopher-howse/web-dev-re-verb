@@ -16,6 +16,25 @@ public class PostManager
     private static String selectByUsername =
             "SELECT * FROM Messages WHERE username = ?";
 
+    private static String selectAll =
+            "SELECT * FROM Messages;";
+
+    private static String selectByLocation =
+            "SELECT " +
+            "message_id, user_id, message_body, anon_flag, latitude, longitude, report_count, vote_count, reply_link, create_time,  (" +
+        "6371 * acos (" +
+        "cos ( radians(?) )" + //lat
+        "* cos( radians( latitude ) )" +
+        "* cos( radians( longitude ) - radians(?) )" + //long
+        "+ sin ( radians(?) )" + //lat
+        "* sin( radians( latitude ) )" +
+        ")" +
+        ") AS distance" +
+    "FROM Messages" +
+    "HAVING distance < 1 AND UNIX_TIMESTAMP(create_time) <= UNIX_TIMESTAMP(?) and Reply_link is NULL" + //time
+    "ORDER BY create_time desc,distance"; //+
+//    "LIMIT 25;";
+
     private static String insertIntoMessages =
             "INSERT INTO Messages VALUES(NULL, ?, ?, ?, ?," +
                     "0, 0, ?, ?, ?)";
@@ -48,7 +67,7 @@ public class PostManager
             ResultSet rs = stmt.executeQuery();
             while (rs.next())
             {
-                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body")));
+                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time")));
             }
         } catch (SQLException e)
         {
@@ -56,6 +75,32 @@ public class PostManager
         }
 
         return result;
+    }
+
+    public ArrayList<Post> getPostsByLocation(String lat,String lon,String time)
+    {
+        ArrayList<Post> result = new ArrayList<Post>();
+        try(
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement( selectAll );
+        ) {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+//            stmt.setString(1, lat);
+//            stmt.setString(2, lon);
+//            stmt.setString(3, lat);
+//            stmt.setString(4, time);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time")));
+            }
+        } catch (SQLException e)
+        {
+            System.out.println("Could not get posts at: " + lat + "," + lon + "," + time);
+        }
+
+        return result;
+
     }
 
     public static BooleanDto deleteMessage(int messageId)
