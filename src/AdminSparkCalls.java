@@ -1,5 +1,6 @@
 import com.google.gson.Gson;
 import users.User;
+import users.UserInfoDto;
 import utilityDtos.IdDto;
 
 import static spark.Spark.*;
@@ -86,6 +87,29 @@ public class AdminSparkCalls
             UsernameDto usernameDto = gson.fromJson(request.body(), UsernameDto.class);
             response.type("application/json");
             return databaseManager.getUsrMan().deleteUser(usernameDto.username);
+        }, new JsonTransformer());
+
+        post("admin/getUserInfo", "application/json", (request, response) ->
+        {
+            Gson gson = new Gson();
+            UsernameDto usernameDto = gson.fromJson(request.body(), UsernameDto.class);
+            response.type("application/json");
+            return  databaseManager.getUsrMan().getUser(usernameDto.username);
+        }, new JsonTransformer());
+
+        post("admin/saveUserInfo", "application/json", (request, response) ->
+        {
+            Gson gson = new Gson();
+            UserInfoDto userInfoDto = gson.fromJson(request.body(), UserInfoDto.class);
+            response.type("application/json");
+            if(databaseManager.getUsrMan().updateUserInfo(userInfoDto.newUsername, userInfoDto.about_me, userInfoDto.oldUsername))
+            {
+               return databaseManager.getUsrMan().updateUserPassword(userInfoDto.password, userInfoDto.newUsername);
+            }
+            else
+            {
+                return false;
+            }
         }, new JsonTransformer());
     }
 

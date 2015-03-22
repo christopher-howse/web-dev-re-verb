@@ -51,8 +51,6 @@ public class UserManager
 
     private static String updateUserInfo =
             "UPDATE Users SET username = ?, about_me = ? WHERE username = ?";
-    private static String toggleUserSuspended =
-            "UPDATE Users SET account_status = ? WHERE username = ?";
 
     private static String updateUserPassword =
             "UPDATE Users SET password = ? WHERE username = ?";

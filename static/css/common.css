@@ -56,3 +56,13 @@ button.common:click
 {
     box-shadow: 0px;
 }
+
+.clickable {
+	color: white;
+	text-decoration: underline;
+}
+
+.clickable:hover {
+	color: #58C2B7;
+	text-decoration: underline;
+}
