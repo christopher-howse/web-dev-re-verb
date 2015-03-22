@@ -39,7 +39,7 @@ public class PostSparkCalls
             return null;
         });
 
-        post("/getMessagesByLocation", "application/json", (request,response) ->
+        get("/getMessagesByLocation", "application/json", (request,response) ->
         {
 //            Gson gson = new Gson();
             response.type("application/json");

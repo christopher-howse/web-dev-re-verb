@@ -21,11 +21,30 @@ function addUpdatePost(text,user,time)
     
 }
 
-function populateFeed()
+function getMessages()
+{
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', "/getMessagesByLocation", true );
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function() {
+        if ( xhr.readyState != 4) return;
+        if ( xhr.status == 200 || xhr.status == 400) {
+            var posts = JSON.parse(xhr.responseText);
+            populateFeed(posts);            
+        }
+        else {
+            console.log("getting messages Failed");
+        }
+    };
+    xhr.send();
+}
+
+function populateFeed(allPosts)
 {
     var posts = [];
     var testPost = {user:"jacob", text:"I am the best",time:"12121212121"};
     posts[0] = testPost;
+//    posts = allPosts;
 
     var x;
     for (i = 0; i < posts.length;i++)

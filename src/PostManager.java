@@ -15,6 +15,9 @@ public class PostManager
     private static String selectByUsername =
             "SELECT * FROM Messages WHERE username = ?";
 
+    private static String selectAll =
+            "SELECT * FROM Messages;";
+
     private static String selectByLocation =
             "SELECT " +
             "message_id, user_id, message_body, anon_flag, location, report_count, vote_count, reply_link, create_time,  (" +
@@ -78,13 +81,13 @@ public class PostManager
         ArrayList<Post> result = new ArrayList<Post>();
         try(
                 Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
-                PreparedStatement stmt = conn.prepareStatement( selectByLocation );
+                PreparedStatement stmt = conn.prepareStatement( selectAll );
         ) {
             stmt.setQueryTimeout(DatabaseManager.timeout);
-            stmt.setString(1, lat);
-            stmt.setString(2, lon);
-            stmt.setString(3, lat);
-            stmt.setString(4, time);
+//            stmt.setString(1, lat);
+//            stmt.setString(2, lon);
+//            stmt.setString(3, lat);
+//            stmt.setString(4, time);
             ResultSet rs = stmt.executeQuery();
             while (rs.next())
             {
