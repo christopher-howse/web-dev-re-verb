@@ -6,12 +6,14 @@ public class Post
     public final int postId;
     public final String postBody;
     public final String timeStamp;
+    public final boolean favorite;
 
-    public Post(String username, int postId, String postBody, String timeStamp)
+    public Post(String username, int postId, String postBody, String timeStamp, boolean favorite)
     {
         this.username = username;
         this.postId = postId;
         this.postBody = postBody;
         this.timeStamp = timeStamp;
+        this.favorite = favorite;
     }
 }
