@@ -115,7 +115,7 @@ function goProfile()
     method = "get";
     var form = document.createElement("form");
     form.setAttribute("method", method);
-    form.setAttribute("action", "/user/info");
+    form.setAttribute("action", "/auth/userInfo");
     document.body.appendChild(form);
     form.submit();
 }    

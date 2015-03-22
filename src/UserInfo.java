@@ -19,30 +19,21 @@ public class UserInfo {
 
     public static void userCall()
     {
-        before("/user/*", (request, response) ->
+        get("/auth/userInfo", (request, response) ->
         {
-            User user = request.session().attribute("user");
-            if ( user == null ) {
+            response.redirect("/auth/user-account.html");
                 response.redirect("/login.html?error=Not Yet Logged In");
-                return;
-            }
-
-        });
-
-        get("/user/info", (request, response) ->
-        {
-            response.redirect("user-account.html");
             return null;
         });
 
-        get("/user/getUserInfo", "application/json", (request, response) ->
+        get("/auth/getUserInfo", "application/json", (request, response) ->
         {
             response.type("application/json");
             User curUser = request.session().attribute("user");
             return curUser;
         }, new JsonTransformer());
 
-        post("/user/saveUserInfo", (request, response) -> {
+        post("/auth/saveUserInfo", (request, response) -> {
             response.type("text/plain");
             try {
                 Gson gson = new Gson();
@@ -71,7 +62,7 @@ public class UserInfo {
             return null;
         });
 
-        post("/user/saveChangePassword", (request, response) -> {
+        post("/auth/saveChangePassword", (request, response) -> {
             response.type("text/plain");
             String oldPassword = request.queryParams("oldPassword");
             String newPassword = request.queryParams("newPassword");

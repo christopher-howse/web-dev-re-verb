@@ -3,8 +3,9 @@ function addPost(text,user,time)
     var feed = document.getElementById('main-feed');
     var post = document.createElement("div");
     post.setAttribute("class","feed-post");
+    post.setAttribute("onclick","toggleOverlay()");
 
-    post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+text+'</div><div class=post-buttons><button class="favorite-button">favorite</button><button class="repost-button">re:post</button>';
+    post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+text+'</div><div class=post-buttons><button onclick="toggleOverlay()" class="common">reply</button><button class="common">favorite</button><button class="common">re:post</button></div>';
             
     feed.appendChild(post);
 }
@@ -15,7 +16,7 @@ function addUpdatePost(text,user,time)
     var post = document.createElement("div");
     post.setAttribute("class","feed-post");
     
-    post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+text+'</div>';
+    post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+text+'</div><div class=post-buttons><button class="common">reply</button><button class="common">favorite</button><button class="common">re:post</button></div>';
     
     feed.insertBefore(post,feed.childNodes[0])
     
@@ -51,6 +52,24 @@ function populateFeed(allPosts)
     }
 }
 
+
+function toggleOverlay(){
+	var overlay = document.getElementById('overlay');
+	var specialBox = document.getElementById('overlay-back');
+	if(overlay.style.display == "block"){
+		overlay.style.display = "none";
+		specialBox.style.display = "none";
+	} else {
+		overlay.style.display = "block";
+		specialBox.style.display = "block";
+	}
+}
+
+
+
+
+
+
 function initializeGeolocation()
 {
     var postButton = document.querySelector(".posting-buttons button");
@@ -82,6 +101,7 @@ function getUserPosition(position)
         if ( xhr.readyState != 4) return;
         if ( xhr.status == 200 || xhr.status == 400) {
             console.log("Sent geolocation");
+            getMessages();
         }
         else {
             console.log("Unknown ERROR saving geolocation");
