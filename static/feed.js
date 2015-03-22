@@ -1,12 +1,26 @@
-function addPost(text,user,time)
+function addPost(text,user,time,post_id,favorited)
 {
     var feed = document.getElementById('main-feed');
     var post = document.createElement("div");
     post.setAttribute("class","feed-post");
+    post.setAttribute("id","feed-post-"+post_id);
 
-    post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+text+'</div><div class=post-buttons><button class="favorite-button">favorite</button><button class="repost-button">re:post</button>';
+    post.innerHTML =    '<div class="feed-post-top">'
+                    +   '<div class="feed-post-user">'+user+'</div>'
+                    +   '<div class="feed-post-time">'+time+'</div>'
+                    +   '</div>'
+                    +   '<div class="feed-post-text">'+text+'</div>'
+                    +   '<div class=post-buttons>'
+                    +   '<button class="favorite-button" onclick="favorite('+post_id+','+favorited+')">favorite</button>'
+                    +   '<button class="repost-button" onclick="repost('+post_id+')">re:post</button>'
+                    +   '</div>';
             
     feed.appendChild(post);
+    var favoriteButton = document.querySelector('#feed-post-'+post_id+' .favorite-button');
+    if(favorited)
+    {
+        favoriteButton.style.background = 'red';//TODO: Make it look good
+    }
 }
 
 function addUpdatePost(text,user,time)
@@ -47,7 +61,7 @@ function populateFeed(allPosts)
     var x;
     for (i = 0; i < allPosts.length;i++)
     {
-        addPost(allPosts[i].postBody,allPosts[i].username,allPosts[i].timeStamp);
+        addPost(allPosts[i].postBody,allPosts[i].username,allPosts[i].timeStamp, allPosts[i].postId, allPosts[i].favorite);
     }
 }
 
@@ -91,11 +105,41 @@ function getUserPosition(position)
 
     var doc = "latitude=" + encodeURI(latitude) + "&longitude=" + encodeURI(longitude);
     xhr.send( doc );
-    
-    getMessages();
 }
 
 function geoError()
 {
     console.log("Unknown ERROR saving geolocation");
+}
+
+function favorite(post_id, fav)
+{
+    var favoritePostURL = '/favoritePost';
+
+    // get an AJAX object
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', favoritePostURL, true );
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if ( xhr.readyState != 4) return;
+        if ( xhr.status == 200 || xhr.status == 400) {
+            console.log("Favorited Post");
+            var favoriteButton = document.querySelector('#feed-post-'+post_id+' .favorite-button');
+            if(fav)
+            {
+                favoriteButton.style.background = '';//TODO: Make it look good
+            }
+            else
+            {
+                favoriteButton.style.background = 'red';//TODO: Make it look good
+            }
+            favoriteButton.setAttribute('onclick', 'favorite('+post_id+','+!fav+')');
+        }
+        else {
+            console.log("Unknown ERROR favorting post");
+        }
+    };
+    var doc = "post_id=" + encodeURI(post_id) + "&favorite=" + encodeURI(fav);
+    xhr.send( doc );
+
 }
