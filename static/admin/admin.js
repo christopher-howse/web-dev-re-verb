@@ -30,7 +30,7 @@ function getUsers(evt)
             + '<td class=clickable onclick=\"toggleUserRole(\'{{name}}\')\">{{role}}</td>'
             + '<td>{{num_reports}}</td>'
             + '<td class=clickable onclick=\"toggleSuspendUser(\'{{name}}\')\">{{accountStatus}}</td>'
-            + '<td class=clickable onclick=\"getUserInfo(\'{{name}}\')\">put img here</td>'
+            + '<td class=clickable onclick=\"getUserInfo(\'{{name}}\')\"><img id=\"edit-icon\" src=\"imgs/pencil.png\"></td>'
         + '</tr>{{/.}}'
         + '</table>';
 }
@@ -164,6 +164,7 @@ function deleteUser(username)
             if(success)
             {
                 closePostDiv();
+                hideOverlay("confirmationDiv");
             }
             else
             {
@@ -188,6 +189,7 @@ function confirmDeleteUser(username)
     //for username, create a confirmation dialog with mustache
     var rendered = Mustache.render(confirmationTemplate, confirmation);
     document.getElementById('confirmationDiv').innerHTML = rendered;
+    showOverlay("confirmationDiv");
 }
 
 //CONFIRMATION CODE
@@ -198,7 +200,7 @@ function Confirmation(message, action)
     this.action = action;
 }
 
-var confirmationTemplate = '<div class=\"buttonHolder\">'
+var confirmationTemplate = '<div class=\"insideOverlay\">'
     + '<p>Are you sure you want to {{message}}?</p>'
     + '<button class=common onclick={{action}}>Yes</button>'
     + '<button class=common onclick=\"closeConfirmationDialog()\">No</button>'
@@ -222,6 +224,7 @@ function closePostDiv()
 function closeConfirmationDialog()
 {
     document.getElementById('confirmationDiv').innerHTML = "";
+    hideOverlay("confirmationDiv");
 }
 
 //USER INFO CODE

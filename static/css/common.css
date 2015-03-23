@@ -16,8 +16,6 @@ body
     background-color: #696969;
 
     box-sizing: border-box;
-
-    overflow: hidden;
 }
 
 .overlay
@@ -36,7 +34,7 @@ body
 }
 
 #overlay-back {
-    position   : absolute;
+    position   : fixed;
     top        : 0;
     left       : 0;
     width      : 100%;
