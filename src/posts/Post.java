@@ -14,4 +14,12 @@ public class Post
         this.postBody = postBody;
         this.timeStamp = timeStamp;
     }
+
+    public Post()
+    {
+        this.username = null;
+        this.postId = -1;
+        this.postBody = null;
+        this.timeStamp = null;
+    }
 }

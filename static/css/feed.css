@@ -86,8 +86,9 @@ div.feed-post-text
     padding : 5px;
     left : 50%;
     top : 10%;
-    width : 400px;
-    height : 300px;
+    width : 425px;
+    height : 275px;
+    overflow: auto
     margin-left: -200px;
     background-color : white;
     box-shadow: 0px 6px 12px 2px #888888;
@@ -95,6 +96,18 @@ div.feed-post-text
 
 
 div.reply-post
+{
+    position: relative;
+    width: 360px;
+    height: 100px;
+    float: left;
+    margin: 10px;
+    padding: 5px;
+    border: solid;
+    border-color: #00695D;
+}
+
+div.reply-post-feed
 {
     position: relative;
     width: 360px;
@@ -141,10 +154,15 @@ div.reply-post-text
     overflow: hidden;
 }
 
+div.post-replies
+{
+    position:relative;
+    float: left;
+}
+
 div.reply
 {
-    position:absolute;
-    bottom:0;
+    position:relative;
     width: 360px;
     height: 100px;
     float: left;

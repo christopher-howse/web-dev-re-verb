@@ -16,8 +16,14 @@ public class PostManager
     private static String selectByUsername =
             "SELECT * FROM Messages WHERE username = ?";
 
+    private static String selectById =
+            "SELECT * FROM Messages WHERE message_id=?;";
+
     private static String selectAll =
             "SELECT * FROM Messages;";
+
+    private static String selectReplies =
+            "SELECT * FROM Messages WHERE reply_link = ?;";
 
     private static String selectByLocation =
             "SELECT " +
@@ -52,6 +58,29 @@ public class PostManager
             stmt.executeUpdate();
             System.out.println("Created message table");
         }
+    }
+
+    public Post getMessageById(int messageId)
+    {
+        Post result = new Post();
+
+        try (
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement( selectById );
+        ) {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setInt(1, messageId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                result = new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"));
+            }
+        } catch (SQLException e)
+        {
+            System.out.println("Could not get post by id: " + messageId);
+        }
+
+        return result;
     }
 
     public ArrayList<Post> getPostsByUser(String username)
@@ -103,6 +132,29 @@ public class PostManager
 
     }
 
+    public ArrayList<Post> getReplies(int messageId)
+    {
+        ArrayList<Post> result = new ArrayList<Post>();
+        try(
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement( selectReplies );
+        ) {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setInt(1, messageId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time")));
+            }
+        } catch (SQLException e)
+        {
+            System.out.println("Could not get posts with reply id: " + messageId);
+        }
+
+        return result;
+
+    }
+
     public static BooleanDto deleteMessage(int messageId)
     {
         BooleanDto result = new BooleanDto(false);
@@ -135,6 +187,31 @@ public class PostManager
             stmt.setFloat(3, latitude);
             stmt.setFloat(4, longitude);
             stmt.setInt(5, 0);
+            stmt.setString(6, time);
+            stmt.setString(7, username);
+
+            stmt.executeUpdate();
+            return true;
+
+        } catch (SQLException e)
+        {
+            System.out.println("Could not send post to db");
+            return false;
+        }
+    }
+
+    public boolean sendReply(String username, String postContent, int anon, float latitude, float longitude, String time,int messageId)
+    {
+        try (
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement( insertIntoMessages );
+        ) {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setString(1, postContent);
+            stmt.setInt(2, anon);
+            stmt.setFloat(3, latitude);
+            stmt.setFloat(4, longitude);
+            stmt.setInt(5, messageId);
             stmt.setString(6, time);
             stmt.setString(7, username);
 
