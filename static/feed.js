@@ -201,7 +201,7 @@ function populateReplies(allPosts)
     {
         overlay.style.height = (allPosts.length * 135 + 275).toString() + "px";
         replyFeed.style.height = (allPosts.length * 135).toString() + "px";
-        replyFeed.style.overflow = "visable";
+        replyFeed.style.overflow = "visible";
     }
     
     var x;
