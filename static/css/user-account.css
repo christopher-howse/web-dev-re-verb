@@ -31,7 +31,7 @@
     display    : none;
 }
 
-#userInfo
+#userInfo, #feedTitle, #main-feed
 {
     float: left;
     width: 50%;
@@ -164,3 +164,4 @@ input[type=text]:focus
     top: 50%;
     transform: translateY(-50%);
 }
+

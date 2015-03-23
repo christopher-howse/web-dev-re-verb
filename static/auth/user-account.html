@@ -4,6 +4,7 @@
     <title>My Account</title>
     <link rel="stylesheet" type="text/css" href="css/user-account.css">
     <link rel='stylesheet' type="text/css" href="css/common.css">
+    <link rel='stylesheet' type="text/css" href="css/feed.css">
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
@@ -13,6 +14,7 @@
     </script>
 </head>
 <script type="text/javascript" src="/user-account.js"></script>
+<script type="text/javascript" src="/feed.js"></script>
 <script type="text/javascript" src="/mustache.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL90qn-14WtwXPxuJrtPHipF23OrxfodQ"></script>
 <body onload="getUserInfo()">
@@ -25,7 +27,12 @@
 </div>
 <div id="map-canvas"></div>
 <div id="map-overlay"></div>
+
+<div id="feedTitle">
+    <h2>User Feed</h2>
 </div>
+<div class="main-feed" id="main-feed"></div>
+
 <div id="editUserInfo" class="overlay"></div>
 <div id="changePassword" class="overlay">
     <div class="insideOverlay">

@@ -22,7 +22,6 @@ public class UserInfo {
         get("/auth/userInfo", (request, response) ->
         {
             response.redirect("/auth/user-account.html");
-                response.redirect("/login.html?error=Not Yet Logged In");
             return null;
         });
 

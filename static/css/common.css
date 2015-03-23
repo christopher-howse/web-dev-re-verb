@@ -13,11 +13,14 @@ body
     background-repeat: no-repeat;
     background-position: center;
 
-    background-color: #696969;
+    background-color: #ECECEC;
 
     box-sizing: border-box;
+}
 
-    overflow: hidden;
+#nav
+{
+    background-color: #696969;
 }
 
 .overlay
@@ -95,7 +98,7 @@ button.common:click
 	text-decoration: underline;
 }
 
-.flatButton
+.flatButton, .postButton
 {
     background-color : #00695d;
     color: #fff;
@@ -104,12 +107,17 @@ button.common:click
     padding : 0.6em;
 }
 
-.flatButton:hover
+.flatButton:hover, .postButton:hover
 {
     box-shadow: 0px 2px 6px 1px #888888;
 }
 
-.flatButton:click
+.flatButton:click, .postButton:click
 {
     box-shadow: 0px;
+}
+
+.postButton
+{
+    background-color: #696969;
 }

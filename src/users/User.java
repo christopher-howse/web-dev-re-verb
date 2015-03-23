@@ -18,6 +18,15 @@ public class User implements Comparable
         accountStatus = "Active";
     }
 
+    public User( String n, String p, String r, String d ) {
+        name = n;
+        password = p;
+        role = r;
+        description = d;
+        num_reports = 0;
+        accountStatus = "Active";
+    }
+
     public User( String n, String p, String r, String d, Integer num_reports, String accountStatus ) {
         name = n;
         password = p;

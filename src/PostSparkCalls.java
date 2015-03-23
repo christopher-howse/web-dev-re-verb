@@ -62,6 +62,14 @@ public class PostSparkCalls
             return databaseManager.getPostMan().getPostsByLocation(lat, lon, time, user.name);
         }, new JsonTransformer());
 
+        get("/getMessagesByUser", "application/json", (request, response) ->
+        {
+//            Gson gson = new Gson();
+            response.type("application/json");
+            User user = request.session().attribute("user");
+            return databaseManager.getPostMan().getPostsByUser(user.name);
+        }, new JsonTransformer());
+
         post("/favoritePost", (request, response) ->
         {
             Session sess = request.session(true);
@@ -76,16 +84,34 @@ public class PostSparkCalls
 
             if(!favorite)
             {
-                databaseManager.getPostMan().favoritePost(user.name, post_id);
+                databaseManager.getFavMan().favoritePost(user.name, post_id);
             }
             else
             {
-                databaseManager.getPostMan().unFavoritePost(user.name, post_id);
+                databaseManager.getFavMan().unFavoritePost(user.name, post_id);
             }
 
             response.redirect("/auth/main-feed.html"); //TODO: only update favorite count
 
             return null;
+        });
+
+        post("/reportPost", (request, response) ->
+        {
+            Session sess = request.session(true);
+            if ( sess == null )
+            {
+                return Error.errorPage("failed to get the session");
+            }
+            String id = request.queryParams("post_id");
+            int post_id = Integer.parseInt(id);
+            User user = request.session().attribute("user");
+
+            databaseManager.getReportMan().reportPost(user.name, post_id);
+
+            response.redirect("/auth/main-feed.html"); //TODO: dont do this
+
+            return " ";
         });
     }
 }
