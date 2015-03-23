@@ -16,4 +16,12 @@ public class Post
         this.timeStamp = timeStamp;
         this.favorite = favorite;
     }
+
+    public Post()
+    {
+        this.username = null;
+        this.postId = -1;
+        this.postBody = null;
+        this.timeStamp = null;
+    }
 }
