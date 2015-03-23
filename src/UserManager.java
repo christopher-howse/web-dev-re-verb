@@ -269,7 +269,7 @@ public class UserManager
             ResultSet rs = stmt.executeQuery();
             if(rs.next())
             {
-                result = new User(rs.getString("username"), rs.getString("password"), rs.getString("role"));
+                result = new User(rs.getString("username"), rs.getString("password"), rs.getString("role"), rs.getString("about_me"));
                 System.out.println("Login successful");
             }
             else

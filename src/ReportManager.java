@@ -10,17 +10,20 @@ public class ReportManager
 {
     private static String createReportTable =
             "CREATE TABLE IF NOT EXISTS Reports" +
-                    "(message_id integer, user_id integer," +
-                    "primary key(message_id, user_id))";
+                    "(message_id integer, username text," +
+                    "primary key(message_id, username))";
 
     private static String insertIntoReports =
             "INSERT INTO Reports VALUES(?,?)";
 
     private static String selectFromReports =
-            "SELECT * FROM Reports WHERE message_id = ? AND user_id = ?";
+            "SELECT * FROM Reports WHERE message_id = ? AND username = ?";
 
     private static String deleteFromReports =
-            "DELETE FROM Reports WHERE message_id = ? AND user_id = ?";
+            "DELETE FROM Reports WHERE message_id = ? AND username = ?";
+
+    private static String reportPost =
+            "INSERT INTO Reports VALUES(?, ?)";
 
     public ReportManager() throws SQLException
     {
@@ -33,4 +36,25 @@ public class ReportManager
             System.out.println("Created reports table");
         }
     }
+
+    public boolean reportPost(String username, int post_id)
+    {
+        try (
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement( reportPost );
+        ) {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setInt(1, post_id);
+            stmt.setString(2, username);
+
+            stmt.executeUpdate();
+            System.out.println("Reporting post");
+            return true;
+        } catch (SQLException e)
+        {
+            System.out.println("Could not report post");
+            return false;
+        }
+    }
+
 }

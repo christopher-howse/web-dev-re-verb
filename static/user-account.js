@@ -114,9 +114,10 @@ function initializeMap(position) {
       map: map,
       title: 'You Are Here!'
     });
+    getUserPosition(position);
 }
 
-function initializeGeolocation()
+function initializeUserGeolocation()
 {
     navigator.geolocation.getCurrentPosition(initializeMap, mapError);
 }
@@ -138,12 +139,13 @@ function getUserInfo(evt)
         if ( xhr.readyState != 4) return;
         if ( xhr.status == 200 || xhr.status == 400) {
             userInfo = JSON.parse(xhr.responseText);
-            //for user in users, create table row with mustache
+
+
             var rendered = Mustache.render(userInfoTemplate, userInfo);
             document.getElementById("userInfo").innerHTML = rendered;
             var rendered = Mustache.render(userInfoEditTemplate, userInfo);
             document.getElementById("editUserInfo").innerHTML = rendered;
-            initializeGeolocation();
+            initializeUserGeolocation();
         }
         else {
             console.log("getUserInfo Failed");

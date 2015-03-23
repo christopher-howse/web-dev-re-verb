@@ -30,16 +30,16 @@ function addPost(text,user,time,post_id,favorited)
                     +   '</div>'
                     +   '<div class="feed-post-text">'+textbody+'</div>'
                     +   '<div class=post-buttons>'
-                    +   '<button class="favorite-button common" onclick="favorite('+post_id+','+favorited+')">favorite</button>'
+                    +   '<button class="favorite-button postButton" onclick="favorite('+post_id+','+favorited+')">favorite</button>'
                     +   '<button onmousedown="toggleOverlay();replySetup('+post_id+')" class="common">reply</button>'
-                    +   '<button class="repost-button common" onclick="repost('+post_id+')">re:post</button>'
+                    +   '<button class="report-button postButton" onclick="report('+post_id+')">report</button>'
                     +   '</div>';
             
     feed.appendChild(post);
     var favoriteButton = document.querySelector('#feed-post-'+post_id+' .favorite-button');
     if(favorited)
     {
-        favoriteButton.style.background = 'red';//TODO: Make it look good
+        favoriteButton.style.background = '#00695d';//TODO: Make it look good
     }
 }
 
@@ -76,8 +76,16 @@ function addUpdatePost(text,user,time)
 
 function getMessages()
 {
+    if(document.querySelector("title") && document.querySelector("title").innerHTML == "My Account")
+    {
+        var getMessagesURL = "/getMessagesByUser";
+    }
+    else
+    {
+        var getMessagesURL = "/getMessagesByLocation";
+    }
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', "/getMessagesByLocation", true );
+    xhr.open('GET', getMessagesURL, true );
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function() {
         if ( xhr.readyState != 4) return;
@@ -237,7 +245,11 @@ function initializeGeolocation()
 function getUserPosition(position)
 {
     var postButton = document.querySelector(".posting-buttons button");
-    postButton.disabled = false;
+    if(postButton)
+    {
+        postButton.disabled = false;
+    }
+
 
     var feed = document.getElementById('main-feed');
     feed.innerHTML = '';
@@ -290,7 +302,7 @@ function favorite(post_id, fav)
             }
             else
             {
-                favoriteButton.style.background = 'red';//TODO: Make it look good
+                favoriteButton.style.background = '#00695d';//TODO: Make it look good
             }
             favoriteButton.setAttribute('onclick', 'favorite('+post_id+','+!fav+')');
         }
@@ -299,6 +311,28 @@ function favorite(post_id, fav)
         }
     };
     var doc = "post_id=" + encodeURI(post_id) + "&favorite=" + encodeURI(fav);
+    xhr.send( doc );
+
+}
+
+function report(post_id)
+{
+    var reportPostURL = '/reportPost';
+
+    // get an AJAX object
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', reportPostURL, true );
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if ( xhr.readyState != 4) return;
+        if ( xhr.status == 200 || xhr.status == 400) {
+            console.log("Reported Post");
+        }
+        else {
+            console.log("Unknown ERROR reporting post");
+        }
+    };
+    var doc = "post_id=" + encodeURI(post_id);
     xhr.send( doc );
 
 }

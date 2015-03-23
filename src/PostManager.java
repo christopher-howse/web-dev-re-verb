@@ -28,18 +28,19 @@ public class PostManager
 
     private static String selectByLocation =
             "SELECT " +
-            "message_id, user_id, message_body, anon_flag, latitude, longitude, report_count, vote_count, reply_link, create_time,  (" +
-        "6371 * acos (" +
-        "cos ( radians(?) )" + //lat
-        "* cos( radians( latitude ) )" +
-        "* cos( radians( longitude ) - radians(?) )" + //long
-        "+ sin ( radians(?) )" + //lat
-        "* sin( radians( latitude ) )" +
-        ")" +
-        ") AS distance" +
-    "FROM Messages" +
-    "HAVING distance < 1 AND UNIX_TIMESTAMP(create_time) <= UNIX_TIMESTAMP(?) and Reply_link is NULL" + //time
-    "ORDER BY create_time desc,distance"; //+
+            "message_id, username, message_body, anon_flag, latitude, longitude, report_count, vote_count, reply_link, create_time "+//,  (" +
+//        "6371 * acos (" +
+//        "cos ( radians(?) )" + //lat
+//        "* cos( radians( latitude ) )" +
+//        "* cos( radians( longitude ) - radians(?) )" + //long
+//        "+ sin ( radians(?) )" + //lat
+//        "* sin( radians( latitude ) )" +
+//        ")" +
+//        ") AS distance" +
+
+    "FROM Messages " +
+    "WHERE create_time <= CURRENT_TIMESTAMP and Reply_link = 0 " + //time
+    "ORDER BY create_time desc"; //+
 //    "LIMIT 25;";
 
     private static String insertIntoMessages =
@@ -48,12 +49,6 @@ public class PostManager
 
     private static String deleteMessage =
             "DELETE FROM Messages WHERE message_id = ?";
-
-    private static String favoritePost =
-            "INSERT INTO Favorites VALUES(?, ?)";
-
-    private static String unFavoritePost =
-            "DELETE FROM Favorites WHERE message_id = ? AND username = ?";
 
     private static String getFavoritesByUserAndMessage =
             "SELECT * FROM Favorites WHERE message_id = ? AND username = ?";
@@ -118,27 +113,33 @@ public class PostManager
         return result;
     }
 
-    public ArrayList<Post> getPostsByLocation(String lat,String lon,String time,String username)
+    public ArrayList<Post> getPostsByLocation(String lat,String lon,String username)
     {
         ArrayList<Post> result = new ArrayList<Post>();
         try(
                 Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
-                PreparedStatement stmt = conn.prepareStatement( selectAll );
+                PreparedStatement stmt = conn.prepareStatement( selectByLocation );
         ) {
             stmt.setQueryTimeout(DatabaseManager.timeout);
-//            stmt.setString(1, lat);
-//            stmt.setString(2, lon);
-//            stmt.setString(3, lat);
-//            stmt.setString(4, time);
             ResultSet rs = stmt.executeQuery();
-            while (rs.next())
-            {
-                boolean isFavorited = isMessageFavoritedByUser(username, rs.getInt("message_id"));
-                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"), isFavorited));
+            while (rs.next()) {
+                double distance = 6371 * Math.acos(
+                        Math.cos(Math.toRadians(Float.parseFloat(lat)))
+                                * Math.cos(Math.toRadians(rs.getFloat("latitude")))
+                                * Math.cos(Math.toRadians(rs.getFloat("longitude")) - Math.toRadians(Float.parseFloat(lon)))
+                                + Math.sin(Math.toRadians(Float.parseFloat(lat)))
+                                * Math.sin(Math.toRadians(rs.getFloat("latitude")))
+                );
+
+                if (distance <= 1)
+                {
+                    boolean isFavorited = isMessageFavoritedByUser(username, rs.getInt("message_id"));
+                    result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"), rs.getString("create_time"), isFavorited));
+                }
             }
         } catch (SQLException e)
         {
-            System.out.println("Could not get posts at: " + lat + "," + lon + "," + time);
+            System.out.println("Could not get posts at: " + lat + "," + lon);
         }
 
         return result;
@@ -236,48 +237,6 @@ public class PostManager
         } catch (SQLException e)
         {
             System.out.println("Could not send post to db");
-            return false;
-        }
-    }
-
-    public boolean favoritePost(String username, int post_id)
-    {
-        try (
-                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
-                PreparedStatement stmt = conn.prepareStatement( favoritePost );
-        )
-        {
-            stmt.setQueryTimeout(DatabaseManager.timeout);
-            stmt.setInt(1, post_id);
-            stmt.setString(2, username);
-
-
-            stmt.executeUpdate();
-            return true;
-
-        } catch (SQLException e)
-        {
-            System.out.println("Could not fav post in db");
-            return false;
-        }
-    }
-
-    public boolean unFavoritePost(String username, int post_id)
-    {
-        try (
-                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
-                PreparedStatement stmt = conn.prepareStatement( unFavoritePost );
-        ) {
-            stmt.setQueryTimeout(DatabaseManager.timeout);
-            stmt.setInt(1, post_id);
-            stmt.setString(2, username);
-
-            stmt.executeUpdate();
-            System.out.println("Un-favoriting post");
-            return true;
-        } catch (SQLException e)
-        {
-            System.out.println("Could not un-favorite post");
             return false;
         }
     }
