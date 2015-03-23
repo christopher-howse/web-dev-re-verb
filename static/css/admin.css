@@ -27,12 +27,12 @@ h1 {
 }
 
 h2 {
-	margin: 1em;
+	padding: 1em;
 	text-align: center;
 }
 
 .buttonHolder {
-	margin: 1em;
+	padding: 1em;
     text-align:center;
 }
 
@@ -40,7 +40,6 @@ h2 {
 {
 	background-color: darkgrey;
 	margin: 0.5em;
-    overflow: auto;
 }
 
 .close-button
@@ -53,7 +52,8 @@ h2 {
 	background: #00695D;
 }
 
-div
+#edit-icon
 {
-	overflow:auto;
+	width: 1em;
+	height 1em;
 }
