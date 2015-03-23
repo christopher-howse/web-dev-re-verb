@@ -17,23 +17,30 @@ public class PostManager
     private static String selectByUsername =
             "SELECT * FROM Messages WHERE username = ?";
 
+    private static String selectById =
+            "SELECT * FROM Messages WHERE message_id=?;";
+
     private static String selectAll =
             "SELECT * FROM Messages;";
 
+    private static String selectReplies =
+            "SELECT * FROM Messages WHERE reply_link = ?;";
+
     private static String selectByLocation =
             "SELECT " +
-            "message_id, user_id, message_body, anon_flag, latitude, longitude, report_count, vote_count, reply_link, create_time,  (" +
-        "6371 * acos (" +
-        "cos ( radians(?) )" + //lat
-        "* cos( radians( latitude ) )" +
-        "* cos( radians( longitude ) - radians(?) )" + //long
-        "+ sin ( radians(?) )" + //lat
-        "* sin( radians( latitude ) )" +
-        ")" +
-        ") AS distance" +
-    "FROM Messages" +
-    "HAVING distance < 1 AND UNIX_TIMESTAMP(create_time) <= UNIX_TIMESTAMP(?) and Reply_link is NULL" + //time
-    "ORDER BY create_time desc,distance"; //+
+            "message_id, username, message_body, anon_flag, latitude, longitude, report_count, vote_count, reply_link, create_time "+//,  (" +
+//        "6371 * acos (" +
+//        "cos ( radians(?) )" + //lat
+//        "* cos( radians( latitude ) )" +
+//        "* cos( radians( longitude ) - radians(?) )" + //long
+//        "+ sin ( radians(?) )" + //lat
+//        "* sin( radians( latitude ) )" +
+//        ")" +
+//        ") AS distance" +
+
+    "FROM Messages " +
+    "WHERE create_time <= CURRENT_TIMESTAMP and Reply_link = 0 " + //time
+    "ORDER BY create_time desc"; //+
 //    "LIMIT 25;";
 
     private static String insertIntoMessages =
@@ -56,6 +63,30 @@ public class PostManager
             stmt.executeUpdate();
             System.out.println("Created message table");
         }
+    }
+
+    public Post getMessageById(int messageId, String username)
+    {
+        Post result = new Post();
+
+        try (
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement( selectById );
+        ) {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setInt(1, messageId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                boolean isFavorited = isMessageFavoritedByUser(username, rs.getInt("message_id"));
+                result = new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"),isFavorited);
+            }
+        } catch (SQLException e)
+        {
+            System.out.println("Could not get post by id: " + messageId);
+        }
+
+        return result;
     }
 
     public ArrayList<Post> getPostsByUser(String username)
@@ -82,27 +113,57 @@ public class PostManager
         return result;
     }
 
-    public ArrayList<Post> getPostsByLocation(String lat,String lon,String time, String username)
+    public ArrayList<Post> getPostsByLocation(String lat,String lon,String username)
     {
         ArrayList<Post> result = new ArrayList<Post>();
         try(
                 Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
-                PreparedStatement stmt = conn.prepareStatement( selectAll );
+                PreparedStatement stmt = conn.prepareStatement( selectByLocation );
         ) {
             stmt.setQueryTimeout(DatabaseManager.timeout);
-//            stmt.setString(1, lat);
-//            stmt.setString(2, lon);
-//            stmt.setString(3, lat);
-//            stmt.setString(4, time);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                double distance = 6371 * Math.acos(
+                        Math.cos(Math.toRadians(Float.parseFloat(lat)))
+                                * Math.cos(Math.toRadians(rs.getFloat("latitude")))
+                                * Math.cos(Math.toRadians(rs.getFloat("longitude")) - Math.toRadians(Float.parseFloat(lon)))
+                                + Math.sin(Math.toRadians(Float.parseFloat(lat)))
+                                * Math.sin(Math.toRadians(rs.getFloat("latitude")))
+                );
+
+                if (distance <= 1)
+                {
+                    boolean isFavorited = isMessageFavoritedByUser(username, rs.getInt("message_id"));
+                    result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"), rs.getString("create_time"), isFavorited));
+                }
+            }
+        } catch (SQLException e)
+        {
+            System.out.println("Could not get posts at: " + lat + "," + lon);
+        }
+
+        return result;
+
+    }
+
+    public ArrayList<Post> getReplies(int messageId, String username)
+    {
+        ArrayList<Post> result = new ArrayList<Post>();
+        try(
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement( selectReplies );
+        ) {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setInt(1, messageId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next())
             {
                 boolean isFavorited = isMessageFavoritedByUser(username, rs.getInt("message_id"));
-                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"), isFavorited));
+                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"),isFavorited));
             }
         } catch (SQLException e)
         {
-            System.out.println("Could not get posts at: " + lat + "," + lon + "," + time);
+            System.out.println("Could not get posts with reply id: " + messageId);
         }
 
         return result;
@@ -142,6 +203,31 @@ public class PostManager
             stmt.setFloat(3, latitude);
             stmt.setFloat(4, longitude);
             stmt.setInt(5, 0);
+            stmt.setString(6, time);
+            stmt.setString(7, username);
+
+            stmt.executeUpdate();
+            return true;
+
+        } catch (SQLException e)
+        {
+            System.out.println("Could not send post to db");
+            return false;
+        }
+    }
+
+    public boolean sendReply(String username, String postContent, int anon, float latitude, float longitude, String time,int messageId)
+    {
+        try (
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement( insertIntoMessages );
+        ) {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setString(1, postContent);
+            stmt.setInt(2, anon);
+            stmt.setFloat(3, latitude);
+            stmt.setFloat(4, longitude);
+            stmt.setInt(5, messageId);
             stmt.setString(6, time);
             stmt.setString(7, username);
 

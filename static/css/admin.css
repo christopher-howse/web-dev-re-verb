@@ -4,7 +4,8 @@ table {
 	padding: 0.2em;
 	font-size : 1em;
 	margin: 1em auto;
-	width: 80%
+	width: 80%;
+	overflow:auto;
 }
 
 table th {
@@ -26,12 +27,12 @@ h1 {
 }
 
 h2 {
-	margin: 1em;
+	padding: 1em;
 	text-align: center;
 }
 
 .buttonHolder {
-	margin: 1em;
+	padding: 1em;
     text-align:center;
 }
 
@@ -39,7 +40,6 @@ h2 {
 {
 	background-color: darkgrey;
 	margin: 0.5em;
-    overflow: auto;
 }
 
 .close-button
@@ -50,4 +50,10 @@ h2 {
 	padding: 0 0 0 0;
 	border: none;
 	background: #00695D;
+}
+
+#edit-icon
+{
+	width: 1em;
+	height 1em;
 }
