@@ -4,7 +4,8 @@ table {
 	padding: 0.2em;
 	font-size : 1em;
 	margin: 1em auto;
-	width: 80%
+	width: 80%;
+	overflow:auto;
 }
 
 table th {
@@ -50,4 +51,9 @@ h2 {
 	padding: 0 0 0 0;
 	border: none;
 	background: #00695D;
+}
+
+div
+{
+	overflow:auto;
 }
