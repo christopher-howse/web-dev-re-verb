@@ -70,7 +70,7 @@ public class PostManager
         }
     }
 
-    public Post getMessageById(int messageId)
+    public Post getMessageById(int messageId, String username)
     {
         Post result = new Post();
 
@@ -83,7 +83,8 @@ public class PostManager
             ResultSet rs = stmt.executeQuery();
             while (rs.next())
             {
-                result = new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"));
+                boolean isFavorited = isMessageFavoritedByUser(username, rs.getInt("message_id"));
+                result = new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"),isFavorited);
             }
         } catch (SQLException e)
         {
@@ -117,7 +118,7 @@ public class PostManager
         return result;
     }
 
-    public ArrayList<Post> getPostsByLocation(String lat,String lon,String time)
+    public ArrayList<Post> getPostsByLocation(String lat,String lon,String time,String username)
     {
         ArrayList<Post> result = new ArrayList<Post>();
         try(
@@ -144,7 +145,7 @@ public class PostManager
 
     }
 
-    public ArrayList<Post> getReplies(int messageId)
+    public ArrayList<Post> getReplies(int messageId, String username)
     {
         ArrayList<Post> result = new ArrayList<Post>();
         try(
@@ -156,7 +157,8 @@ public class PostManager
             ResultSet rs = stmt.executeQuery();
             while (rs.next())
             {
-                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time")));
+                boolean isFavorited = isMessageFavoritedByUser(username, rs.getInt("message_id"));
+                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"),isFavorited));
             }
         } catch (SQLException e)
         {

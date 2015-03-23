@@ -54,8 +54,9 @@ public class PostSparkCalls
             Gson gson = new Gson();
             String b = request.body();
             IdDto obj = gson.fromJson(b, IdDto.class);
+            User user = request.session().attribute("user");
             response.type("application/json");
-            return databaseManager.getPostMan().getMessageById(obj.id);
+            return databaseManager.getPostMan().getMessageById(obj.id, user.name);
         }, new JsonTransformer());
 
         post("/reply", (request, response) ->
@@ -100,8 +101,9 @@ public class PostSparkCalls
             Gson gson = new Gson();
             String b = request.body();
             IdDto obj = gson.fromJson(b, IdDto.class);
+            User user = request.session().attribute("user");
             response.type("application/json");
-            return databaseManager.getPostMan().getReplies(obj.id);
+            return databaseManager.getPostMan().getReplies(obj.id, user.name);
         }, new JsonTransformer());
         
 

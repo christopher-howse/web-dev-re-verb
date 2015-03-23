@@ -23,5 +23,6 @@ public class Post
         this.postId = -1;
         this.postBody = null;
         this.timeStamp = null;
+        this.favorite = false;
     }
 }
