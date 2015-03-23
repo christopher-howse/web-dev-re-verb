@@ -31,7 +31,7 @@ function addPost(text,user,time,post_id,favorited)
                     +   '<div class="feed-post-text">'+textbody+'</div>'
                     +   '<div class=post-buttons>'
                     +   '<button class="favorite-button common" onclick="favorite('+post_id+','+favorited+')">favorite</button>'
-                    +   '<button onclick="toggleOverlay();replySetup('+post_id+')" class="common">reply</button>'
+                    +   '<button onmousedown="toggleOverlay();replySetup('+post_id+')" class="common">reply</button>'
                     +   '<button class="repost-button common" onclick="repost('+post_id+')">re:post</button>'
                     +   '</div>';
             
@@ -191,10 +191,10 @@ function populateReplies(allPosts)
     var overlay = document.querySelector('.overlay');
     var replyFeed = document.querySelector('.post-replies');
     
-    if (allPosts.length > 4)
+    if (allPosts.length > 2)
     {
-        overlay.style.height = (4 * 135 + 275).toString() + "px";
-        replyFeed.style.height = (4 * 135).toString() + "px";
+        overlay.style.height = (2 * 135 + 275).toString() + "px";
+        replyFeed.style.height = (2 * 135).toString() + "px";
         replyFeed.style.overflow = "scroll";
     }
     else
