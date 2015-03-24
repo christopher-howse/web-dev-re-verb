@@ -179,6 +179,29 @@ function addReplyPost(post)
     replyUser.innerHTML = post.username;
     replyTime.innerHTML = post.timeStamp;
     
+    
+    var replypost = document.querySelector(".reply-post");
+    replypost.setAttribute("id","feed-post-"+post.postId);
+    
+    
+    var buttons = document.querySelector('.post-buttons');
+    var fav = document.querySelector('#reply-favorite');
+    fav.setAttribute("class", "favorite-button postButton");
+fav.setAttribute("onclick",'favorite('+post.postId+','+post.favorite+')');
+
+    
+    var report = document.querySelector('#reply-report');
+    report.setAttribute("class", "report-button postButton");
+    report.setAttribute("onclick",'report('+post.postId+')');
+
+            if(!post.favorite)
+            {          
+                 fav.style.background = '';//TODO: Make it look good
+            }
+            else
+            {
+                 fav.style.background = '#00695d';//TODO: Make it look good
+            }
 }
 
 function getReplies(id)
@@ -224,17 +247,18 @@ function populateReplies(allPosts)
     var x;
     for (i = 0; i < allPosts.length;i++)
     {
-        addReply(allPosts[i].postBody,allPosts[i].username,allPosts[i].timeStamp,allPosts[i].postId);
+        addReply(allPosts[i].postBody,allPosts[i].username,allPosts[i].timeStamp,allPosts[i].postId,allPosts[i].favorite);
     }
 }
 
-function addReply(text,user,time, id)
+function addReply(text,user,time,id,favorited)
 {
     var feed = document.querySelector('.post-replies');
     var post = document.createElement("div");
     post.setAttribute("class","reply-post-feed");
+    post.setAttribute("id","feed-post-"+id);
         
-    post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+text+'</div><div class=post-buttons><button class="common">favorite</button></div>';
+    post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+text+'</div><div class=post-buttons><button class="favorite-button postButton" onclick="favorite('+id+','+favorited+')">favorite</button></div>';
             
     feed.appendChild(post);
 
@@ -294,6 +318,9 @@ function geoError()
 
 function favorite(post_id, fav)
 {
+    var e = window.event;
+    e.cancelBubble = true;
+    if (e.stopPropagation) e.stopPropagation();
     var favoritePostURL = '/favoritePost';
 
     // get an AJAX object
@@ -304,16 +331,25 @@ function favorite(post_id, fav)
         if ( xhr.readyState != 4) return;
         if ( xhr.status == 200 || xhr.status == 400) {
             console.log("Favorited Post");
-            var favoriteButton = document.querySelector('#feed-post-'+post_id+' .favorite-button');
+            var favoriteButton = document.querySelectorAll('#feed-post-'+post_id+' .favorite-button');
             if(fav)
             {
-                favoriteButton.style.background = '';//TODO: Make it look good
+                for (i = 0; i < favoriteButton.length;i++)
+                {                
+                    favoriteButton[i].style.background = '';//TODO: Make it look good
+                }
             }
             else
             {
-                favoriteButton.style.background = '#00695d';//TODO: Make it look good
+                for (i = 0; i < favoriteButton.length;i++)
+                {   
+                    favoriteButton[i].style.background = '#00695d';//TODO: Make it look good
+                }
             }
-            favoriteButton.setAttribute('onclick', 'favorite('+post_id+','+!fav+')');
+            for (i = 0; i < favoriteButton.length;i++)
+            {
+                favoriteButton[i].setAttribute('onclick', 'favorite('+post_id+','+!fav+')');
+            }
         }
         else {
             console.log("Unknown ERROR favorting post");
@@ -326,6 +362,9 @@ function favorite(post_id, fav)
 
 function report(post_id)
 {
+    var e = window.event;
+    e.cancelBubble = true;
+    if (e.stopPropagation) e.stopPropagation();
     var reportPostURL = '/reportPost';
 
     // get an AJAX object

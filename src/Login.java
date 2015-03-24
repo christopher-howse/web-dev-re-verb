@@ -72,7 +72,8 @@ public class Login
                 return Error.errorPage("Get a session, please!");
             }
             databaseManager.getUsrMan().createUser(u,pw);
-            request.session().attribute("user");
+            user = databaseManager.getUsrMan().loginUser(u, pw);
+            request.session().attribute("user", user);
             response.redirect("/auth/main-feed.html");
             return null;
         });

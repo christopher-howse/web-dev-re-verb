@@ -70,10 +70,12 @@ public class PostSparkCalls
             String messageId = request.queryParams("id");
             int id = Integer.parseInt(messageId);
             //TODO: Add the post using post manager
-
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+            String curTime = (dateFormat.format(date));
             float latitude = request.session().attribute("latitude");
             float longitude = request.session().attribute("longitude");
-            databaseManager.getPostMan().sendReply(user.name, postBody, 0 /*TODO: fix anon*/, latitude, longitude, "now", id);
+            databaseManager.getPostMan().sendReply(user.name, postBody, 0 /*TODO: fix anon*/, latitude, longitude, curTime, id);
 
             response.redirect("/auth/main-feed.html");
 
@@ -114,8 +116,7 @@ public class PostSparkCalls
         post("/favoritePost", (request, response) ->
         {
             Session sess = request.session(true);
-            if ( sess == null )
-            {
+            if (sess == null) {
                 return Error.errorPage("failed to get the session");
             }
             String id = request.queryParams("post_id");
@@ -123,12 +124,9 @@ public class PostSparkCalls
             boolean favorite = Boolean.parseBoolean(request.queryParams("favorite"));
             User user = request.session().attribute("user");
 
-            if(!favorite)
-            {
+            if (!favorite) {
                 databaseManager.getFavMan().favoritePost(user.name, post_id);
-            }
-            else
-            {
+            } else {
                 databaseManager.getFavMan().unFavoritePost(user.name, post_id);
             }
 
