@@ -127,13 +127,22 @@ function toggleOverlay(){
 function replySetup(id)
 {
     var form = document.getElementById('reply');
-    var input = document.createElement("input");
     jQuery('.post-replies').html('');
-    input.setAttribute("type", "hidden");
-    input.setAttribute("name", "id");
-    input.setAttribute("value", id);
-    //append to form element that you want .
-    form.appendChild(input);
+    if(document.querySelector(".input-id"))
+    {
+        var input = document.querySelector(".input-id");
+        input.setAttribute("value", id);
+    }
+    else
+    {
+        var input = document.createElement("input");
+        input.setAttribute("type", "hidden");
+        input.setAttribute("class","input-id");
+        input.setAttribute("name", "id");
+        input.setAttribute("value", id);
+        //append to form element that you want .
+        form.appendChild(input);
+    }
     
     getReplyPost(id);
     getReplies(id);
