@@ -3,7 +3,7 @@
     outline: 0;
 }
 
-.overlay
+.overlay-user
 {
     display : none;
     z-index : 20;
@@ -130,7 +130,7 @@ label
     text-align: left;
 }
 
-input[type=text]
+input[type=text], input[type=password]
 {
     display: inline-block;
     float: right;

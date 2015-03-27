@@ -15,7 +15,7 @@ public class PostManager
                     "foreign key(username) references Users(username) ON UPDATE CASCADE)";
 
     private static String selectByUsername =
-            "SELECT * FROM Messages WHERE username = ?";
+            "SELECT * FROM Messages WHERE username = ? AND Reply_link = 0";
 
     private static String selectById =
             "SELECT * FROM Messages WHERE message_id=?;";

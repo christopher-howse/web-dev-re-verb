@@ -31,7 +31,7 @@ function addPost(text,user,time,post_id,favorited)
                     +   '<div class="feed-post-text">'+textbody+'</div>'
                     +   '<div class=post-buttons>'
                     +   '<button class="favorite-button postButton" onclick="favorite('+post_id+','+favorited+')">favorite</button>'
-                    +   '<button onmousedown="toggleOverlay();replySetup('+post_id+')" class="common">reply</button>'
+                    +   '<button onmousedown="toggleOverlay();replySetup('+post_id+')" class="postButton">reply</button>'
                     +   '<button class="report-button postButton" onclick="report('+post_id+')">report</button>'
                     +   '</div>';
             
@@ -259,7 +259,13 @@ function addReply(text,user,time,id,favorited)
     post.setAttribute("id","feed-post-"+id);
         
     post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+text+'</div><div class=post-buttons><button class="favorite-button postButton" onclick="favorite('+id+','+favorited+')">favorite</button></div>';
-            
+
+    var favoriteButton = post.querySelector('.favorite-button');
+    if(favorited)
+    {
+        favoriteButton.style.background = '#00695d';//TODO: Make it look good
+    }
+
     feed.appendChild(post);
 
 }
