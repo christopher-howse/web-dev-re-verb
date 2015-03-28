@@ -8,7 +8,8 @@ public class FavoriteManager
     private static String createFavoriteTable =
             "CREATE TABLE IF NOT EXISTS Favorites" +
                     "(message_id integer, username text," +
-                    "primary key(message_id, username))";
+                    "primary key(message_id, username), foreign key(username) references Users(username) ON UPDATE CASCADE," +
+                    "foreign key(message_id) references Messages(message_id) ON UPDATE CASCADE)";
 
     private static String insertIntoFavorites =
             "INSERT INTO Favorites VALUES(?,?)";

@@ -47,6 +47,7 @@
 </div>
 
 <div id="overlay-back" onclick="toggleOverlay()"></div>
+<div id="overlay-edit-back" onclick="hideOverlay('editUserInfo')"></div>
 
 <div id="overlay" class="overlay">
     <div class="reply-post">
@@ -72,6 +73,15 @@
         </form>
     </div>
 
+</div>
+
+<div id="report-overlay">
+    <div id="inside-report-overlay">
+        <p>Post reported</p>
+        <div class="report-buttons">
+            <button class="postButton" onclick="hideReportOverlay()">OK</button>
+        </div>
+    </div>
 </div>
 
 

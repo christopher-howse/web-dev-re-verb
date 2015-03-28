@@ -1,3 +1,5 @@
+var currentUser;
+
 function addPost(text,user,time,post_id,favorited)
 {
     var feed = document.getElementById('main-feed');
@@ -5,6 +7,15 @@ function addPost(text,user,time,post_id,favorited)
     post.setAttribute("class","feed-post");
     post.setAttribute("onclick","toggleOverlay();replySetup("+post_id+")");
     post.setAttribute("id","feed-post-"+post_id);
+
+    if(currentUser == user)
+    {
+        var reportButton = '<button class="delete-button postButton" onclick="deletePost('+post_id+')">delete</button>';
+    }
+    else
+    {
+        var reportButton = '<button class="report-button postButton" onclick="report('+post_id+')">report</button>';
+    }
 
     var textbody;
     if(typeof text == 'string' || text instanceof String)
@@ -32,7 +43,7 @@ function addPost(text,user,time,post_id,favorited)
                     +   '<div class=post-buttons>'
                     +   '<button class="favorite-button postButton" onclick="favorite('+post_id+','+favorited+')">favorite</button>'
                     +   '<button onmousedown="toggleOverlay();replySetup('+post_id+')" class="postButton">reply</button>'
-                    +   '<button class="report-button postButton" onclick="report('+post_id+')">report</button>'
+                    +   reportButton
                     +   '</div>';
             
     feed.appendChild(post);
@@ -187,21 +198,31 @@ function addReplyPost(post)
     var buttons = document.querySelector('.post-buttons');
     var fav = document.querySelector('#reply-favorite');
     fav.setAttribute("class", "favorite-button postButton");
-fav.setAttribute("onclick",'favorite('+post.postId+','+post.favorite+')');
+    fav.setAttribute("onclick",'favorite('+post.postId+','+post.favorite+')');
 
-    
-    var report = document.querySelector('#reply-report');
-    report.setAttribute("class", "report-button postButton");
-    report.setAttribute("onclick",'report('+post.postId+')');
+    if(replyUser.innerHTML == currentUser)
+    {
+        var deleteButton = document.querySelector('#reply-report');
+        deleteButton.id = 'reply-delete';
+        deleteButton.innerHTML = 'delete';
+        deleteButton.setAttribute("class", "delete-button postButton");
+        deleteButton.setAttribute("onclick",'deletePost('+post.postId+')');
+    }
+    else
+    {
+        var report = document.querySelector('#reply-report');
+        report.setAttribute("class", "report-button postButton");
+        report.setAttribute("onclick",'report('+post.postId+')');
+    }
 
-            if(!post.favorite)
-            {          
-                 fav.style.background = '';//TODO: Make it look good
-            }
-            else
-            {
-                 fav.style.background = '#00695d';//TODO: Make it look good
-            }
+    if(!post.favorite)
+    {
+         fav.style.background = '';//TODO: Make it look good
+    }
+    else
+    {
+         fav.style.background = '#00695d';//TODO: Make it look good
+    }
 }
 
 function getReplies(id)
@@ -257,8 +278,24 @@ function addReply(text,user,time,id,favorited)
     var post = document.createElement("div");
     post.setAttribute("class","reply-post-feed");
     post.setAttribute("id","feed-post-"+id);
+
+    if(currentUser == user)
+    {
+        var reportButton = '<button class="delete-button postButton" onclick="deletePost('+id+')">delete</button>';
+    }
+    else
+    {
+        var reportButton = '<button class="report-button postButton" onclick="report('+id+')">report</button>';
+    }
         
-    post.innerHTML = '<div class="feed-post-top"><div class="feed-post-user">'+user+'</div><div class="feed-post-time">'+time+'</div></div><div class="feed-post-text">'+text+'</div><div class=post-buttons><button class="favorite-button postButton" onclick="favorite('+id+','+favorited+')">favorite</button></div>';
+    post.innerHTML =    '<div class="feed-post-top">'
+                    +   '<div class="feed-post-user">'+user+'</div>'
+                    +   '<div class="feed-post-time">'+time+'</div>'
+                    +   '</div><div class="feed-post-text">'+text+'</div>'
+                    +   '<div class=post-buttons>'
+                    +   '<button class="favorite-button postButton" onclick="favorite('+id+','+favorited+')">favorite</button>'
+                    +   reportButton
+                    +   '</div>';
 
     var favoriteButton = post.querySelector('.favorite-button');
     if(favorited)
@@ -306,6 +343,7 @@ function getUserPosition(position)
         if ( xhr.readyState != 4) return;
         if ( xhr.status == 200 || xhr.status == 400) {
             console.log("Sent geolocation");
+            currentUser = xhr.responseText;
             getMessages();
         }
         else {
@@ -381,6 +419,7 @@ function report(post_id)
         if ( xhr.readyState != 4) return;
         if ( xhr.status == 200 || xhr.status == 400) {
             console.log("Reported Post");
+            showReportOverlay();
         }
         else {
             console.log("Unknown ERROR reporting post");
@@ -389,4 +428,48 @@ function report(post_id)
     var doc = "post_id=" + encodeURI(post_id);
     xhr.send( doc );
 
+}
+
+function hideReportOverlay()
+{
+    var over = document.querySelector("#report-overlay");
+    if(over)
+    {
+        console.log("Hide report");
+        over.style.display = "none";
+    }
+}
+
+function showReportOverlay()
+{
+    var over = document.querySelector("#report-overlay");
+    if(over)
+    {
+        console.log("Show report");
+        over.style.display = "block";
+    }
+}
+
+function deletePost(postId)
+{
+    var e = window.event;
+    e.cancelBubble = true;
+    if (e.stopPropagation) e.stopPropagation();
+
+    var postIdDto = {id : postId};
+    var deletePostUrl = '/deletePost';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', deletePostUrl, true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if ( xhr.readyState != 4) return;
+        if ( xhr.status == 200 || xhr.status == 400) {
+            location.reload();
+        }
+        else {
+            console.log("deletePost Failed");
+        }
+    };
+    var doc = "post_id=" + encodeURI(postId);
+    xhr.send(doc);
 }

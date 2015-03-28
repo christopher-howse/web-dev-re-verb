@@ -240,11 +240,11 @@ function UserInfo(newUsername, oldUsername, password, about_me)
 function getUserInfo(username)
 {
     var userInfoEditTemplate = '<div class="insideOverlay">'
-                             + '<label>Username: <input type="text" name="username" value={{name}}></label>'
+                             + '<label>Username: <input type="text" name="username" value="{{name}}"></label>'
                              + '<br>'
-                             + '<label>Description: <input type="text" name="description" value={{description}}></label>'
+                             + '<label>Description: <input type="text" name="description" value="{{description}}"></label>'
                              + '<br>'
-                             + '<label>Password: <input type="text" name="password" value={{password}}></label>'
+                             + '<label>Password: <input type="text" name="password" value="{{password}}"></label>'
                              + '<div class="buttons">'
                              + '<button class="flatButton" name="btnSave" onclick=\"saveUserInfo(\'{{name}}\')\">Save</button>'
                              + '<button class="flatButton" name="btnCancel" onclick="cancelUserInfo()">Cancel</button>';

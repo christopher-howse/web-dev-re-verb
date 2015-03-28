@@ -1,5 +1,7 @@
 import static spark.Spark.*;
 import spark.Session;
+import users.User;
+
 /**
  * Created by Jake on 21/03/2015.
  */
@@ -27,7 +29,7 @@ public class MainFeedSparkCalls
             float longitude = Float.parseFloat(request.queryParams("longitude"));
             request.session().attribute("latitude", latitude);
             request.session().attribute("longitude", longitude);
-            return " ";
+            return ((User)request.session().attribute("user")).name;
         });
     }
 }

@@ -50,6 +50,9 @@ public class PostManager
     private static String deleteMessage =
             "DELETE FROM Messages WHERE message_id = ?";
 
+    private static String deleteMessageByUser =
+            "DELETE FROM Messages WHERE message_id = ? AND username = ?";
+
     private static String getFavoritesByUserAndMessage =
             "SELECT * FROM Favorites WHERE message_id = ? AND username = ?";
 
@@ -189,6 +192,25 @@ public class PostManager
         }
 
         return result;
+    }
+
+    public static boolean deleteMessageByUser(int messageId, String username)
+    {
+        try (
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement( deleteMessageByUser );
+        ) {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setInt(1, messageId);
+            stmt.setString(2, username);
+            stmt.executeUpdate();
+            System.out.println("Deleted message with post id: " + messageId);
+            return true;
+        } catch (SQLException e)
+        {
+            System.out.println("Could not delete post with post id: " + messageId);
+            return false;
+        }
     }
 
     public boolean sendPost(String username, String postContent, int anon, float latitude, float longitude, String time)

@@ -1,13 +1,13 @@
 function showOverlay(overlay)
 {
-    document.getElementById('overlay-back').style.display = "block";
+    document.getElementById('overlay-edit-back').style.display = "block";
     var over = document.getElementById(overlay);
     over.style.display = "block";
 }
 
 function hideOverlay(overlay)
 {
-    document.getElementById('overlay-back').style.display = "none";
+    document.getElementById('overlay-edit-back').style.display = "none";
     var over = document.getElementById(overlay);
     over.style.display = "none";
 }
@@ -159,8 +159,8 @@ function getUserInfo(evt)
                          + "<button class='raisedButton' name='btnEditUserInfo' onclick='editUserInfo()''>Edit Info</button>";
 
     var userInfoEditTemplate = '<div class="insideOverlay">'
-                             + '<label>Username: <input type="text" name="username" value={{name}}></label>'
-                             + '<label>Description: <input type="text" name="description" value={{description}}></label>'
+                             + '<label>Username: <input type="text" name="username" value="{{name}}"></label>'
+                             + '<label>Description: <input type="text" name="description" value="{{description}}"></label>'
                              + '<div class="buttons">'
                              + '<button class="flatButton" name="btnSave" onclick="saveUserInfo()">Save</button>'
                              + '<button class="flatButton" name="btnCancel" onclick="cancelUserInfo()">Cancel</button>'

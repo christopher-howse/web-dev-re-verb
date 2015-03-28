@@ -148,7 +148,23 @@ public class PostSparkCalls
 
             databaseManager.getReportMan().reportPost(user.name, post_id);
 
-            response.redirect("/auth/main-feed.html"); //TODO: dont do this
+            response.redirect("/auth/main-feed.html");
+
+            return " ";
+        });
+
+        post("/deletePost", (request, response) ->
+        {
+            Session sess = request.session(true);
+            if ( sess == null )
+            {
+                return Error.errorPage("failed to get the session");
+            }
+            String id = request.queryParams("post_id");
+            int post_id = Integer.parseInt(id);
+            User user = request.session().attribute("user");
+
+            databaseManager.getPostMan().deleteMessageByUser(post_id, user.name);
 
             return " ";
         });
