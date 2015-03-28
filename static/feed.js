@@ -1,4 +1,5 @@
 var currentUser;
+var anon;
 
 function addPost(text,user,time,post_id,favorited)
 {
@@ -313,6 +314,8 @@ function initializeGeolocation()
     var postButton = document.querySelector(".posting-buttons button");
     postButton.disabled = true;
 
+    getIsAnonymous();
+
     var feed = document.getElementById('main-feed');
     feed.innerHTML = '<p>Getting location information!</p>';
     navigator.geolocation.getCurrentPosition(getUserPosition, geoError);
@@ -472,4 +475,56 @@ function deletePost(postId)
     };
     var doc = "post_id=" + encodeURI(postId);
     xhr.send(doc);
+}
+
+function getIsAnonymous()
+{
+    var getIsAnonymousURL = '/getIsAnonymous';
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', getIsAnonymousURL, true );
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if ( xhr.readyState != 4) return;
+        if ( xhr.status == 200 || xhr.status == 400) {
+            anon = xhr.responseText == "true";
+            console.log("Anon: " + anon.toString());
+            setAnonymousTitle();
+        }
+        else {
+            console.log("getting anon Failed");
+        }
+    };
+    xhr.send();
+}
+
+function toggleAnonymous()
+{
+    var setAnonymousURL = '/setAnonymous';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', setAnonymousURL, true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if ( xhr.readyState != 4) return;
+        if ( xhr.status == 200 || xhr.status == 400) {
+            anon = !anon;
+            setAnonymousTitle();
+        }
+        else {
+            console.log("set anon Failed");
+        }
+    };
+    var doc = "anon=" + encodeURI((!anon).toString());
+    xhr.send(doc);
+}
+
+function setAnonymousTitle()
+{
+    if(anon)
+    {
+        document.querySelector(".posting-title").innerHTML = "Say What You Want! Posting Anonymously";
+    }
+    else
+    {
+        document.querySelector(".posting-title").innerHTML = "Say What You Want! Posting Publicly";
+    }
 }

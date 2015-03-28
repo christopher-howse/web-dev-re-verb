@@ -82,7 +82,8 @@ public class PostManager
             while (rs.next())
             {
                 boolean isFavorited = isMessageFavoritedByUser(username, rs.getInt("message_id"));
-                result = new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"),isFavorited);
+                boolean isAnon = (rs.getInt("anon_flag") != 0);
+                result = new Post( isAnon ? "Anonymous" : rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"),isFavorited);
             }
         } catch (SQLException e)
         {
@@ -106,7 +107,8 @@ public class PostManager
             while (rs.next())
             {
                 boolean isFavorited = isMessageFavoritedByUser(username, rs.getInt("message_id"));
-                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"), isFavorited));
+                boolean isAnon = (rs.getInt("anon_flag") != 0);
+                result.add(new Post(isAnon ? "Anonymous" : rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"), isFavorited));
             }
         } catch (SQLException e)
         {
@@ -137,7 +139,8 @@ public class PostManager
                 if (distance <= 1)
                 {
                     boolean isFavorited = isMessageFavoritedByUser(username, rs.getInt("message_id"));
-                    result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"), rs.getString("create_time"), isFavorited));
+                    boolean isAnon = (rs.getInt("anon_flag") != 0);
+                    result.add(new Post(isAnon ? "Anonymous" : rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"), rs.getString("create_time"), isFavorited));
                 }
             }
         } catch (SQLException e)
@@ -162,7 +165,8 @@ public class PostManager
             while (rs.next())
             {
                 boolean isFavorited = isMessageFavoritedByUser(username, rs.getInt("message_id"));
-                result.add(new Post(rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"),isFavorited));
+                boolean isAnon = (rs.getInt("anon_flag") != 0);
+                result.add(new Post(isAnon ? "Anonymous" : rs.getString("username"), rs.getInt("message_id"), rs.getString("message_body"),rs.getString("create_time"),isFavorited));
             }
         } catch (SQLException e)
         {

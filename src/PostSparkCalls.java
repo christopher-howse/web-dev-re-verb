@@ -34,6 +34,7 @@ public class PostSparkCalls
             }
             String postBody = request.queryParams("post");
             User user = request.session().attribute("user");
+            boolean anon = request.session().attribute("anon");
 
             float latitude = request.session().attribute("latitude");
             float longitude = request.session().attribute("longitude");
@@ -41,7 +42,7 @@ public class PostSparkCalls
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
             String curTime = (dateFormat.format(date));
-            databaseManager.getPostMan().sendPost(user.name, postBody, 0 /*TODO: fix anon*/, latitude, longitude, curTime);
+            databaseManager.getPostMan().sendPost(user.name, postBody, anon ? 1 : 0, latitude, longitude, curTime);
 
             response.redirect("/auth/main-feed.html");
 
@@ -69,13 +70,14 @@ public class PostSparkCalls
             User user = request.session().attribute("user");
             String messageId = request.queryParams("id");
             int id = Integer.parseInt(messageId);
+            boolean anon = request.session().attribute("anon");
             //TODO: Add the post using post manager
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
             String curTime = (dateFormat.format(date));
             float latitude = request.session().attribute("latitude");
             float longitude = request.session().attribute("longitude");
-            databaseManager.getPostMan().sendReply(user.name, postBody, 0 /*TODO: fix anon*/, latitude, longitude, curTime, id);
+            databaseManager.getPostMan().sendReply(user.name, postBody, anon ? 1 : 0, latitude, longitude, curTime, id);
 
             response.redirect("/auth/main-feed.html");
 

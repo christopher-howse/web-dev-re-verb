@@ -45,6 +45,7 @@ public class Login
                 return Error.errorPage("Get a session, please!");
             }
             request.session().attribute("user", user);
+            request.session().attribute("anon", false);
             response.redirect("/auth/main-feed.html");
             return null;
         });
@@ -74,6 +75,7 @@ public class Login
             databaseManager.getUsrMan().createUser(u,pw);
             user = databaseManager.getUsrMan().loginUser(u, pw);
             request.session().attribute("user", user);
+            request.session().attribute("anon", false);
             response.redirect("/auth/main-feed.html");
             return null;
         });
