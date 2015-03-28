@@ -11,7 +11,8 @@ public class ReportManager
     private static String createReportTable =
             "CREATE TABLE IF NOT EXISTS Reports" +
                     "(message_id integer, username text," +
-                    "primary key(message_id, username))";
+                    "primary key(message_id, username), foreign key(username) references Users(username) ON UPDATE CASCADE," +
+                    "foreign key(message_id) references Messages(message_id) ON UPDATE CASCADE)";
 
     private static String insertIntoReports =
             "INSERT INTO Reports VALUES(?,?)";

@@ -3,7 +3,7 @@
     outline: 0;
 }
 
-.overlay
+.overlay-user
 {
     display : none;
     z-index : 20;
@@ -18,8 +18,8 @@
     box-shadow: 0px 6px 12px 2px #888888;
 }
 
-#overlay-back {
-    position   : absolute;
+#overlay-edit-back {
+    position   : fixed;
     top        : 0;
     left       : 0;
     width      : 100%;
@@ -130,7 +130,7 @@ label
     text-align: left;
 }
 
-input[type=text]
+input[type=text], input[type=password]
 {
     display: inline-block;
     float: right;

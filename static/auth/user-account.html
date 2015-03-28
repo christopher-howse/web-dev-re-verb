@@ -33,19 +33,56 @@
 </div>
 <div class="main-feed" id="main-feed"></div>
 
-<div id="editUserInfo" class="overlay"></div>
-<div id="changePassword" class="overlay">
+<div id="editUserInfo" class="overlay-user"></div>
+<div id="changePassword" class="overlay-user">
     <div class="insideOverlay">
-        <label>Old Password: <input type="text" name="oldPassword"></label>
-        <label>New Password: <input type="text" name="newPassword"></label>
-        <label>Verify Password: <input type="text" name="verifyPassword"></label>
+        <label>Old Password: <input type="password" name="oldPassword"></label>
+        <label>New Password: <input type="password" name="newPassword"></label>
+        <label>Verify Password: <input type="password" name="verifyPassword"></label>
         <div class="buttons">
             <button class="flatButton" name="btnSave" onclick="saveChangePassword()">Save</button>
             <button class="flatButton" name="btnCancel" onclick="cancelChangePassword()">Cancel</button>
         </div>
     </div>
 </div>
-<div id="overlay-back"></div>
+
+<div id="overlay-back" onclick="toggleOverlay()"></div>
+<div id="overlay-edit-back" onclick="hideOverlay('editUserInfo')"></div>
+
+<div id="overlay" class="overlay">
+    <div class="reply-post">
+        <div class="reply-post-top">
+            <div class="reply-post-user"></div>
+            <div class="reply-post-time"></div>
+        </div>
+        <div class="reply-post-text"></div>
+        <div class="post-buttons">
+            <button id="reply-favorite" >favorite</button>
+            <button id="reply-report" >report</button>
+        </div>
+    </div>
+    <div class="post-replies">
+    </div>
+    <div class="reply">
+        <form id="reply" METHOD="post" action="/reply">
+            <div class="reply-buttons">
+                <button class="common" type="submit">reply</button>
+                <button class="common" onmousedown="toggleOverlay()">Cancel</button>
+            </div>
+            <input id="reply" name="reply" type=text size="45"></input>
+        </form>
+    </div>
+
+</div>
+
+<div id="report-overlay">
+    <div id="inside-report-overlay">
+        <p>Post reported</p>
+        <div class="report-buttons">
+            <button class="postButton" onclick="hideReportOverlay()">OK</button>
+        </div>
+    </div>
+</div>
 
 
 </body>
