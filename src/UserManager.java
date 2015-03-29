@@ -66,6 +66,11 @@ public class UserManager
             stmt.executeUpdate();
             System.out.println("Created user table");
         }
+
+        //For testing purposes
+        User testAdmin = new User("admin", "admin", "Admin");
+        createUser(testAdmin.name, testAdmin.password);
+        setUserRole(testAdmin.name, testAdmin.role);
     }
 
     public ArrayList<User> getUsers()
