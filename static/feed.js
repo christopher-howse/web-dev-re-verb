@@ -1,7 +1,7 @@
 var currentUser;
 var anon;
 
-function addPost(text,user,time,post_id,favorited)
+function addPost(text,user,time,post_id,favorited,isUser)
 {
     var feed = document.getElementById('main-feed');
     var post = document.createElement("div");
@@ -9,7 +9,7 @@ function addPost(text,user,time,post_id,favorited)
     post.setAttribute("onclick","toggleOverlay();replySetup("+post_id+")");
     post.setAttribute("id","feed-post-"+post_id);
 
-    if(currentUser == user)
+    if(isUser)
     {
         var reportButton = '<button class="delete-button postButton" onclick="deletePost('+post_id+')">delete</button>';
     }
@@ -51,7 +51,7 @@ function addPost(text,user,time,post_id,favorited)
     var favoriteButton = document.querySelector('#feed-post-'+post_id+' .favorite-button');
     if(favorited)
     {
-        favoriteButton.style.background = '#00695d';//TODO: Make it look good
+        favoriteButton.style.background = '#00695d';
     }
 }
 
@@ -119,7 +119,7 @@ function populateFeed(allPosts)
     var x;
     for (i = 0; i < allPosts.length;i++)
     {
-        addPost(allPosts[i].postBody,allPosts[i].username,allPosts[i].timeStamp, allPosts[i].postId, allPosts[i].favorite);
+        addPost(allPosts[i].postBody,allPosts[i].username,allPosts[i].timeStamp, allPosts[i].postId, allPosts[i].favorite, allPosts[i].isUser);
     }
 }
 
@@ -218,11 +218,11 @@ function addReplyPost(post)
 
     if(!post.favorite)
     {
-         fav.style.background = '';//TODO: Make it look good
+         fav.style.background = '';
     }
     else
     {
-         fav.style.background = '#00695d';//TODO: Make it look good
+         fav.style.background = '#00695d';
     }
 }
 
@@ -301,7 +301,7 @@ function addReply(text,user,time,id,favorited)
     var favoriteButton = post.querySelector('.favorite-button');
     if(favorited)
     {
-        favoriteButton.style.background = '#00695d';//TODO: Make it look good
+        favoriteButton.style.background = '#00695d';
     }
 
     feed.appendChild(post);
@@ -383,14 +383,14 @@ function favorite(post_id, fav)
             {
                 for (i = 0; i < favoriteButton.length;i++)
                 {                
-                    favoriteButton[i].style.background = '';//TODO: Make it look good
+                    favoriteButton[i].style.background = '';
                 }
             }
             else
             {
                 for (i = 0; i < favoriteButton.length;i++)
                 {   
-                    favoriteButton[i].style.background = '#00695d';//TODO: Make it look good
+                    favoriteButton[i].style.background = '#00695d';
                 }
             }
             for (i = 0; i < favoriteButton.length;i++)
@@ -521,10 +521,10 @@ function setAnonymousTitle()
 {
     if(anon)
     {
-        document.querySelector(".posting-title").innerHTML = "Say What You Want! Posting Anonymously";
+        document.querySelector(".posting-title h1").innerHTML = "Say What You Want! Posting Anonymously";
     }
     else
     {
-        document.querySelector(".posting-title").innerHTML = "Say What You Want! Posting Publicly";
+        document.querySelector(".posting-title h1").innerHTML = "Say What You Want! Posting Publicly";
     }
 }

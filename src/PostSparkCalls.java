@@ -71,7 +71,6 @@ public class PostSparkCalls
             String messageId = request.queryParams("id");
             int id = Integer.parseInt(messageId);
             boolean anon = request.session().attribute("anon");
-            //TODO: Add the post using post manager
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
             String curTime = (dateFormat.format(date));
@@ -132,7 +131,7 @@ public class PostSparkCalls
                 databaseManager.getFavMan().unFavoritePost(user.name, post_id);
             }
 
-            response.redirect("/auth/main-feed.html"); //TODO: only update favorite count
+            response.redirect("/auth/main-feed.html");
 
             return null;
         });
