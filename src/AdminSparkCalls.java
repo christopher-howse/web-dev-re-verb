@@ -19,12 +19,12 @@ public class AdminSparkCalls
     {
         before("/admin/*", (request, response) ->
         {
-            User user = Reverb.testAdmin;//request.session().attribute("user");
+            User user = request.session().attribute("user");
             if ( user == null ) {
                 response.redirect("/login.html?error=Not Yet Logged In");
                 return;
             }
-            if ( !user.role.equals( "admin" ) ) {
+            if ( !user.role.equals( "Admin" ) ) {
                 response.redirect("/not-admin.html");
                 return;
             }
