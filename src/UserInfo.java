@@ -49,10 +49,9 @@ public class UserInfo {
                 {
                     curUser.name = obj.name;
                     curUser.description = obj.description;
-                    //TODO: update user in usermanager
                 }
 
-                return String.valueOf( obj.name ); //TODO: Fix this
+                return String.valueOf( obj.name );
             }
             catch ( JsonParseException ex ) {
                 System.out.println("/saveUserInfo: malformed values");
@@ -68,7 +67,8 @@ public class UserInfo {
             User curUser = request.session().attribute("user");
             if(!oldPassword.equals(curUser.password))
             {
-                System.out.println("Old password is wrong"); //TODO: proper error
+                System.out.println("Old password is wrong");
+                return "Incorrect";
             }
             else
             {
@@ -78,7 +78,7 @@ public class UserInfo {
                     System.out.println("Changing Password");
                 }
             }
-            return newPassword; //TODO:Don't send back the password
+            return "Password changed";
         });
     }
 
