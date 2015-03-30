@@ -114,7 +114,7 @@ public class PostSparkCalls
             return databaseManager.getPostMan().getPostsByUser(user.name);
         }, new JsonTransformer());
 
-        post("/favoritePost", (request, response) ->
+        post("/favoritePost", "application/x-www-form-urlencoded", (request, response) ->
         {
             Session sess = request.session(true);
             if (sess == null) {
@@ -131,9 +131,7 @@ public class PostSparkCalls
                 databaseManager.getFavMan().unFavoritePost(user.name, post_id);
             }
 
-            response.redirect("/auth/main-feed.html");
-
-            return null;
+            return databaseManager.getPostMan().selectFavoriteCount(post_id);
         });
 
         post("/reportPost", (request, response) ->

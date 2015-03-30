@@ -8,8 +8,9 @@ public class Post
     public final String timeStamp;
     public final boolean favorite;
     public final boolean isUser;
+    public final int favCount;
 
-    public Post(String username, int postId, String postBody, String timeStamp, boolean favorite, boolean isUser)
+    public Post(String username, int postId, String postBody, String timeStamp, boolean favorite, boolean isUser, int favCount)
     {
         this.username = username;
         this.postId = postId;
@@ -17,6 +18,7 @@ public class Post
         this.timeStamp = timeStamp;
         this.favorite = favorite;
         this.isUser = isUser;
+        this.favCount = favCount;
     }
 
     public Post()
@@ -27,5 +29,6 @@ public class Post
         this.timeStamp = null;
         this.favorite = false;
         this.isUser = false;
+        this.favCount = 0;
     }
 }

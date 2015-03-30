@@ -1,13 +1,15 @@
 var currentUser;
 var anon;
 
-function addPost(text,user,time,post_id,favorited,isUser)
+function addPost(text,user,time,post_id,favorited,isUser,favCount)
 {
     var feed = document.getElementById('main-feed');
     var post = document.createElement("div");
     post.setAttribute("class","feed-post");
     post.setAttribute("onclick","toggleOverlay();replySetup("+post_id+")");
     post.setAttribute("id","feed-post-"+post_id);
+
+    var favCountText = '<p class=favCount>'+favCount+'</p>';
 
     if(isUser)
     {
@@ -42,6 +44,7 @@ function addPost(text,user,time,post_id,favorited,isUser)
                     +   '</div>'
                     +   '<div class="feed-post-text">'+textbody+'</div>'
                     +   '<div class=post-buttons>'
+                    +   favCountText
                     +   '<button class="favorite-button postButton" onclick="favorite('+post_id+','+favorited+')">favorite</button>'
                     +   '<button onmousedown="toggleOverlay();replySetup('+post_id+')" class="postButton">reply</button>'
                     +   reportButton
@@ -119,7 +122,7 @@ function populateFeed(allPosts)
     var x;
     for (i = 0; i < allPosts.length;i++)
     {
-        addPost(allPosts[i].postBody,allPosts[i].username,allPosts[i].timeStamp, allPosts[i].postId, allPosts[i].favorite, allPosts[i].isUser);
+        addPost(allPosts[i].postBody,allPosts[i].username,allPosts[i].timeStamp, allPosts[i].postId, allPosts[i].favorite, allPosts[i].isUser, allPosts[i].favCount);
     }
 }
 
@@ -201,10 +204,12 @@ function addReplyPost(post)
     fav.setAttribute("class", "favorite-button postButton");
     fav.setAttribute("onclick",'favorite('+post.postId+','+post.favorite+')');
 
-    if(replyUser.innerHTML == currentUser)
+    var favCount = replypost.querySelector("p.favCount");
+    favCount.innerHTML = post.favCount;
+
+    if(post.isUser)
     {
         var deleteButton = document.querySelector('#reply-report');
-        deleteButton.id = 'reply-delete';
         deleteButton.innerHTML = 'delete';
         deleteButton.setAttribute("class", "delete-button postButton");
         deleteButton.setAttribute("onclick",'deletePost('+post.postId+')');
@@ -269,16 +274,18 @@ function populateReplies(allPosts)
     var x;
     for (i = 0; i < allPosts.length;i++)
     {
-        addReply(allPosts[i].postBody,allPosts[i].username,allPosts[i].timeStamp,allPosts[i].postId,allPosts[i].favorite);
+        addReply(allPosts[i].postBody,allPosts[i].username,allPosts[i].timeStamp,allPosts[i].postId,allPosts[i].favorite,allPosts[i].favCount);
     }
 }
 
-function addReply(text,user,time,id,favorited)
+function addReply(text,user,time,id,favorited,favCount)
 {
     var feed = document.querySelector('.post-replies');
     var post = document.createElement("div");
     post.setAttribute("class","reply-post-feed");
     post.setAttribute("id","feed-post-"+id);
+
+    var favCountText = '<p class=favCount>'+favCount+'</p>';
 
     if(currentUser == user)
     {
@@ -294,6 +301,7 @@ function addReply(text,user,time,id,favorited)
                     +   '<div class="feed-post-time">'+time+'</div>'
                     +   '</div><div class="feed-post-text">'+text+'</div>'
                     +   '<div class=post-buttons>'
+                    +   favCountText
                     +   '<button class="favorite-button postButton" onclick="favorite('+id+','+favorited+')">favorite</button>'
                     +   reportButton
                     +   '</div>';
@@ -377,13 +385,15 @@ function favorite(post_id, fav)
     xhr.onreadystatechange = function() {
         if ( xhr.readyState != 4) return;
         if ( xhr.status == 200 || xhr.status == 400) {
-            console.log("Favorited Post");
+            var count = xhr.responseText;
             var favoriteButton = document.querySelectorAll('#feed-post-'+post_id+' .favorite-button');
+            var favCountText = document.querySelectorAll("#feed-post-"+post_id+" p.favCount");
             if(fav)
             {
                 for (i = 0; i < favoriteButton.length;i++)
                 {                
                     favoriteButton[i].style.background = '';
+                    favCountText[i].innerHTML = count;
                 }
             }
             else
@@ -391,6 +401,7 @@ function favorite(post_id, fav)
                 for (i = 0; i < favoriteButton.length;i++)
                 {   
                     favoriteButton[i].style.background = '#00695d';
+                    favCountText[i].innerHTML = count;
                 }
             }
             for (i = 0; i < favoriteButton.length;i++)
