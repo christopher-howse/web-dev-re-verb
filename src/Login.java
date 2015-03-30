@@ -39,14 +39,21 @@ public class Login
                 response.redirect("/login.html?error=Username or password incorrect");
                 return null;
             }
-            Session sess = request.session(true);
-            if ( sess == null )
+            if (user.accountStatus.equals("Suspended"))
             {
-                return Error.errorPage("Get a session, please!");
+                response.redirect("/login.html?error=This account has been suspended");
             }
-            request.session().attribute("user", user);
-            request.session().attribute("anon", false);
-            response.redirect("/auth/main-feed.html");
+            else
+            {
+                Session sess = request.session(true);
+                if ( sess == null )
+                {
+                    return Error.errorPage("Get a session, please!");
+                }
+                request.session().attribute("user", user);
+                request.session().attribute("anon", false);
+                response.redirect("/auth/main-feed.html");
+            }
             return null;
         });
 

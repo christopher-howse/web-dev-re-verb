@@ -26,6 +26,9 @@ public class ReportManager
     private static String reportPost =
             "INSERT INTO Reports VALUES(?, ?)";
 
+    private static String updateUserNumReports =
+            "UPDATE Users SET num_reports=num_reports + ? WHERE username = ?";
+
     public ReportManager() throws SQLException
     {
         try (
@@ -40,6 +43,7 @@ public class ReportManager
 
     public boolean reportPost(String username, int post_id)
     {
+        boolean result;
         try (
                 Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
                 PreparedStatement stmt = conn.prepareStatement( reportPost );
@@ -50,12 +54,35 @@ public class ReportManager
 
             stmt.executeUpdate();
             System.out.println("Reporting post");
-            return true;
+            result = true;
         } catch (SQLException e)
         {
             System.out.println("Could not report post");
-            return false;
+            result = false;
         }
+
+        if(result)
+        {
+            incrementUserNumReports(username);
+        }
+
+        return result;
     }
 
+    public void incrementUserNumReports(String username)
+    {
+        try (
+                Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
+                PreparedStatement stmt = conn.prepareStatement(updateUserNumReports);
+        ) {
+            stmt.setQueryTimeout(DatabaseManager.timeout);
+            stmt.setInt(1, 1);
+            stmt.setString(2, username);
+            stmt.executeUpdate();
+            System.out.println("Incremented num_reports on user: " + username);
+        } catch (SQLException e)
+        {
+            System.out.println("Could not increment num_reports on user: " + username);
+        }
+    }
 }
