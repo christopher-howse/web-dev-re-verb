@@ -97,6 +97,8 @@ header, nav,
     position: relative;
 }
 
+
+
 .reverb-header-bar button.reverb-hamburger img 
 {
     position: absolute;
@@ -142,6 +144,11 @@ header, nav,
 {
     border-color: transparent;
     background-color: rgba(0, 105, 93, 0.6);
+}
+
+.reverb-administrator
+{
+    display:none;
 }
 
 .seperator

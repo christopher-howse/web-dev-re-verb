@@ -61,14 +61,14 @@ var navBar = document.querySelector('.reverb-navigation-bar');
         }
       }, true);    
 </script>   
-<script>
+<script type="text/javascript">
 function adminSelect(xhr)
 {
     var navAdmin = document.querySelector('.reverb-administrator');
-    admin = xhr.responseText;
-    if (admin == "false")
+    var adminResponse = xhr.responseText;
+    if (adminResponse == "true")
     {
-        navAdmin.style.display = "none";
+        navAdmin.style.display = "block";
     }
 }    
       
@@ -78,7 +78,7 @@ function adminSelect(xhr)
             adminSelect( xhr );
         }
     }
-    xhr.open( "GET", "/admin/getAdmin", true );
+    xhr.open( "GET", "/getAdmin", true );
     xhr.send( null );
     
 </script>
@@ -121,7 +121,7 @@ function goProfile()
 }    
     
 </script>
-    
+
     
     
 </body>
