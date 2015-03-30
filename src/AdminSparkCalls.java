@@ -49,7 +49,7 @@ public class AdminSparkCalls
             {
                 adminType = "false";
             }
-            else if (user.role.equals("admin"))
+            else if (user.role.equalsIgnoreCase("Admin"))
             {
                 adminType = "true";
             }
