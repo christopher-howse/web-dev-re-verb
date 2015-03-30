@@ -61,6 +61,7 @@ $(function(){
         </div>
         <div class="reply-post-text"></div>
         <div class="post-buttons">
+            <p class="favCount"></p>
             <button id="reply-favorite" class="postButton">favorite</button>
             <button id="reply-report" class="postButton">report</button>
         </div>    
@@ -69,7 +70,7 @@ $(function(){
     </div>
     <div class="reply">
         <form id="reply" METHOD="post" action="/reply">
-            <div class="reply-buttons"> 
+            <div class="reply-buttons">
                 <button class="postButton" type="submit">reply</button>
                 <button class="postButton" onmousedown="toggleOverlay()">Cancel</button>
             </div>

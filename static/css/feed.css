@@ -204,3 +204,8 @@ div.reply-buttons
     top: 50%;
     transform: translateY(-50%);
 }
+
+p.favCount
+{
+    display: inline-block;
+}
