@@ -11,6 +11,7 @@ h1
 
 div.posting-title
 {
+    margin: 1em;
     text-align: center;
 }
 

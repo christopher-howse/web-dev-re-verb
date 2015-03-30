@@ -274,7 +274,7 @@ public class UserManager
             ResultSet rs = stmt.executeQuery();
             if(rs.next())
             {
-                result = new User(rs.getString("username"), rs.getString("password"), rs.getString("role"), rs.getString("about_me"));
+                result = new User(rs.getString("username"), rs.getString("password"), rs.getString("role"), rs.getString("about_me"), rs.getInt("num_reports"), rs.getString("account_status"));
                 System.out.println("Login successful");
             }
             else
