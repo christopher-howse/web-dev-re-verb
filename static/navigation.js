@@ -4,6 +4,8 @@ function init()
     var headerBar = document.querySelector('.reverb-header-bar');
     var navBg = document.querySelector('.reverb-navigation-bg');
 
+    getAdmin();
+    
     var menuBtn = document.querySelector('.reverb-hamburger');
     menuBtn.addEventListener('click', function() 
     {
@@ -24,7 +26,7 @@ function init()
 }
 
 
-function getAdmin(ref,day,month,year)
+function getAdmin()
 {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
@@ -33,13 +35,14 @@ function getAdmin(ref,day,month,year)
         }
     }
     xhr.open( "GET", "/admin/getAdmin", true );
-    xhr.send( null );
+    xhr.send();
 }
 
 function adminSelect(xhr)
 {
     var navAdmin = document.querySelector('.reverb-administrator');
     admin = xhr.responseText;
+    console.log(admin);
     if (admin == "true")
     {
         navAdmin.style.display = "none";

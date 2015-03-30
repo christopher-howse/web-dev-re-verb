@@ -37,9 +37,22 @@ public class AdminSparkCalls
         }, new JsonTransformer());
 
         //TODO: actually check if user is admin
-        get("/admin/getAdmin", (request, response) ->
+        get("/getAdmin", (request, response) ->
         {
-            String adminType = "true";
+            User user = request.session().attribute("user");
+            String adminType = "false";
+            if (user == null)
+            {
+                adminType = "false";
+            }
+            else if (user.role == null)
+            {
+                adminType = "false";
+            }
+            else if (user.role.equals("admin"))
+            {
+                adminType = "true";
+            }
             return adminType;
         });
 

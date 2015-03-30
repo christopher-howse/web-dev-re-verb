@@ -23,7 +23,6 @@ function saveUserInfo()
     var description = document.querySelector("input[name='description']").value;
     var saveUserInfoURL = '/auth/saveUserInfo';
 
-    //TODO: Some error checking
     // create a Javascript object to send
     var userObject = {name: name, description: description};
     // get an AJAX object
@@ -67,7 +66,10 @@ function saveChangePassword()
     var over = document.getElementById('changePassword');
     if(newPassword != verifyPassword)
     {
-        over.innerHTML += "Passwords don't match";
+        document.getElementById("passwordResponse").innerHTML = "Passwords do not match";
+        document.querySelector("input[name='newPassword']").value = "";
+        document.querySelector("input[name='verifyPassword']").value = "";
+
         return;
     }
 
@@ -78,12 +80,24 @@ function saveChangePassword()
     xhr.onreadystatechange = function() {
         if ( xhr.readyState != 4) return;
         if ( xhr.status == 200 || xhr.status == 400) {
-            //over.innerHTML += xhr.responseText;
-            hideOverlay('changePassword');
-            hideOverlay('editUserInfo');
+            if(xhr.responseText == "Incorrect")
+            {
+                document.querySelector("input[name='newPassword']").value = "";
+                document.querySelector("input[name='verifyPassword']").value = "";
+                document.querySelector("input[name='oldPassword']").value = "";
+                document.getElementById("passwordResponse").innerHTML = "Old password was incorrect";
+            }
+            else
+            {
+                hideOverlay('changePassword');
+                hideOverlay('editUserInfo');
+            }
         }
         else {
-            over.innerHTML += "Unknown ERROR";
+            document.querySelector("input[name='newPassword']").value = "";
+            document.querySelector("input[name='verifyPassword']").value = "";
+            document.querySelector("input[name='oldPassword']").value = "";
+            document.getElementById("passwordResponse").innerHTML = "Unknown Error";
         }
     };
 
@@ -100,7 +114,7 @@ function cancelChangePassword()
 function initializeMap(position) {
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
-    //TODO: Add error checking
+
     var myLatlng = new google.maps.LatLng(latitude, longitude);
     var mapOptions = {
     zoom: 14,
