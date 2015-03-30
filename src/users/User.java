@@ -36,18 +36,6 @@ public class User implements Comparable
         this.accountStatus = accountStatus;
     }
 
-    public void toggleRole()
-    {
-        if(this.role.equals("admin"))
-        {
-            this.role = "default";
-        }
-        else
-        {
-            this.role = "admin";
-        }
-    }
-
     @Override
     public int compareTo(Object o)
     {

@@ -61,7 +61,7 @@ public class PostManager
         }
     }
 
-    public Post getMessageById(int messageId, String username)
+    public static Post getMessageById(int messageId, String username)
     {
         Post result = new Post();
 
@@ -87,7 +87,7 @@ public class PostManager
         return result;
     }
 
-    public ArrayList<Post> getPostsByUser(String username)
+    public static ArrayList<Post> getPostsByUser(String username)
     {
         ArrayList<Post> result = new ArrayList<Post>();
 
@@ -264,7 +264,7 @@ public class PostManager
         }
     }
 
-    public boolean  isMessageFavoritedByUser(String username, int post_id)
+    public static boolean  isMessageFavoritedByUser(String username, int post_id)
     {
         try(
                 Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);
@@ -283,7 +283,7 @@ public class PostManager
 
     }
 
-    public int selectFavoriteCount(int post_id)
+    public static int selectFavoriteCount(int post_id)
     {
         try (
                 Connection conn = DriverManager.getConnection(DatabaseManager.dbURL);

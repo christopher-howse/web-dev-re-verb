@@ -1,3 +1,5 @@
+import posts.Post;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -63,7 +65,8 @@ public class ReportManager
 
         if(result)
         {
-            incrementUserNumReports(username);
+            Post reportedPost = PostManager.getMessageById(post_id, username);
+            incrementUserNumReports(reportedPost.username);
         }
 
         return result;
